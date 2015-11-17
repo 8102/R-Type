@@ -1,0 +1,58 @@
+
+
+
+
+
+
+Request for Comments: 42				       H. Prenat
+Category: Informational					     J. Gregoire
+							      J. Paasche
+							         D. Tran
+								 Epitech
+							   November 2015
+
+
+	  	  R-Type Protocol Transport over UDP
+
+Abstract
+
+   This document describes how the R-Type Protocol Transport over User
+   Datagram Protocol (UDP).
+
+Status of This Memo
+
+   Not Finished.
+
+Copyright Notice
+
+   Lol WTF ?
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Prenat				Informational                   [Page 1]

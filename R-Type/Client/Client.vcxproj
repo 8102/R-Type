@@ -1,0 +1,206 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\ACharacter.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameController.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameElement.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AmmoFactory.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ammunition.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AnimatedSprite.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Animation.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AssetManager.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Client_graphicUtils.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\CollisionManager.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ennemy.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\EnnemyFactory.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\FX.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameDecor.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameEngine.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameMenu.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\IInteractive.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\MenuElement.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Player.hpp" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\PlayerController.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\RessourceManager.hpp" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundSystem.hh" />
+    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundTrack.hh" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\ACharacter.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameController.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameElement.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AmmoFactory.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ammunition.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AnimatedSprite.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Animation.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AssetManager.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\CollisionManager.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ennemy.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\EnnemyFactory.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\FX.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameDecor.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameEngine.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameMenu.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\IInteractive.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\InitMenu.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\main.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\MenuElement.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Player.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\PlayerController.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundSystem.cpp" />
+    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundTrack.cpp" />
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{AA18793A-4819-402B-AB2A-D37B56F2CE6F}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>Client</RootNamespace>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v140</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SFML_STATIC;WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\SFML-2.3.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>SFML_STATIC;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sfml-graphics-s-d.lib;sfml-system-s-d.lib;sfml-window-s-d.lib;sfml-audio-s-d.lib;opengl32.lib;freetype.lib;jpeg.lib;winmm.lib;openal32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\SFML-2.3.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+    </Link>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>SFML_STATIC;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\SFML-2.3.2\include</AdditionalIncludeDirectories>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <AdditionalLibraryDirectories>C:\Program Files %28x86%29\SFML-2.3.2\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;sfml-audio-s.lib;sfml-graphics-s.lib;sfml-window-s.lib;sfml-system-s.lib;openal32.lib;freetype.lib;gdi32.lib;winmm.lib;winmm.lib;jpeg.lib;opengl32.lib;flac.lib;vorbisenc.lib;vorbisfile.lib;vorbis.lib;ogg.lib;%(AdditionalDependencies)</AdditionalDependencies>
+    </Link>
+  </ItemDefinitionGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

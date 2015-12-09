@@ -18,56 +18,6 @@
       <Platform>x64</Platform>
     </ProjectConfiguration>
   </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\ACharacter.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameController.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameElement.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AmmoFactory.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ammunition.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AnimatedSprite.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Animation.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AssetManager.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Client_graphicUtils.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\CollisionManager.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ennemy.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\EnnemyFactory.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\FX.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameDecor.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameEngine.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameMenu.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\IInteractive.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\MenuElement.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Player.hpp" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\PlayerController.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\RessourceManager.hpp" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundSystem.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundTrack.hh" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\ACharacter.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameController.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameElement.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AmmoFactory.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ammunition.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AnimatedSprite.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Animation.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AssetManager.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\CollisionManager.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ennemy.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\EnnemyFactory.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\FX.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameDecor.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameEngine.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameMenu.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\IInteractive.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\InitMenu.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\main.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\MenuElement.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Player.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\PlayerController.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundSystem.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundTrack.cpp" />
-  </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AA18793A-4819-402B-AB2A-D37B56F2CE6F}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>

@@ -19,12 +19,12 @@ Ammunition::Ammunition(Ammunition const& model)
 
 Ammunition::~Ammunition() {
 
-	if (requestGameEngine.isPaused() == false && requestGameEngine.isRunning() == true) {
-		AnimatedSprite*  fx = new AnimatedSprite(*requestAssetManager.getTexture("r-typesheet44.gif"),
-			requestGameEngine.getAnimation("explosion"),
-			sf::Color::Black);
-		requestGameEngine.addFX(fx, *this);
-	}
+	//if (requestGameEngine.isPaused() == false && requestGameEngine.isRunning() == true) {
+	//	AnimatedSprite*  fx = new AnimatedSprite(*requestAssetManager.getTexture("r-typesheet44.gif"),
+	//		requestGameEngine.getAnimation("explosion"),
+	//		sf::Color::Black);
+	//	requestGameEngine.addFX(fx, *this);
+	//}
 }
 
 void                      Ammunition::update() {

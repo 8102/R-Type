@@ -38,7 +38,6 @@ void              Ennemy::update() {
 
 	ACharacter::update();
 	if (_reloading <= 0) {
-		std::cout << _shotVertexes.size() << std::endl;
 		shoot(requestGameEngine.getPlayer().getPosition(), true);
 		_reloading = 500;
 	}

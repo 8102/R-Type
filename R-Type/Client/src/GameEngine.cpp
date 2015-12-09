@@ -17,16 +17,14 @@ GameEngine::GameEngine()
 GameEngine::~GameEngine() {
 }
 
-#include "windows.h"
 void                    GameEngine::start() {
 
 	_isRunning = true;
 	_win = make_unique< sf::RenderWindow >(sf::VideoMode(WIN_W, WIN_H), WINDOW_TITLE, sf::Style::None);
 	_win->setFramerateLimit(WINDOW_FRAME_LIMIT);
 	sf::Image		winIcon;
-	//if (winIcon.loadFromFile("..\\x64\\Release\\assets\\icons\\gameIcon.gif") == false)
-	//	system("pause");
-	//_win->setIcon(150, 150, winIcon.getPixelsPtr());
+	if (winIcon.loadFromFile(std::string(ICON_FOLDER) + std::string("gameIcon.gif")) == true)
+	_win->setIcon(150, 150, winIcon.getPixelsPtr());
 }
 
 void                    GameEngine::run() {
@@ -111,8 +109,8 @@ void                    GameEngine::update() {
 			else if (deleted == false) for (auto objit = _gameObjects.begin(); objit != _gameObjects.end(); objit++)
 			{
 				if ((*it)->collide(*(*objit)) == true && deleted == false) {
-					AnimatedSprite*  fx = new AnimatedSprite(*requestAssetManager.getTexture("r-typesheet44.gif"), getAnimation("explosion"), sf::Color::Black);
-					addFX(fx, (*it)->getPosition());
+					//AnimatedSprite*  fx = new AnimatedSprite(*requestAssetManager.getTexture("r-typesheet44.gif"), getAnimation("explosion"), sf::Color::Black);
+					//addFX(fx, (*it)->getPosition());
 					//            delete *it;
 					it = _ammos.erase(it);
 					deleted = true;
@@ -127,7 +125,6 @@ void                    GameEngine::update() {
 	{
 		(*it)->update();
 		if ((*it)->getState() == Animation::end) {
-			//        delete *it;
 			it = _FX.erase(it);
 		}
 		else it++;

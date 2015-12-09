@@ -2,10 +2,11 @@
 # define         ___MENU_ELEMENT_HH___
 
 
+# include        <SFML/Graphics.hpp>
 # include        "AGameElement.hh"
 # include        "Client_graphicUtils.hh"
 # include        "AssetManager.hh"
-# include        "SFML/Graphics.hpp"
+# include			"SoundSystem.hh"
 
 class            GameMenu;
 
@@ -33,6 +34,10 @@ public:
 	void                  setPosition(sf::Vector2f const& position);
 
 	void                  setMidground(sf::Sprite* elem);
+
+public:
+
+	void					readjustAudioGaugeToMouseClick(std::string const& gaugeText, void (SoundSystem::*audioTarget)(float const&));
 
 public:
 

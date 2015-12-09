@@ -42,6 +42,7 @@
     <ClInclude Include="include\RessourceManager.hpp" />
     <ClInclude Include="include\SoundSystem.hh" />
     <ClInclude Include="include\SoundTrack.hh" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ACharacter.cpp" />
@@ -67,6 +68,12 @@
     <ClCompile Include="src\PlayerController.cpp" />
     <ClCompile Include="src\SoundSystem.cpp" />
     <ClCompile Include="src\SoundTrack.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\icons\rtype.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AA18793A-4819-402B-AB2A-D37B56F2CE6F}</ProjectGuid>
@@ -130,6 +137,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <TargetName>R-ProtoType</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>

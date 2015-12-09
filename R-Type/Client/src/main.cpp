@@ -192,13 +192,20 @@ void initOptionMenu();
 void initSettingsMenu();
 void initConnectionMenu();
 
+
 #ifdef			_WIN32
 int WinMain(HINSTANCE hInstance, HINSTANCE hPrevInstance, PSTR lpCmdLine, int nCmdShow) {
 #else
 int main() {
 #endif
+
   GameEngine&       engine = GameEngine::instanciate();
   SoundSystem&      audioEngine = SoundSystem::instanciate();
+
+  AllocConsole();
+  freopen("conin$", "r", stdin);
+  freopen("conout$", "w", stdout);
+  freopen("conout$", "w", stderr);
 
   engine.start();
 

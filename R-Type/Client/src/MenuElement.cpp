@@ -155,62 +155,41 @@ void                  MenuElement::getLoginInput(sf::Event const& event) {
 	adjustScreenTextPosition();
 }
 
-void                  MenuElement::setEffectVolume(/* _unused */ sf::Event const& event) {
-
+void					MenuElement::readjustAudioGaugeToMouseClick(std::string const& gaugeText, void (SoundSystem::*audioTarget)(float const&)) {
+	
 	float               ratio = 0.0f;
 	std::stringstream   ss;
 
+	_midground->setTextureRect(sf::IntRect(0, 0,
+		sf::Mouse::getPosition(requestGameEngine.getWindow()).x - static_cast<int>(_midground->getPosition().x),
+		_midground->getTextureRect().height));
+	ratio = static_cast<float>(_midground->getTextureRect().width * 100 / getTextureRect().width);
+	((requestAudioEngine).*(audioTarget))(ratio);
+	_screenText.setCharacterSize(25);
+	_text = gaugeText + std::string(" : ");
+	ss << ratio + 1;
+	_text += ss.str() + "%";
+	_screenText.setString(_text);
+	adjustScreenTextPosition();
+}
+
+void                  MenuElement::setEffectVolume(/* _unused */ sf::Event const& event) {
+
 	if (_hasBeenToggled == true && _midground != nullptr)
-	{
-		_midground->setTextureRect(sf::IntRect(0, 0, sf::Mouse::getPosition(requestGameEngine.getWindow()).x - _midground->getPosition().x , _midground->getTextureRect().height));
-		ratio = _midground->getTextureRect().width * 100 / getTextureRect().width;
-		requestAudioEngine.setEffectVolume(ratio);
-		_screenText.setCharacterSize(25);
-		_text = "Effects : ";
-		ss << ratio + 1;
-		_text += ss.str() + "%";
-		_screenText.setString(_text);
-		adjustScreenTextPosition();
-	}
+		readjustAudioGaugeToMouseClick("Effects", &SoundSystem::setEffectVolume);
 }
 
 void                  MenuElement::setMusicVolume(/* _unused */ sf::Event const& event) {
 
-	float               ratio = 0.0f;
-	std::stringstream   ss;
-
 	if (_hasBeenToggled == true && _midground != nullptr)
-	{
-		_midground->setTextureRect(sf::IntRect(0, 0, sf::Mouse::getPosition(requestGameEngine.getWindow()).x - _midground->getPosition().x , _midground->getTextureRect().height));
-		ratio = _midground->getTextureRect().width * 100 / getTextureRect().width;
-		requestAudioEngine.setMusicVolume(ratio);
-		_screenText.setCharacterSize(25);
-		_text = "Music : ";
-		ss << ratio + 1;
-		_text += ss.str() + "%";
-		_screenText.setString(_text);
-		adjustScreenTextPosition();
-	}
+		readjustAudioGaugeToMouseClick("Music", &SoundSystem::setMusicVolume);
 }
 
 
 void                  MenuElement::setMasterVolume(/* _unused */ sf::Event const& event) {
 
-	float               ratio = 0.0f;
-	std::stringstream   ss;
-
 	if (_hasBeenToggled == true && _midground != nullptr)
-	{
-		_midground->setTextureRect(sf::IntRect(0, 0, sf::Mouse::getPosition(requestGameEngine.getWindow()).x - _midground->getPosition().x , _midground->getTextureRect().height));
-		ratio = _midground->getTextureRect().width * 100 / getTextureRect().width;
-		requestAudioEngine.setMasterVolume(ratio);
-		_screenText.setCharacterSize(25);
-		_text = "Master : ";
-		ss << ratio + 1;
-		_text += ss.str() + "%";
-		_screenText.setString(_text);
-		adjustScreenTextPosition();
-	}
+		readjustAudioGaugeToMouseClick("Master", &SoundSystem::setMasterVolume);
 }
 
 void                  MenuElement::toggleGauging(/* _unused */ sf::Event const& event) {

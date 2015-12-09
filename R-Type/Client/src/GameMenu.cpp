@@ -121,28 +121,29 @@ void                 GameMenu::applyStyle() {
 	{
 		if (_style == InBlock)
 		{
-			unsigned int i = it - _items.begin();
+			auto i = it - _items.begin();
 			nextElemPosition = sf::Vector2f(requestGameEngine.getWindow().getSize().x / 2 - (*it)->getGlobalBounds().width / 2,
 				(requestGameEngine.getWindow().getSize().y / _items.size()) * i + (*it)->getGlobalBounds().height / _items.size());
 			(*it)->setPosition(nextElemPosition);
 		}
 		if (_style == InBlock_straight)
 		{
-			unsigned int i = it - _items.begin();
+			auto i = it - _items.begin();
 			unsigned int sizeH = 0;
 			for (auto it2 = _items.begin(); it2 != _items.end(); it2++)
-				sizeH += (*it2)->getGlobalBounds().height * 1.5;
+				sizeH += static_cast< unsigned int >((*it2)->getGlobalBounds().height * 1.5);
 			nextElemPosition = sf::Vector2f(requestGameEngine.getWindow().getSize().x / 2 - (*it)->getGlobalBounds().width / 2,
-				((requestGameEngine.getWindow().getSize().y / 2) - sizeH / 2) + (sizeH / _items.size() * i));
+				static_cast<float>(((requestGameEngine.getWindow().getSize().y / 2) - sizeH / 2) + (sizeH / _items.size() * i)));
 			(*it)->setPosition(nextElemPosition);
 		}
 		if (_style == InCircle)
 		{
-			unsigned int i = it - _items.begin();
-			float x = requestGameEngine.getWindow().getSize().x / 4, y = requestGameEngine.getWindow().getSize().y / 2;
-			float rx = requestGameEngine.getWindow().getSize().x / 4;
-			float ry = requestGameEngine.getWindow().getSize().y / 4;
-			float a = (M_PI * ((360 / _items.size()) * i)) / 180;
+			auto i = it - _items.begin();
+			float x = static_cast<float>(requestGameEngine.getWindow().getSize().x / 4),
+					y = static_cast<float>(requestGameEngine.getWindow().getSize().y / 2),
+					rx = static_cast<float>(requestGameEngine.getWindow().getSize().x / 4),
+					ry = static_cast<float>(requestGameEngine.getWindow().getSize().y / 4),
+					a = static_cast<float>((M_PI * ((360 / _items.size()) * i)) / 180);
 			nextElemPosition = sf::Vector2f(x + rx * std::cos(a), y + ry * std::sin(a));
 			(*it)->setPosition(nextElemPosition);
 		}

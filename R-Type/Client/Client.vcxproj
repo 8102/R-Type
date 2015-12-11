@@ -19,54 +19,66 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\ACharacter.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameController.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameElement.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AmmoFactory.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ammunition.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AnimatedSprite.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Animation.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AssetManager.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Client_graphicUtils.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\CollisionManager.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ennemy.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\EnnemyFactory.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\FX.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameDecor.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameEngine.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameMenu.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\IInteractive.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\MenuElement.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Player.hpp" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\PlayerController.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\RessourceManager.hpp" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundSystem.hh" />
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundTrack.hh" />
+    <ClInclude Include="AnimationFactory.hh" />
+    <ClInclude Include="FXFactory.hh" />
+    <ClInclude Include="include\ACharacter.hh" />
+    <ClInclude Include="include\AGameController.hh" />
+    <ClInclude Include="include\AGameElement.hh" />
+    <ClInclude Include="include\AmmoFactory.hh" />
+    <ClInclude Include="include\Ammunition.hh" />
+    <ClInclude Include="include\AnimatedSprite.hh" />
+    <ClInclude Include="include\Animation.hh" />
+    <ClInclude Include="include\AssetManager.hh" />
+    <ClInclude Include="include\Client_graphicUtils.hh" />
+    <ClInclude Include="include\CollisionManager.hh" />
+    <ClInclude Include="include\Ennemy.hh" />
+    <ClInclude Include="include\EnnemyFactory.hh" />
+    <ClInclude Include="include\FX.hh" />
+    <ClInclude Include="include\GameDecor.hh" />
+    <ClInclude Include="include\GameEngine.hh" />
+    <ClInclude Include="include\GameMenu.hh" />
+    <ClInclude Include="include\IInteractive.hh" />
+    <ClInclude Include="include\MenuElement.hh" />
+    <ClInclude Include="include\Player.hpp" />
+    <ClInclude Include="include\PlayerController.hh" />
+    <ClInclude Include="include\RessourceManager.hpp" />
+    <ClInclude Include="include\SoundSystem.hh" />
+    <ClInclude Include="include\SoundTrack.hh" />
+    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\ACharacter.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameController.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameElement.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AmmoFactory.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ammunition.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AnimatedSprite.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Animation.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AssetManager.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\CollisionManager.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ennemy.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\EnnemyFactory.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\FX.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameDecor.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameEngine.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameMenu.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\IInteractive.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\InitMenu.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\main.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\MenuElement.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Player.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\PlayerController.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundSystem.cpp" />
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundTrack.cpp" />
+    <ClCompile Include="AnimationFactory.cpp" />
+    <ClCompile Include="FXFactory.cpp" />
+    <ClCompile Include="src\ACharacter.cpp" />
+    <ClCompile Include="src\AGameController.cpp" />
+    <ClCompile Include="src\AGameElement.cpp" />
+    <ClCompile Include="src\AmmoFactory.cpp" />
+    <ClCompile Include="src\Ammunition.cpp" />
+    <ClCompile Include="src\AnimatedSprite.cpp" />
+    <ClCompile Include="src\Animation.cpp" />
+    <ClCompile Include="src\AssetManager.cpp" />
+    <ClCompile Include="src\CollisionManager.cpp" />
+    <ClCompile Include="src\Ennemy.cpp" />
+    <ClCompile Include="src\EnnemyFactory.cpp" />
+    <ClCompile Include="src\FX.cpp" />
+    <ClCompile Include="src\GameDecor.cpp" />
+    <ClCompile Include="src\GameEngine.cpp" />
+    <ClCompile Include="src\GameMenu.cpp" />
+    <ClCompile Include="src\IInteractive.cpp" />
+    <ClCompile Include="src\InitMenu.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\MenuElement.cpp" />
+    <ClCompile Include="src\Player.cpp" />
+    <ClCompile Include="src\PlayerController.cpp" />
+    <ClCompile Include="src\PlayerFactory.cpp" />
+    <ClCompile Include="src\SoundSystem.cpp" />
+    <ClCompile Include="src\SoundTrack.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc" />
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\icons\rtype.ico" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AA18793A-4819-402B-AB2A-D37B56F2CE6F}</ProjectGuid>
@@ -130,6 +142,7 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
+    <TargetName>R-ProtoType</TargetName>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
@@ -154,7 +167,7 @@
       <WarningLevel>Level3</WarningLevel>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>SFML_STATIC;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\SFML-2.3.2\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\SFML-2.3.2\include;C:\Users\Jamais\Documents\GitHubVisualStudio\R-Type\R-Type\Client\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -189,7 +202,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>SFML_STATIC;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\SFML-2.3.2\include</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>C:\Program Files %28x86%29\SFML-2.3.2\include;$(SolutionDir)\include</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

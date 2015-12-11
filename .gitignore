@@ -30,3 +30,6 @@
 # Temporary Files
 *~
 #*
+
+#VisualstudioOpenFiles
+*.opensdf

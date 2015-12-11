@@ -21,145 +21,173 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\ACharacter.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\ACharacter.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameController.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\AGameController.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameElement.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\AGameElement.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AmmoFactory.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\AmmoFactory.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ammunition.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\Ammunition.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AnimatedSprite.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\AnimatedSprite.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Animation.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\Animation.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AssetManager.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\AssetManager.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Client_graphicUtils.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\Client_graphicUtils.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\CollisionManager.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\CollisionManager.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ennemy.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\Ennemy.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\EnnemyFactory.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\EnnemyFactory.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\FX.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\FX.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameDecor.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\GameDecor.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameEngine.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\GameEngine.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameMenu.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\GameMenu.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\IInteractive.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\IInteractive.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\MenuElement.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\MenuElement.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Player.hpp">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\Player.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\PlayerController.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\PlayerController.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\RessourceManager.hpp">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\RessourceManager.hpp">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundSystem.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\SoundSystem.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundTrack.hh">
-      <Filter>Header Files\graphic_includes</Filter>
+    <ClInclude Include="include\SoundTrack.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="resource.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="FXFactory.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AnimationFactory.hh">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\ACharacter.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameController.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AGameElement.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AmmoFactory.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ammunition.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AnimatedSprite.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Animation.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\AssetManager.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\CollisionManager.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Ennemy.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\EnnemyFactory.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\FX.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameDecor.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameEngine.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\GameMenu.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\IInteractive.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\InitMenu.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\MenuElement.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\Player.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\PlayerController.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundSystem.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\SoundTrack.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
-    <ClCompile Include="..\..\..\..\Visual Studio 2015\Projects\rtype\rtype\main.cpp">
+    <ClCompile Include="src\ACharacter.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\AGameController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AGameElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AmmoFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ammunition.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AnimatedSprite.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Animation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\AssetManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\CollisionManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Ennemy.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\EnnemyFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FX.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameDecor.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameEngine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\IInteractive.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\InitMenu.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\MenuElement.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Player.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlayerController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SoundSystem.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\SoundTrack.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="FXFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AnimationFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\PlayerFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="Client.rc">
+      <Filter>Resource Files</Filter>
+    </ResourceCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="assets\icons\rtype.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

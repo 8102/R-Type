@@ -8,6 +8,7 @@
 // Last update Thu Dec 10 02:56:32 2015 tran_0
 //
 
+#include <unistd.h>
 #include "ThreadPool.hh"
 
 ThreadPool::ThreadPool(size_t games) :  _working(true), _nbGames(games)
@@ -23,8 +24,7 @@ ThreadPool::ThreadPool(size_t games) :  _working(true), _nbGames(games)
 ThreadPool::~ThreadPool()
 {
   for (auto it = _threads.begin() ; it != _threads.end() ; it++)
-    if ((*it)->joinable())
-      (*it)->join();
+    (*it)->join();
   while (!_threads.empty())
     {
       delete _threads.back();
@@ -39,6 +39,7 @@ void		ThreadPool::wakeUp(void *(*threadedGame)(Game *), Game *game)
   addGame->launchGame = threadedGame;
   addGame->gameLaunched = game;
   _games.push(addGame);
+  std::unique_lock<std::mutex> lock(_mutex);
   _cond.notify_one();
 }
 
@@ -53,6 +54,7 @@ void		ThreadPool::waitFunction()
 	{
 	  std::unique_lock<std::mutex>	lk(_mutex);
 	  _cond.wait(lk);
+	  _mutex.unlock();
 	}
       else
 	{
@@ -62,12 +64,25 @@ void		ThreadPool::waitFunction()
 	  _mutex.unlock();
 	  (*(actualGame->launchGame))(actualGame->gameLaunched);
 	}
+      start = false;
+    }
+}
+
+void		ThreadPool::addThreads(size_t length)
+{
+  for (size_t i = 0 ; i < length ; i++)
+    {
+      std::thread	*newThread = new std::thread(thread_function, this);
+
+      _threads.push_back(newThread);
     }
 }
 
 void		ThreadPool::stopThreadPool()
 {
   _working = false;
+  std::unique_lock<std::mutex> lock(_mutex);
+  _cond.notify_all();
 }
 
 void	*thread_function(void *p)

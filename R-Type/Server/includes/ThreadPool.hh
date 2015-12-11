@@ -18,7 +18,6 @@
 # include <condition_variable>
 # include <mutex>
 # include <iostream>
-# include "Server.hh"
 # include "Game.hh"
 
 void	*thread_function(void *);
@@ -33,6 +32,7 @@ public:
   void	wakeUp(void *(*launchGame)(Game *), Game *);
   void	waitFunction();
   void	stopThreadPool();
+  void	addThreads(size_t);
 
 private:
   typedef struct	s_games

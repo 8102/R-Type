@@ -22,6 +22,9 @@ NAME_SERVER	=	server
 
 SRC_SERVER	=	main.cpp		\
 			ThreadPool.cpp		\
+			Client.cpp		\
+			Server.cpp		\
+			Game.cpp		\
 
 OBJ_DIR		=	obj/
 

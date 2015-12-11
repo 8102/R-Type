@@ -12,23 +12,26 @@
 # define GAME_HH__
 
 # include <vector>
+# include <iostream>
 # include <mutex>
 # include "Client.hh"
 
 class		Game
 {
 public:
-  Game(int id);
+  Game(size_t id);
   ~Game();
 public:
-  bool			isOver() const;
-  bool			addPlayer();
-  std::mutex		getMutex() const;
+  void			playing();
+  void			addPlayer();
+  std::mutex		*getMutex() const;
+  size_t		getId() const;
 private:
   std::vector<Client *>	_clients;
   long			_score;
-  std::mutex		mu;
-  size_t		id;
+  std::mutex		*_mu;
+  size_t		_id;
+  bool			_isOver;
 };
 
 #endif // GAME_HH__

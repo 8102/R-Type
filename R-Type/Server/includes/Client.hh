@@ -14,9 +14,13 @@
 class		Client
 {
 public:
+  Client();
+  ~Client();
+
+public:
   bool		isSpectator() const;
   long		getScore() const;
-  void		setScore();
+  void		setScore(long);
 private:
   bool		_spectator;
   long		_score;

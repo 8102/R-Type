@@ -15,6 +15,9 @@
 # include <iostream>
 # include <vector>
 # include "Game.hh"
+# include "ThreadPool.hh"
+
+void		*gameReady(Game *);
 
 class		Server
 {
@@ -23,11 +26,12 @@ public:
   ~Server();
 public:
   void			run();
-  bool			addNewGame();
+  void			addNewGame();
   void			stop();
-  void			setGames(std::vector<Game *>);
 private:
+  bool			_running;
   int			_port;
+  ThreadPool		*_pool;
   std::vector<Game *>	_games;
 };
 

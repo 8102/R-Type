@@ -116,7 +116,9 @@ void               setupAnimatedSprites() {
   e.addEnnemy(ef.createEnnemy("alienShipBoss", Vf(500, 0), false));
   e.addEnnemy(ef.createEnnemy("bountyHunter", Vf(1500, PLAY_HEIGHT - 64), false));
   e.addEnnemy(ef.createEnnemy("alienJet", Vf(1500, 400), false));
-  e.addEnnemy(ef.createEnnemy("ufo", Vf(2500, 250), false));
+  e.addEnnemy(ef.createEnnemy("alienJet", Vf(1600, 450), false));
+  e.addEnnemy(ef.createEnnemy("alienJet", Vf(1600, 350), false));
+  //  e.addEnnemy(ef.createEnnemy("ufo", Vf(2500, 250), false));
 }
 
 

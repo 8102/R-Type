@@ -118,7 +118,7 @@ void               setupAnimatedSprites() {
   e.addEnnemy(ef.createEnnemy("alienJet", Vf(1500, 400), false));
   e.addEnnemy(ef.createEnnemy("alienJet", Vf(1600, 450), false));
   e.addEnnemy(ef.createEnnemy("alienJet", Vf(1600, 350), false));
-  //  e.addEnnemy(ef.createEnnemy("ufo", Vf(2500, 250), false));
+  e.addEnnemy(ef.createEnnemy("ufo", Vf(2500, 250), false));
 }
 
 

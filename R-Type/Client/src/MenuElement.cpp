@@ -2,8 +2,8 @@
 #include              "GameEngine.hh"
 #include              "SoundSystem.hh"
 
-MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf::Font const& textFont, sf::Vector2f const& position, sf::Color const& color)
-	: AGameElement(texture, 1), _text(text), _texture(texture), _midground(nullptr), _font(textFont), _baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false) {
+MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf::Font const& textFont, sf::Vector2f const& position, sf::Color const& color, int const& argument)
+	: AGameElement(texture, 1), _text(text), _texture(texture), _midground(nullptr), _font(textFont), _baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false), _argument(0) {
 	setPosition(position);
 
 	_screenText.setFont(_font);
@@ -52,6 +52,12 @@ void                  MenuElement::setFunction(void (MenuElement::*function)(sf:
 	_function = function;
 }
 
+void                  MenuElement::setAction(sf::Event::EventType const& actionType, void (MenuElement::* action)(sf::Event const&), int const& value) {
+
+	_actions[actionType] = action;
+	_argument = value;
+}
+
 void                  MenuElement::setAction(sf::Event::EventType const& actionType, void (MenuElement::* action)(sf::Event const&)) {
 
 	_actions[actionType] = action;
@@ -79,6 +85,11 @@ void                  MenuElement::setPosition(sf::Vector2f const& position) {
 	if (_midground != nullptr) {
 		_midground->setPosition(getPosition());
 	}
+}
+
+void					MenuElement::setArgument(int const& argument) {
+
+	_argument = argument;
 }
 
 void                  MenuElement::setMidground(sf::Sprite *elem)
@@ -110,6 +121,11 @@ void                  MenuElement::openOptionMenu(/* _unused */ sf::Event const&
 void                  MenuElement::openMainMenu(/* _unused */ sf::Event const& event) {
 
 	GameEngine::instanciate().setControllerIndex(AGameController::MainMenu);
+}
+
+void                  MenuElement::openSelectionMenu(/* _unused */ sf::Event const& event) {
+
+	GameEngine::instanciate().setControllerIndex(AGameController::CharacterSelectionMenu);
 }
 
 void                  MenuElement::openConnectionMenu(/* _unused */ sf::Event const& event) {
@@ -200,4 +216,11 @@ void                  MenuElement::toggleGauging(/* _unused */ sf::Event const& 
 void                  MenuElement::untoggleGauging(/* _unused */ sf::Event const& event) {
 
 	_hasBeenToggled = false;
+}
+
+void					MenuElement::selectPlayer(sf::Event const& event) {
+
+	requestGameEngine.setPlayer(&requestGameEngine._playF.getPlayer(_argument));
+	requestGameEngine.getPlayer().setPosition(sf::Vector2f(400.0f, _argument * 200.0f));
+	requestGameEngine.setController<PlayerController >(AGameController::GameControls, new PlayerController(requestGameEngine.getPlayer()));
 }

@@ -77,13 +77,8 @@ void                  initConnectionMenu() {
 	MenuElement*        connectionButton1 = new MenuElement(*a.getTexture("shadedblueButton.png"), "Connect !", *a.getFont("freedom.ttf"));
 	MenuElement*        connectionButton2 = new MenuElement(*a.getTexture("shadedblueButton.png"), "Back", *a.getFont("freedom.ttf"));
 
-	MenuElement*        test = new MenuElement(*a.getTexture("transparent.png"), "Volume 50", *a.getFont("nullShock.ttf"));
-
-	sf::Sprite* tests = new sf::Sprite;
-	tests->setTexture(*a.getTexture("glowtube.png"));
-	test->setMidground(tests);
 	connectionMenu->setBackground(connectionMenuBackground);
-	connectionButton1->setAction(sf::Event::MouseButtonPressed, &MenuElement::resumeGame);
+	connectionButton1->setAction(sf::Event::MouseButtonPressed, &MenuElement::openSelectionMenu);
 	connectionButton1->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
 	connectionButton2->setAction(sf::Event::MouseButtonPressed, &MenuElement::openMainMenu);
 	connectionButton2->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
@@ -95,7 +90,6 @@ void                  initConnectionMenu() {
 	connectionMenu->addItem(connectionMenuInputField2);
 	connectionMenu->addItem(connectionButton1);
 	connectionMenu->addItem(connectionButton2);
-	//  connectionMenu->addItem(test);
 	connectionMenu->applyStyle();
 
 	requestGameEngine.setController< GameMenu >(AGameController::ConnectionMenu, connectionMenu);
@@ -135,4 +129,34 @@ void              initSettingsMenu() {
 	audioMenu->applyStyle();
 
 	requestGameEngine.setController< GameMenu >(AGameController::AudioMenu, audioMenu);
+}
+
+void								initCharacterSelectionMenu() {
+
+	AssetManager&		a = requestAssetManager;
+
+	GameMenu*			selectionMenu = new GameMenu("Character Selection", GameMenu::InLine);
+	MenuElement*		playButton = new MenuElement(*a.getTexture("shadedblueButton.png"), "START", *a.getFont("nullShock.ttf"));
+	MenuElement*		character1 = new MenuElement(*a.getTexture("flyingSaucerSelector.png"), "", *a.getFont("nullShock.ttf"));
+	MenuElement*		character2 = new MenuElement(*a.getTexture("ufoSelector.png"), "", *a.getFont("nullShock.ttf"));
+	MenuElement*		character3 = new MenuElement(*a.getTexture("spaceHunterSelector.png"), "", *a.getFont("nullShock.ttf"));
+
+	playButton->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2 - playButton->getGlobalBounds().width / 2, 750));
+	selectionMenu->setBackground(new MenuElement(*a.getTexture("MainMenu.jpg")));
+	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::resumeGame);
+	playButton->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
+	character1->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
+	character1->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 1);
+	character2->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
+	character2->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 2);
+	character3->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
+	character3->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 3);
+
+	selectionMenu->addItem(character1);
+	selectionMenu->addItem(character2);
+	selectionMenu->addItem(character3);
+
+	selectionMenu->applyStyle();
+	selectionMenu->addItem(playButton);
+	requestGameEngine.setController< GameMenu >(AGameController::CharacterSelectionMenu, selectionMenu);
 }

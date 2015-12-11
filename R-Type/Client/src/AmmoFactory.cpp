@@ -10,14 +10,7 @@ AmmoFactory::~AmmoFactory() {}
 
 bool                        AmmoFactory::loadAmmoConfigFromFile() {
 
-	struct  s_ammunitionParams  config;
 
-	//config.textureFilename = "r-typesheet43.gif";
-	//config.animationName = "bullet";
-	//config.ammoSpeed = 1000;
-	//config.colorMask = sf::Color::White;
-
-	//_ammoConfigs["simpleBullet"] = config;
 	_ammoConfigs["simpleBullet"] = {
 		std::string("r-typesheet43.gif"),
 		std::string("bullet"),
@@ -30,6 +23,13 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 		std::string("rocket"),
 		1000,
 		sf::Color::White
+	};
+	
+	_ammoConfigs["spaceBomb"] = {
+		std::string("r-typesheet3.gif"),
+		std::string("spaceBomb"),
+		1000,
+		sf::Color::Black
 	};
 	return true;
 }

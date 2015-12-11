@@ -30,7 +30,7 @@ private:
 
 	int                 _reload;
 	int                 _reloadingTime;
-	bool                _canShot;
+	bool               _canShot;
 
 private:
 

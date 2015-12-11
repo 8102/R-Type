@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AnimationFactory.hh" />
+    <ClInclude Include="FXFactory.hh" />
     <ClInclude Include="include\ACharacter.hh" />
     <ClInclude Include="include\AGameController.hh" />
     <ClInclude Include="include\AGameElement.hh" />
@@ -45,6 +47,8 @@
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AnimationFactory.cpp" />
+    <ClCompile Include="FXFactory.cpp" />
     <ClCompile Include="src\ACharacter.cpp" />
     <ClCompile Include="src\AGameController.cpp" />
     <ClCompile Include="src\AGameElement.cpp" />
@@ -66,6 +70,7 @@
     <ClCompile Include="src\MenuElement.cpp" />
     <ClCompile Include="src\Player.cpp" />
     <ClCompile Include="src\PlayerController.cpp" />
+    <ClCompile Include="src\PlayerFactory.cpp" />
     <ClCompile Include="src\SoundSystem.cpp" />
     <ClCompile Include="src\SoundTrack.cpp" />
   </ItemGroup>

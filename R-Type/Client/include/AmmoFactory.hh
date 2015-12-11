@@ -11,8 +11,8 @@ public:
 
 		std::string             textureFilename;
 		std::string             animationName;
-		unsigned int            ammoSpeed;
-		sf::Color               colorMask;
+		unsigned int         ammoSpeed;
+		sf::Color			     colorMask;
 	};
 
 public:

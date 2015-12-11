@@ -29,7 +29,8 @@ ACharacter::ACharacter(ACharacter const& model)
 	std::vector<sf::Vector2f> v = model.getShotVertices();
 	for (auto it = v.begin(); it != v.end(); it++)
 		_shotVertexes.push_back(*it);
-	_weapons.push_back(Ammunition(_weapon));
+	_weapons = model.getAllWeapons();
+//	_weapons.push_back(Ammunition(_weapon));
 }
 
 ACharacter::~ACharacter() {
@@ -130,6 +131,11 @@ void                    ACharacter::shoot(T& target, bool useAllWeapon, unsigned
 void                       ACharacter::addWeapon(Ammunition* ammo) {
 
 	_weapons.push_back(Ammunition(*ammo));
+}
+
+std::vector<Ammunition> ACharacter::getAllWeapons() const
+{
+	return _weapons;
 }
 
 std::vector<sf::Vector2f>            ACharacter::getShotVertices() const {

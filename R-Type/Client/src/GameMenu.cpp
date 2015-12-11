@@ -116,9 +116,23 @@ void                 GameMenu::setElementPosition(MenuElement *element) {
 void                 GameMenu::applyStyle() {
 
 	sf::Vector2f       nextElemPosition;
-
 	for (auto it = _items.begin(); it != _items.end(); it++)
 	{
+		if (_style == InLine)
+		{
+			sf::Vector2f		 total(0, 0);
+			for (auto i = _items.begin(); i != _items.end(); i++) {
+				total.x += (*it)->getGlobalBounds().width;
+				total.y += (*it)->getGlobalBounds().height;
+			}
+			sf::Vector2f anchor(requestGameEngine.getWindow().getSize().x / 2 - total.x / 2, requestGameEngine.getWindow().getSize().y / 2);
+			auto xStart = anchor.x;
+			for (auto it = _items.begin(); it != _items.end(); it++) {
+				std::cout << "position : " << xStart << " , " << "anchor.y" << std::endl;
+				(*it)->setPosition(Vf(xStart, anchor.y - (*it)->getGlobalBounds().height / 2));
+				xStart += (*it)->getGlobalBounds().width;
+			}
+		}
 		if (_style == InBlock)
 		{
 			auto i = it - _items.begin();

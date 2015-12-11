@@ -11,20 +11,11 @@ FX::~FX()
 {
 }
 
-#include "windows.h"
 void FX::trigger(sf::Vector2f const & effectPosition)
 {
-	AnimatedSprite*	visualEffect = new AnimatedSprite(*requestAssetManager.getTexture(_visualRessourceName),
-		requestGameEngine.getAnimation(_animationName),
-		sf::Color::Black);
-	//OutputDebugStringA(_animationName.c_str());
-	//OutputDebugStringA("\n");
-	//OutputDebugStringA(_visualRessourceName.c_str());
-	//OutputDebugStringA("\n");
-	visualEffect->setPosition(effectPosition);
-	requestAudioEngine.pushEffect(_soundEffectName);
-	requestGameEngine.addFX(visualEffect, effectPosition);
-	delete visualEffect;
+	if (_soundEffectName.size() > 0 && _soundEffectName != "NO_SOUND")
+		requestAudioEngine.pushEffect(_soundEffectName);
+	requestGameEngine.addFX(_animationName, _visualRessourceName, effectPosition);
 }
 
 std::string FX::getAnimationName() const

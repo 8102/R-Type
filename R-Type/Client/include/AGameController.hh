@@ -43,6 +43,7 @@ public:
 		GameControls = 0,
 		MainMenu,
 		ConnectionMenu,
+		CharacterSelectionMenu,
 		InGameMenu,
 		OptionMenu,
 		AudioMenu,

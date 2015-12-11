@@ -13,6 +13,10 @@
 # include             "PlayerController.hh"
 # include             "CollisionManager.hh"
 # include             "Ennemy.hh"
+# include				"AnimationFactory.hh"
+# include				"AmmoFactory.hh"
+# include				"EnnemyFactory.hh"
+# include				"PlayerFactory.hh"
 
 #define             PLAY_WIDTH    1600
 #define             PLAY_HEIGHT   900
@@ -82,7 +86,7 @@ public:
 	void                addFX(AnimatedSprite *FX, sf::Vector2f const& position = Vf(0.0f, 0.0f));
 	void                addFX(AnimatedSprite *FX, Ammunition const& ammo);
 	void                addFX(std::string const& FXName, sf::Vector2f const& position = Vf(0.0f, 0.0f));
-	void				   addFX(std::string const&, std::string const&, sf::Color const&, sf::Vector2f const&);
+	void				   addFX(std::string const&, std::string const&, sf::Vector2f const&);
 	void                addAmmo(Ammunition *ammo);
 	void                addEnnemy(Ennemy *ennemy);
 	void                setPlayer(Player* player);
@@ -146,6 +150,15 @@ private:
 
 	std::vector< std::unique_ptr < AnimatedSprite > >    _FX;
 	std::map<std::string, std::unique_ptr< Animation >>  _animations;
+
+public:
+
+	AmmoFactory											_ammoF;
+	AnimationFactory									_animF;
+	EnnemyFactory										_ennemyF;
+	PlayerFactory										_playF;
+
+	//	AnimationFactory								_animFactory;
 
 };
 

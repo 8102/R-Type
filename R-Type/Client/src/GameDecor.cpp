@@ -59,10 +59,6 @@ void                  GameDecor::setVectors(sf::Vector2i const& vector, sf::Vect
 	_movement = move;
 }
 
-// void                  GameDecor::setZIndex(unsigned int zIndex) {
-//   _zIndex = zIndex;
-// }
-
 sf::Image             GameDecor::getImage() const {
 	return _image;
 }
@@ -78,7 +74,3 @@ sf::Vector2i          GameDecor::getVector1() const {
 sf::Vector2f          GameDecor::getVector2() const {
 	return _movement;
 }
-
-// unsigned int          GameDecor::getZIndex() const {
-//   return _zIndex;
-// }

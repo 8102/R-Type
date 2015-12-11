@@ -18,7 +18,8 @@ public:
 		std::string const& text = "",
 		sf::Font const& textFont = *AssetManager::instanciate().getFont("font.ttf"),
 		sf::Vector2f const& position = Vf(0.0f, 0.0f),
-		sf::Color const& color = sf::Color::White);
+		sf::Color const& color = sf::Color::White,
+		int const& argument = 0);
 	~MenuElement();
 
 public:
@@ -30,9 +31,10 @@ public:
 	void                  setFunction(void (MenuElement::*)(sf::Event const& event));
 	void                  reset();
 
+	void                  setAction(sf::Event::EventType const& actionType, void (MenuElement::* action)(sf::Event const& event), int const& value);
 	void                  setAction(sf::Event::EventType const& actionType, void (MenuElement::* action)(sf::Event const& event));
 	void                  setPosition(sf::Vector2f const& position);
-
+	void					setArgument(int const& argument);
 	void                  setMidground(sf::Sprite* elem);
 
 public:
@@ -47,6 +49,7 @@ public:
 	void                  openOptionMenu(sf::Event const& event);
 	void                  openMainMenu(sf::Event const& event);
 	void                  openConnectionMenu(sf::Event const& event);
+	void                  openSelectionMenu(sf::Event const& event);
 	void                  openAudioMenu(sf::Event const& event);
 	void                  getIPAddrInput(sf::Event const& event);
 	void                  getLoginInput(sf::Event const& event);
@@ -55,6 +58,7 @@ public:
 	void                  setMasterVolume(sf::Event const& event);
 	void                  toggleGauging(sf::Event const& event);
 	void                  untoggleGauging(sf::Event const& event);
+	void					selectPlayer(sf::Event const& event);
 
 private:
 
@@ -71,6 +75,7 @@ private:
 
 private:
 
+	int					_argument;
 	std::map< sf::Event::EventType, void (MenuElement::*)(sf::Event const& event) >  _actions;
 };
 

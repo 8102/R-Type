@@ -22,12 +22,6 @@ Animation::Animation(Animation const& modelAnimation)
 {
 	std::vector<sf::IntRect> modelAnimationArray;
 
-	// setAnimationName(modelAnimation.getAnimationName());
-	// setIndex(modelAnimation.getIndex());
-	// setFrameLifetime(modelAnimation.getFrameLifetime());
-	// setFrameGrid(modelAnimation.getFrameGrid());
-	// setFrameDimensions(modelAnimation.getFrameDimensions());
-	// setOriginOffset(modelAnimation.getOriginOffset());
 	_currentFrameLifetime = _frameLifetime;
 	modelAnimationArray = modelAnimation.getFrameArray();
 	for (auto it = modelAnimationArray.begin(); it < modelAnimationArray.end(); it++) {
@@ -45,7 +39,7 @@ Animation::state      Animation::update() {
 	{
 		setIndex((getIndex() + 1) % _frames.size());
 		_currentFrameLifetime = _frameLifetime;
-		if (/*_frames.size() > 1 &&*/ _index == 0)
+		if (_index == 0)
 			return Animation::end;
 		return Animation::needChange;
 	}

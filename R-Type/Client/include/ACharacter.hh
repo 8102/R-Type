@@ -42,11 +42,11 @@ public:
 public:
 
 	unsigned int       getSpeed() const;
-	Ammunition         getWeapon() const;
+	Ammunition       getWeapon() const;
 
 	void               addWeapon(Ammunition* ammo);
 
-	// std::vector<Ammunition>     getAllWeapons();
+	std::vector<Ammunition>     getAllWeapons() const;
 
 public:
 

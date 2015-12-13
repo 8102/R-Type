@@ -27,5 +27,9 @@
 *.out
 *.app
 
+# Temporary Files
+*~
+#*
+
 #VisualstudioOpenFiles
 *.opensdf

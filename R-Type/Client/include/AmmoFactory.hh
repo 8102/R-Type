@@ -12,7 +12,16 @@ public:
 		std::string             textureFilename;
 		std::string             animationName;
 		unsigned int         ammoSpeed;
+		int						damage;			/*negative damages correspond to healing*/
 		sf::Color			     colorMask;
+		sf::Vector2f			scale;
+//		struct FXFactory::FXParams fx;
+		struct		fxPrams {
+			std::string animationName;
+			std::string ressourceName;
+			std::string effectName;
+			sf::Color    colorMask;
+		}	fx;
 	};
 
 public:

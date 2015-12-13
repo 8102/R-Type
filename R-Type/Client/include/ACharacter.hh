@@ -42,7 +42,10 @@ public:
 public:
 
 	unsigned int       getSpeed() const;
+	sf::Vector2i		  getLife() const;
+	std::string			  getName() const;
 	Ammunition       getWeapon() const;
+	sf::Text				  getGraphicName() const;
 
 	void               addWeapon(Ammunition* ammo);
 
@@ -51,14 +54,25 @@ public:
 public:
 
 	void               setSpeed(unsigned int const& speed);
+	void				  setLife(sf::Vector2i const& life);
+	void				  setName(std::string const& name);
 
 public:
 
 	void              addShotVertex(sf::Vector2f const& shotOriginVertex);
 	std::vector<sf::Vector2f>  getShotVertices() const;
+
+public:
+
+	void						drawName(sf::RenderWindow& win);
+	void						drawLife(sf::RenderWindow& win, bool const& up = true);
+	void						drawInformation(sf::RenderWindow& win);
+
 protected:
 
 	unsigned int       _speed;
+	sf::Vector2i		  _health;
+	std::string			  _name;
 
 protected:
 
@@ -73,6 +87,9 @@ protected:
 	/* Represents all the possible origin points from which the Character can shot */
 	std::vector< sf::Vector2f > _shotVertexes;
 
+protected:
+
+	sf::Text				_gName;
 };
 
 #endif                /* !___ABSTRACT_CHARACTER_HH___ */

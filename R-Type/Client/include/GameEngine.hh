@@ -86,7 +86,7 @@ public:
 	void                addFX(AnimatedSprite *FX, sf::Vector2f const& position = Vf(0.0f, 0.0f));
 	void                addFX(AnimatedSprite *FX, Ammunition const& ammo);
 	void                addFX(std::string const& FXName, sf::Vector2f const& position = Vf(0.0f, 0.0f));
-	void				   addFX(std::string const&, std::string const&, sf::Vector2f const&);
+	void				   addFX(std::string const&, std::string const&, sf::Vector2f const&, sf::Color const& colormask = sf::Color::Black);
 	void                addAmmo(Ammunition *ammo);
 	void                addEnnemy(Ennemy *ennemy);
 	void                setPlayer(Player* player);

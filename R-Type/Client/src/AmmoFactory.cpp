@@ -14,22 +14,42 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 	_ammoConfigs["simpleBullet"] = {
 		std::string("r-typesheet43.gif"),
 		std::string("bullet"),
-		1000,
-		sf::Color::White
+		350,
+		10,
+		sf::Color::White,
+		sf::Vector2f(1.0f, 1.0f),
+		{ "explosion", "r-typesheet44.gif", "", sf::Color::Black }
 	};
+
+	_ammoConfigs["plasmaBullet"] = {
+		std::string("r-typesheet1.gif"),
+		std::string("plasmaBullet"),
+		200,
+		20,
+		sf::Color::White,
+		sf::Vector2f(1.0f, 1.0f),
+		{"plasmaExplosion", "r-typesheet1.gif", "", sf::Color::White}
+	};
+
 
 	_ammoConfigs["rocket"] = {
 		std::string("rocket.png"),
 		std::string("rocket"),
-		1000,
-		sf::Color::White
+		700,
+		50,
+		sf::Color::White,
+		sf::Vector2f(0.50f, 0.25f),
+		{"bigExplosion", "r-typesheet44.gif", "", sf::Color::Black}
 	};
 	
 	_ammoConfigs["spaceBomb"] = {
 		std::string("r-typesheet3.gif"),
 		std::string("spaceBomb"),
-		1000,
-		sf::Color::Black
+		500,
+		75,
+		sf::Color::Black,
+		sf::Vector2f(2.0f, 2.0f),
+		{"bigExplosion", "r-typesheet44.gif", "", sf::Color::Black}
 	};
 	return true;
 }
@@ -60,5 +80,9 @@ Ammunition*                 AmmoFactory::createAmmo(std::string const& ammunitio
 		)) == nullptr)
 		return nullptr;
 	clone->setType(ammoType);
+	clone->setScale(config.scale);
+	clone->setDamage(config.damage);
+//to be replaced by passing as struct
+	clone->setDeathFX(config.fx.animationName, config.fx.ressourceName, config.fx.effectName, config.fx.colorMask);
 	return clone;
 }

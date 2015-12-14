@@ -57,7 +57,7 @@ void                         Player::shoot(unsigned int shotOriginVertexIndex) {
 		shot->setPosition(getPosition() + _shotVertexes[shotOriginVertexIndex % _shotVertexes.size()]);
 		shot->setTargetPosition(Vf(WIN_W * 2, getPosition().y + getGlobalBounds().height / 2));
 		engine.addAmmo(shot);
-		SoundSystem::instanciate().pushEffect("pulseShot.wav");
+		SoundSystem::instanciate().pushEffect("rocket.wav");
 		//      SoundSystem::instanciate().playEffect("pulseShot.wav");
 		isReloading();
 	}
@@ -89,6 +89,7 @@ void                         Player::switchWeapon() {
 
 	_weaponIndex = (_weaponIndex + 1) % _weapons.size();
 	_weapon = _weapons[_weaponIndex];
+	std::cout << "PLAYER//SWITCHWEAPON : " << _weapon.getCurrentAnimation().getAnimationName();
 }
 
 Player::~Player() {}

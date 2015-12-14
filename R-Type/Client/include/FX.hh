@@ -9,7 +9,9 @@ class FX
 {
 public:
 
-	FX(std::string const& animationName, std::string const& visualRessourceName, std::string const& soundEffectName);
+	FX(std::string const& animationName, std::string const& visualRessourceName, std::string const& soundEffectName = "", sf::Color const& colorMask = sf::Color::White);
+	FX::FX(FX const& model);
+
 	~FX();
 
 public:
@@ -21,14 +23,22 @@ public:
 	std::string				getAnimationName() const;
 	std::string				getRessourceName() const;
 	std::string				getSoundEffectName() const;
+	sf::Color				getColorMask() const;
+
+public:
+
+	void						setAnimationName(std::string const& name);
+	void						setRessourceName(std::string const& name);
+	void						setEffectName(std::string const& name);
+	void						setColorMask(sf::Color const& mask);
 
 private:
 
 	std::string			_animationName;
 	std::string			_visualRessourceName;
 	std::string			_soundEffectName;
-
-	std::shared_ptr<AnimatedSprite>		_visualEffect;
+	sf::Color			_colorMask;
+//	std::shared_ptr<AnimatedSprite>		_visualEffect;
 };
 
 #endif						/* !___FX_HH___ */

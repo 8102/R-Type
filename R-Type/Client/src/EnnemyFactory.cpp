@@ -75,6 +75,14 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 	}
 	};
 
+	_ennemyConfigs["flyingMinion"] = {
+		"r-typesheet20.gif",
+		"flyingMinion",
+		"simpleBullet",
+		sf::Color::Black,
+		std::vector<sf::Vector2f> {}
+	};
+
 	return true;
 }
 

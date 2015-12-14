@@ -86,21 +86,29 @@ void                    GameEngine::update() {
 			if ((*it)->Ammunition::getType() == Ammunition::EnnemyShot)
 			{
 				if ((*it)->collide(getPlayer()) == true && deleted == false) {
-					FX	 fx("explosion", "r-typesheet44.gif", "");
+					if ((*it)->dealDamage(getPlayer()) == true)
+						std::cout << "Shot Down !" << std::endl;
+					(*it)->trigger();
+					/*			FX	 fx("explosion", "r-typesheet44.gif", "", sf::Color::Black);
 					sf::IntRect ir((*it)->getGlobalBounds());
 					sf::Vector2f p(ir.left + ir.width / 2 - getAnimation("explosion").getFrameDimensions().x / 2, ir.top + ir.height / 2 - getAnimation("explosion").getFrameDimensions().y / 2);
 					fx.trigger(p);
-					it = _ammos.erase(it);
+		*/			it = _ammos.erase(it);
 					deleted = true;
 				}
 			}
 			else if ((*it)->Ammunition::getType() == Ammunition::friendlyShot) for (auto ennemyit = _ennemies.begin(); ennemyit != _ennemies.end(); ennemyit++)
 			{
 				if ((*it)->collide(*(*ennemyit)) == true && deleted == false) {
-					FX	 fx("bigExplosion", "r-typesheet44.gif", "bigExplosion.wav");
-					sf::IntRect ir((*it)->getGlobalBounds());
-					sf::Vector2f p(ir.left + ir.width / 2 - getAnimation("bigExplosion").getFrameDimensions().x / 2, ir.top + ir.height / 2 - getAnimation("bigExplosion").getFrameDimensions().y / 2);
-					fx.trigger(p);
+					((*it)->dealDamage(*(*ennemyit)));
+//					FX	 fx("bigExplosion", "r-typesheet44.gif", "bigExplosion.wav");
+			//		FX	 fx("plasmaExplosion", "r-typesheet1.gif", "bigExplosion.wav", sf::Color::White);
+			//		sf::IntRect ir((*it)->getGlobalBounds());
+			////		sf::Vector2f p(ir.left + ir.width / 2 - getAnimation("bigExplosion").getFrameDimensions().x / 2, ir.top + ir.height / 2 - getAnimation("bigExplosion").getFrameDimensions().y / 2);
+			//		sf::Vector2f p(ir.left + ir.width / 2 - getAnimation("plasmaExplosion").getFrameDimensions().x / 2, ir.top + ir.height / 2 - getAnimation("plasmaExplosion").getFrameDimensions().y / 2);
+			//		fx.trigger(p);
+					(*it)->trigger();
+
 					it = _ammos.erase(it);
 					deleted = true;
 				}
@@ -128,7 +136,7 @@ void                    GameEngine::update() {
 	for (auto it = _ennemies.begin(); it != _ennemies.end(); ) {
 		(*it)->move(-0.5);
 		(*it)->update();
-		if ((*it)->hasPassed() == true)
+		if ((*it)->hasPassed() == true || (*it)->getLife().x <= 0)
 			it = _ennemies.erase(it);
 		else ++it;
 	}
@@ -141,13 +149,40 @@ void                    GameEngine::draw() {
 	_win->clear();
 	for (auto it = _gameObjects.begin(); it != _gameObjects.end(); it++)
 		_win->draw(*(*it));
-	for (auto it = _ennemies.begin(); it != _ennemies.end(); it++)
+	for (auto it = _ennemies.begin(); it != _ennemies.end(); it++) {
 		_win->draw(*(*it));
+		(*it)->drawLife(*_win.get());
+	}
 	for (auto it = _ammos.begin(); it != _ammos.end(); it++)
 		_win->draw(*(*it));
+	_win->draw(*_player);
 	for (auto it = _FX.begin(); it != _FX.end(); it++)
 		_win->draw(*(*it));
-	_win->draw(*_player);
+	_player->drawInformation(*_win.get());
+
+	sf::CircleShape	s(100.0f);
+
+	s.setTexture(requestAssetManager.getTexture("coicle.png"));
+	s.setPosition(sf::Vector2f(100, PLAY_HEIGHT - 100));
+
+	static unsigned int score = 0;
+	s.setOrigin(sf::Vector2f(s.getGlobalBounds().width / 2, s.getGlobalBounds().height / 2));
+	s.setRotation((score / 5) % 360);
+
+	++score;
+	std::stringstream ss;
+	ss << score / 10;
+	sf::Text t(ss.str(), *requestAssetManager.getFont("nullshock.ttf"), 50);
+	t.setColor(sf::Color::Yellow);
+	_win->draw(t);
+	
+	sf::RectangleShape s2(sf::Vector2f(160, 40));
+	sf::Texture			  t2 = *requestAssetManager.getTexture("minigun.png");
+	s2.setTexture(&t2);
+	s2.setFillColor(sf::Color::Cyan);
+	s2.setPosition(sf::Vector2f(20.0f, PLAY_HEIGHT - 120.0f));
+	_win->draw(s);
+	_win->draw(s2);
 }
 
 void                    GameEngine::draw(sf::Drawable const& target) {
@@ -180,9 +215,9 @@ void                    GameEngine::addAmmo(Ammunition *amo) {
 	_ammos.push_back(make_unique< Ammunition >(*amo));
 }
 
-void						GameEngine::addFX(std::string const& animationName, std::string const& ressourceName, sf::Vector2f const& position)
+void						GameEngine::addFX(std::string const& animationName, std::string const& ressourceName, sf::Vector2f const& position, sf::Color const& colormask)
 {
-	_FX.push_back(make_unique<AnimatedSprite>(*requestAssetManager.getTexture(ressourceName), getAnimation(animationName), sf::Color::Black));
+	_FX.push_back(make_unique<AnimatedSprite>(*requestAssetManager.getTexture(ressourceName), getAnimation(animationName), colormask));
 	_FX.back()->setPosition(position);
 }
 

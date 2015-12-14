@@ -100,7 +100,7 @@ void              initSettingsMenu() {
 	AssetManager&   a = requestAssetManager;
 
 	GameMenu*       audioMenu = new GameMenu("audio", GameMenu::InBlock_straight);
-	MenuElement*    audioBackground = new MenuElement(*a.getTexture("optionMenuBackground.jpg"));
+	MenuElement*    audioBackground = new MenuElement(*a.getTexture("menubckgrnd2.png"));
 	MenuElement*    audioButton1 = new MenuElement(*a.getTexture("fullGlowGauge.png"), "", *a.getFont("nullShock.ttf"), Vf(0, 0), sf::Color::Black);
 	MenuElement*    audioButton2 = new MenuElement(*a.getTexture("fullGlowGauge.png"), "", *a.getFont("nullShock.ttf"), Vf(0, 0), sf::Color::Black);
 	MenuElement*    audioButton3 = new MenuElement(*a.getTexture("fullGlowGauge.png"), "", *a.getFont("nullShock.ttf"), Vf(0, 0), sf::Color::Black);
@@ -142,7 +142,7 @@ void								initCharacterSelectionMenu() {
 	MenuElement*		character3 = new MenuElement(*a.getTexture("spaceHunterSelector.png"), "", *a.getFont("nullShock.ttf"));
 
 	playButton->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2 - playButton->getGlobalBounds().width / 2, 750));
-	selectionMenu->setBackground(new MenuElement(*a.getTexture("MainMenu.jpg")));
+	selectionMenu->setBackground(new MenuElement(*a.getTexture("b9.png")));
 	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::resumeGame);
 	playButton->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
 	character1->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);

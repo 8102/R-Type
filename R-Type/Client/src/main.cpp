@@ -35,13 +35,20 @@ void                setupAnimations() {
 
   Animation         anim33("a", Vi(3, 1), Vi(64, 64), Vi(132, 36), 15);
   Animation         anim34("b", Vi(5, 1), Vi(64, 64), Vi(0, 100), 500);
+  Animation			plasmaBullet( "plasmaBullet", Vi(2, 1), Vi(16, 15), Vi(232, 100), 5);
 
+  Animation			plasmaExplosion("plasmaExplosion", Vi(6, 1), Vi(32, 32), Vi(72, 342), 5);
   Animation         toto = anim33 + anim34;
   Animation         anim35(toto);
+
+  Animation        flyingMinion("flyingMinion", Vi(3, 1), Vi(32, 32), Vi(16, 64), 25);
+  engine.addAnimation(&flyingMinion);
 
   AnimationFactory	f;
   f.loadAnimation();
 
+  engine.addAnimation(&plasmaBullet);
+  engine.addAnimation(&plasmaExplosion);
   anim35.setAnimationName("bigExplosion");
   engine.addAnimation(&anim1);
   engine.addAnimation(&anim2);
@@ -104,21 +111,46 @@ void               setupAnimatedSprites() {
   ef.loadEnnemyConfigFromFile();
   af.loadAmmoConfigFromFile();
 
-////// e.getPlayer().setSpeed(4);
-//  Ammunition*					rocketAmmo = af.createAmmo("rocket");
-//  rocketAmmo->setScale(Vf(0.25f, 0.25f));
-//  e.getPlayer().addWeapon(rocketAmmo);
+  Ennemy*			Boss = ef.createEnnemy("boss1", Vf(PLAY_WIDTH - 300, PLAY_HEIGHT), true);
 
+  Boss->setLife(sf::Vector2i(5000, 5000));
+  Boss->setSpeed(0);
+  Boss->setScale(sf::Vector2f(1.5f, 1.5f));
+  Boss->setPosition(sf::Vector2f(PLAY_WIDTH - Boss->getGlobalBounds().width, PLAY_HEIGHT - Boss->getGlobalBounds().height));
 
-  e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH, PLAY_HEIGHT), true));
-  e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH * 1.5f, PLAY_HEIGHT), true));
-  e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH * 2, PLAY_HEIGHT), true));
+ e.addEnnemy(Boss);
+
+	  //e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH, PLAY_HEIGHT), true));
+  //e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH * 1.5f, PLAY_HEIGHT), true));
+  //e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH * 2, PLAY_HEIGHT), true));
   e.addEnnemy(ef.createEnnemy("alienShipBoss", Vf(500, 0), false));
   e.addEnnemy(ef.createEnnemy("bountyHunter", Vf(1500, PLAY_HEIGHT - 64), false));
   e.addEnnemy(ef.createEnnemy("alienJet", Vf(1500, 400), false));
   e.addEnnemy(ef.createEnnemy("alienJet", Vf(1600, 450), false));
   e.addEnnemy(ef.createEnnemy("alienJet", Vf(1600, 350), false));
   e.addEnnemy(ef.createEnnemy("ufo", Vf(2500, 250), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2000, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2050, 620), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2100, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2150, 580), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2200, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2250, 620), false));
+
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4000, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4050, 620), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4100, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4150, 580), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4200, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4250, 620), false));
+
+
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6000, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6050, 620), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6100, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6150, 580), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6200, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6250, 620), false));
+
 }
 
 

@@ -20,9 +20,9 @@ Player&		PlayerFactory::getPlayer(int const & playerID)
 
 void PlayerFactory::loadConfigs()
 {
-	_bluePrint[1].first = { "flyingSaucer.png", "flyingSaucer", "simpleBullet", { "rocket" }, sf::Color::White, 2 };
-	_bluePrint[2].first = { "UFO.png", "ufo", "simpleBullet", { "rocket" }, sf::Color(255, 0, 255), 2 };
-	_bluePrint[3].first = { "hunter.png", "spaceFighter", "simpleBullet", { "rocket" }, sf::Color::White, 2 };
+	_bluePrint[1].first = { "flyingSaucer.png", "flyingSaucer", "simpleBullet", { "rocket" }, sf::Color::White, 2, sf::Vector2i(100, 100), "player1" };
+	_bluePrint[2].first = { "UFO.png", "ufo", "plasmaBullet", { "rocket" }, sf::Color(255, 0, 255), 2, sf::Vector2i(250, 250), "player2" };
+	_bluePrint[3].first = { "hunter.png", "spaceFighter", "simpleBullet", { "rocket" }, sf::Color::White, 2, sf::Vector2i(150, 150), "player3" };
 }
 
 void PlayerFactory::loadPlayer(int const & playerID)
@@ -40,6 +40,8 @@ void PlayerFactory::loadPlayer(int const & playerID)
 		*af.createAmmo(p.weaponName),
 		p._colorMask);
 	_bluePrint[playerID].second->setSpeed(p._speed);
+	_bluePrint[playerID].second->setLife(p.health);
+	_bluePrint[playerID].second->setName(p.name);
 	for (auto it = p._additionalWeapons.begin(); it != p._additionalWeapons.end(); it++)
 		_bluePrint[playerID].second->addWeapon(af.createAmmo(*it));
 }

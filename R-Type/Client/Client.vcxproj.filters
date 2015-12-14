@@ -192,5 +192,303 @@
     <Image Include="assets\icons\rtype.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\sprites\AlienShip.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet2.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\icons\gameIcon.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\icons\r-prototype.bmp.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\AudioBackground.jpeg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\b9.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\backgrnd.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\bigGreenPlanet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\cadran.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\coicle.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\destroyedPlanetBackground.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\emptyGlowGauge.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\Explosions.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\farback.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\flyingSaucer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\flyingSaucerSelector.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\fullGlowGauge.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\gameIcon.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\glowtube.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\glowtube2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\hbar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\hunter.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\InputField.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\left_hbar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\lifebar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\littleDestroyedPlanet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\littlePlanet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\MainMenu.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\menubckgrnd2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\minigun.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\missile.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\missile.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\optionMenuBackground.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\planet.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\plasma.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\rocket.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet1.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet3.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet5.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet7.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet8.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet9.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet10.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet11.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet12.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet13.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet14.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet16.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet17.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet18.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet19.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet20.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet21.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet22.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet23.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet24.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet25.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet26.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet27.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet28.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet29.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet30.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet30a.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet31.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet32.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet33.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet34.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet35.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet36.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet37.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet38.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet39.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet40.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet41.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet42.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet43.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\r-typesheet44.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\shadedblueButton.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\shadedblueButton.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\SNES - Contra 3 The Alien Wars - Alien Ship.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\SpaceHunterSelector.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\starfield1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\starfield2.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\starybackgrnd.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\title.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\transparent.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\UFO.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\ufoSelector.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\fonts\freedom.ttf" />
+    <Font Include="assets\fonts\font.ttf" />
+    <Font Include="assets\fonts\nullShock.ttf" />
+    <Font Include="assets\fonts\zian.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\audio\effects\bigExplosion.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\audio\effects\blop.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\audio\effects\Missle_Launch-Kibblesbob-2118796725.mp3" />
+    <Media Include="assets\audio\effects\pulseShot.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\audio\effects\rocket.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\audio\music\menuMusic.mp3" />
+    <Media Include="assets\audio\music\menuMusic.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\audio\music\sound1.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\audio\music\unity.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\audio\effects\BigExplosion.zip" />
   </ItemGroup>
 </Project>

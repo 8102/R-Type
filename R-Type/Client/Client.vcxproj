@@ -79,7 +79,115 @@
     <ResourceCompile Include="Client.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="assets\icons\gameIcon.gif" />
+    <Image Include="assets\icons\r-prototype.bmp.bmp" />
     <Image Include="assets\icons\rtype.ico" />
+    <Image Include="assets\sprites\AlienShip.png" />
+    <Image Include="assets\sprites\AudioBackground.jpeg" />
+    <Image Include="assets\sprites\b9.png" />
+    <Image Include="assets\sprites\backgrnd.jpg" />
+    <Image Include="assets\sprites\bigGreenPlanet.png" />
+    <Image Include="assets\sprites\cadran.png" />
+    <Image Include="assets\sprites\coicle.png" />
+    <Image Include="assets\sprites\destroyedPlanetBackground.jpg" />
+    <Image Include="assets\sprites\emptyGlowGauge.png" />
+    <Image Include="assets\sprites\Explosions.png" />
+    <Image Include="assets\sprites\farback.gif" />
+    <Image Include="assets\sprites\flyingSaucer.png" />
+    <Image Include="assets\sprites\flyingSaucerSelector.png" />
+    <Image Include="assets\sprites\fullGlowGauge.png" />
+    <Image Include="assets\sprites\gameIcon.gif" />
+    <Image Include="assets\sprites\glowtube.png" />
+    <Image Include="assets\sprites\glowtube2.png" />
+    <Image Include="assets\sprites\hbar.png" />
+    <Image Include="assets\sprites\hunter.png" />
+    <Image Include="assets\sprites\InputField.png" />
+    <Image Include="assets\sprites\left_hbar.png" />
+    <Image Include="assets\sprites\lifebar.png" />
+    <Image Include="assets\sprites\littleDestroyedPlanet.png" />
+    <Image Include="assets\sprites\littlePlanet.png" />
+    <Image Include="assets\sprites\MainMenu.jpg" />
+    <Image Include="assets\sprites\menubckgrnd2.png" />
+    <Image Include="assets\sprites\minigun.png" />
+    <Image Include="assets\sprites\missile.gif" />
+    <Image Include="assets\sprites\missile.jpg" />
+    <Image Include="assets\sprites\optionMenuBackground.jpg" />
+    <Image Include="assets\sprites\planet.png" />
+    <Image Include="assets\sprites\plasma.png" />
+    <Image Include="assets\sprites\r-typesheet1.gif" />
+    <Image Include="assets\sprites\r-typesheet10.gif" />
+    <Image Include="assets\sprites\r-typesheet11.gif" />
+    <Image Include="assets\sprites\r-typesheet12.gif" />
+    <Image Include="assets\sprites\r-typesheet13.gif" />
+    <Image Include="assets\sprites\r-typesheet14.gif" />
+    <Image Include="assets\sprites\r-typesheet16.gif" />
+    <Image Include="assets\sprites\r-typesheet17.gif" />
+    <Image Include="assets\sprites\r-typesheet18.gif" />
+    <Image Include="assets\sprites\r-typesheet19.gif" />
+    <Image Include="assets\sprites\r-typesheet2.gif" />
+    <Image Include="assets\sprites\r-typesheet20.gif" />
+    <Image Include="assets\sprites\r-typesheet21.gif" />
+    <Image Include="assets\sprites\r-typesheet22.gif" />
+    <Image Include="assets\sprites\r-typesheet23.gif" />
+    <Image Include="assets\sprites\r-typesheet24.gif" />
+    <Image Include="assets\sprites\r-typesheet25.gif" />
+    <Image Include="assets\sprites\r-typesheet26.gif" />
+    <Image Include="assets\sprites\r-typesheet27.gif" />
+    <Image Include="assets\sprites\r-typesheet28.gif" />
+    <Image Include="assets\sprites\r-typesheet29.gif" />
+    <Image Include="assets\sprites\r-typesheet3.gif" />
+    <Image Include="assets\sprites\r-typesheet30.gif" />
+    <Image Include="assets\sprites\r-typesheet30a.gif" />
+    <Image Include="assets\sprites\r-typesheet31.gif" />
+    <Image Include="assets\sprites\r-typesheet32.gif" />
+    <Image Include="assets\sprites\r-typesheet33.gif" />
+    <Image Include="assets\sprites\r-typesheet34.gif" />
+    <Image Include="assets\sprites\r-typesheet35.gif" />
+    <Image Include="assets\sprites\r-typesheet36.gif" />
+    <Image Include="assets\sprites\r-typesheet37.gif" />
+    <Image Include="assets\sprites\r-typesheet38.gif" />
+    <Image Include="assets\sprites\r-typesheet39.gif" />
+    <Image Include="assets\sprites\r-typesheet40.gif" />
+    <Image Include="assets\sprites\r-typesheet41.gif" />
+    <Image Include="assets\sprites\r-typesheet42.gif" />
+    <Image Include="assets\sprites\r-typesheet43.gif" />
+    <Image Include="assets\sprites\r-typesheet44.gif" />
+    <Image Include="assets\sprites\r-typesheet5.gif" />
+    <Image Include="assets\sprites\r-typesheet7.gif" />
+    <Image Include="assets\sprites\r-typesheet8.gif" />
+    <Image Include="assets\sprites\r-typesheet9.gif" />
+    <Image Include="assets\sprites\rocket.png" />
+    <Image Include="assets\sprites\shadedblueButton.jpg" />
+    <Image Include="assets\sprites\shadedblueButton.png" />
+    <Image Include="assets\sprites\SNES - Contra 3 The Alien Wars - Alien Ship.png" />
+    <Image Include="assets\sprites\SpaceHunterSelector.png" />
+    <Image Include="assets\sprites\starfield1.png" />
+    <Image Include="assets\sprites\starfield2.png" />
+    <Image Include="assets\sprites\starybackgrnd.jpg" />
+    <Image Include="assets\sprites\title.png" />
+    <Image Include="assets\sprites\transparent.png" />
+    <Image Include="assets\sprites\UFO.png" />
+    <Image Include="assets\sprites\ufoSelector.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="assets\fonts\font.ttf" />
+    <Font Include="assets\fonts\freedom.ttf" />
+    <Font Include="assets\fonts\nullShock.ttf" />
+    <Font Include="assets\fonts\zian.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Media Include="assets\audio\effects\bigExplosion.wav" />
+    <Media Include="assets\audio\effects\blop.wav" />
+    <Media Include="assets\audio\effects\Missle_Launch-Kibblesbob-2118796725.mp3" />
+    <Media Include="assets\audio\effects\pulseShot.wav" />
+    <Media Include="assets\audio\effects\rocket.wav" />
+    <Media Include="assets\audio\music\menuMusic.mp3" />
+    <Media Include="assets\audio\music\menuMusic.wav" />
+    <Media Include="assets\audio\music\sound1.wav" />
+    <Media Include="assets\audio\music\unity.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\audio\effects\BigExplosion.zip" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AA18793A-4819-402B-AB2A-D37B56F2CE6F}</ProjectGuid>

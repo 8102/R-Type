@@ -41,6 +41,7 @@
     <ClInclude Include="include\MenuElement.hh" />
     <ClInclude Include="include\Player.hpp" />
     <ClInclude Include="include\PlayerController.hh" />
+    <ClInclude Include="include\PlayerFactory.hh" />
     <ClInclude Include="include\RessourceManager.hpp" />
     <ClInclude Include="include\SoundSystem.hh" />
     <ClInclude Include="include\SoundTrack.hh" />

@@ -87,9 +87,10 @@ void                         Player::move(int xAxis, int yAxis) {
 
 void                         Player::switchWeapon() {
 
+	std::cout << "[Player::switchWeapon] : ";
 	_weaponIndex = (_weaponIndex + 1) % _weapons.size();
 	_weapon = _weapons[_weaponIndex];
-	std::cout << "PLAYER//SWITCHWEAPON : " << _weapon.getCurrentAnimation().getAnimationName();
+	std::cout << "{ " << _weapon.getCurrentAnimation().getAnimationName() << " }" << std::endl;
 }
 
 Player::~Player() {}

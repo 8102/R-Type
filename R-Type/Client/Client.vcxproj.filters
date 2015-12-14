@@ -99,6 +99,9 @@
     <ClInclude Include="AnimationFactory.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\PlayerFactory.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ACharacter.cpp">

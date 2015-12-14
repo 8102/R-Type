@@ -168,6 +168,7 @@ void                    GameEngine::draw() {
 	static unsigned int score = 0;
 	s.setOrigin(sf::Vector2f(s.getGlobalBounds().width / 2, s.getGlobalBounds().height / 2));
 	s.setRotation((score / 5) % 360);
+	s.setFillColor(sf::Color(255, 140, 0));
 
 	++score;
 	std::stringstream ss;
@@ -179,10 +180,38 @@ void                    GameEngine::draw() {
 	sf::RectangleShape s2(sf::Vector2f(160, 40));
 	sf::Texture			  t2 = *requestAssetManager.getTexture("minigun.png");
 	s2.setTexture(&t2);
-	s2.setFillColor(sf::Color::Cyan);
+	s2.setFillColor(sf::Color::Red);
 	s2.setPosition(sf::Vector2f(20.0f, PLAY_HEIGHT - 120.0f));
 	_win->draw(s);
 	_win->draw(s2);
+
+	s.setScale(sf::Vector2f(0.5f, 0.5f));
+	s.setPosition(sf::Vector2f(250.0f, PLAY_HEIGHT - 150.0f));
+	s.setRotation(-2 * s.getRotation());
+	_win->draw(s);
+
+	sf::Sprite					s3;
+	sf::RectangleShape	r2;
+	float							lifeRatio;
+
+	s3.setTexture(*requestAssetManager.getTexture("lifebar.png"));
+	s3.setScale(sf::Vector2f(2.0f, 2.0f));
+	s3.setPosition(sf::Vector2f(200.0f, PLAY_HEIGHT - 100.0f));
+	lifeRatio = static_cast<float>(_player->getLife().x) / static_cast<float>(_player->getLife().y);
+	r2.setSize(sf::Vector2f((s3.getGlobalBounds().width / 20) * 19  * lifeRatio + 5, s3.getGlobalBounds().height / 10 * 8));
+	r2.setFillColor(lifeRatio < 0.3 ? sf::Color(160, 0, 0) : (lifeRatio < 0.6 ? sf::Color(200, 150, 0) : sf::Color(0, 255, 0)));
+	r2.setPosition(sf::Vector2f(s3.getPosition().x, s3.getPosition().y + 5));
+	ss.str("");
+	ss << _player->getLife().x;
+	ss << " / " << _player->getLife().y;
+	t.setString(ss.str());
+	t.setCharacterSize(15);
+	t.setPosition(sf::Vector2f(s3.getPosition().x + s3.getGlobalBounds().width / 2, s3.getPosition().y + s3.getGlobalBounds().height / 2));
+	_win->draw(r2);
+	_win->draw(t);
+	_win->draw(s3);
+	
+
 }
 
 void                    GameEngine::draw(sf::Drawable const& target) {

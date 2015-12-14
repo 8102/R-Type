@@ -14,7 +14,7 @@
 class		Client
 {
 public:
-  Client();
+  Client(bool Spectate);
   ~Client();
 
 public:

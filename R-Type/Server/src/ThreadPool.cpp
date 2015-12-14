@@ -24,7 +24,9 @@ ThreadPool::ThreadPool(size_t games) :  _working(true), _nbGames(games)
 ThreadPool::~ThreadPool()
 {
   for (auto it = _threads.begin() ; it != _threads.end() ; it++)
-    (*it)->join();
+    {
+      (*it)->join();
+    }
   while (!_threads.empty())
     {
       delete _threads.back();

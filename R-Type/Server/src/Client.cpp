@@ -10,9 +10,8 @@
 
 #include "Client.hh"
 
-Client::Client() : _spectator(false)
+Client::Client(bool spectate) : _spectator(spectate), _score(0)
 {
-  _score = 0;
 }
 
 Client::~Client()

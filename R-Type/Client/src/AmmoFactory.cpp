@@ -26,9 +26,9 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 		std::string("plasmaBullet"),
 		200,
 		20,
-		sf::Color::White,
+		sf::Color::Black,
 		sf::Vector2f(1.0f, 1.0f),
-		{"plasmaExplosion", "r-typesheet1.gif", "", sf::Color::White}
+		{"plasmaExplosion", "r-typesheet1.gif", "", sf::Color::Black}
 	};
 
 
@@ -38,8 +38,8 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 		700,
 		50,
 		sf::Color::White,
-		sf::Vector2f(0.50f, 0.25f),
-		{"bigExplosion", "r-typesheet44.gif", "", sf::Color::Black}
+		sf::Vector2f(0.25f, 0.25f),
+		{"bigExplosion", "r-typesheet44.gif", "bigExplosion.wav", sf::Color::Black}
 	};
 	
 	_ammoConfigs["spaceBomb"] = {
@@ -49,7 +49,7 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 		75,
 		sf::Color::Black,
 		sf::Vector2f(2.0f, 2.0f),
-		{"bigExplosion", "r-typesheet44.gif", "", sf::Color::Black}
+		{"bigExplosion", "r-typesheet44.gif", "bigExplosion.wav", sf::Color::Black}
 	};
 	return true;
 }

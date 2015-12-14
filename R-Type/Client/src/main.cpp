@@ -41,6 +41,9 @@ void                setupAnimations() {
   Animation         toto = anim33 + anim34;
   Animation         anim35(toto);
 
+  Animation        flyingMinion("flyingMinion", Vi(3, 1), Vi(32, 32), Vi(16, 64), 25);
+  engine.addAnimation(&flyingMinion);
+
   AnimationFactory	f;
   f.loadAnimation();
 
@@ -112,8 +115,11 @@ void               setupAnimatedSprites() {
 
   Boss->setLife(sf::Vector2i(5000, 5000));
   Boss->setSpeed(0);
+  Boss->setScale(sf::Vector2f(1.5f, 1.5f));
+  Boss->setPosition(sf::Vector2f(PLAY_WIDTH - Boss->getGlobalBounds().width, PLAY_HEIGHT - Boss->getGlobalBounds().height));
 
  e.addEnnemy(Boss);
+
 	  //e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH, PLAY_HEIGHT), true));
   //e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH * 1.5f, PLAY_HEIGHT), true));
   //e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH * 2, PLAY_HEIGHT), true));
@@ -123,6 +129,28 @@ void               setupAnimatedSprites() {
   e.addEnnemy(ef.createEnnemy("alienJet", Vf(1600, 450), false));
   e.addEnnemy(ef.createEnnemy("alienJet", Vf(1600, 350), false));
   e.addEnnemy(ef.createEnnemy("ufo", Vf(2500, 250), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2000, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2050, 620), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2100, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2150, 580), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2200, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2250, 620), false));
+
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4000, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4050, 620), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4100, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4150, 580), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4200, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4250, 620), false));
+
+
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6000, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6050, 620), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6100, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6150, 580), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6200, 600), false));
+  e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6250, 620), false));
+
 }
 
 

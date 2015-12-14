@@ -159,6 +159,30 @@ void                    GameEngine::draw() {
 	for (auto it = _FX.begin(); it != _FX.end(); it++)
 		_win->draw(*(*it));
 	_player->drawInformation(*_win.get());
+
+	sf::CircleShape	s(100.0f);
+
+	s.setTexture(requestAssetManager.getTexture("coicle.png"));
+	s.setPosition(sf::Vector2f(100, PLAY_HEIGHT - 100));
+
+	static unsigned int score = 0;
+	s.setOrigin(sf::Vector2f(s.getGlobalBounds().width / 2, s.getGlobalBounds().height / 2));
+	s.setRotation((score / 5) % 360);
+
+	++score;
+	std::stringstream ss;
+	ss << score / 10;
+	sf::Text t(ss.str(), *requestAssetManager.getFont("nullshock.ttf"), 50);
+	t.setColor(sf::Color::Yellow);
+	_win->draw(t);
+	
+	sf::RectangleShape s2(sf::Vector2f(160, 40));
+	sf::Texture			  t2 = *requestAssetManager.getTexture("minigun.png");
+	s2.setTexture(&t2);
+	s2.setFillColor(sf::Color::Cyan);
+	s2.setPosition(sf::Vector2f(20.0f, PLAY_HEIGHT - 120.0f));
+	_win->draw(s);
+	_win->draw(s2);
 }
 
 void                    GameEngine::draw(sf::Drawable const& target) {

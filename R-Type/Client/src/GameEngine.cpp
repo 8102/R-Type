@@ -1,6 +1,6 @@
 #include                "GameEngine.hh"
 #include                "Player.hpp"
-#include				  "FX.hh"
+#include				  			"FX.hh"
 
 GameEngine&             GameEngine::instanciate() {
 
@@ -84,7 +84,7 @@ void                    GameEngine::update() {
 		}
 		else {
 			if ((*it)->Ammunition::getType() == Ammunition::EnnemyShot)
-			{
+				{
 				if (deleted == false && ((*it)->collide(getPlayer()) == true)) {
 					if ((*it)->dealDamage(getPlayer()) == true)
 						std::cout << "Shot Down !" << std::endl;

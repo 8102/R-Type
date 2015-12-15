@@ -11,13 +11,34 @@
 #include <unistd.h>
 #include "Game.hh"
 
-Game::Game(size_t id) : _id(id), _isOver(false)
+Game::Game(size_t id, size_t port, std::string const &name, std::string const &mapName) :
+  _id(id), _isOver(false), _port(port), _name(name), _mapName(mapName)
 {
   _mu = new std::mutex();
 }
 
 Game::~Game()
 {}
+
+size_t		Game::getPort() const
+{
+  return (_port);
+}
+
+std::string	Game::getName() const
+{
+  return _name;
+}
+
+std::string	Game::getMapName() const
+{
+  return _mapName;
+}
+
+void			Game::closeGame()
+{
+  _isOver = true;
+}
 
 void		Game::playing()
 {
@@ -41,4 +62,10 @@ std::mutex	*Game::getMutex() const
 size_t		Game::getId() const
 {
   return (_id);
+}
+
+
+std::vector<Client *>	Game::getClients() const
+{
+  return _clients;
 }

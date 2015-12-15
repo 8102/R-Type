@@ -45,6 +45,7 @@ private:
   bool				_working;
   int				_nbGames;
   std::vector<std::thread *>	_threads;
+  std::vector<Game *>		_launchedGames;
   std::queue<LGame *>		_games;
   std::condition_variable	_cond;
   std::mutex			_mutex;

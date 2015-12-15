@@ -11,6 +11,8 @@
 #ifndef CLIENT_HH__
 # define CLIENT_HH__
 
+# include <vector>
+
 class		Client
 {
 public:

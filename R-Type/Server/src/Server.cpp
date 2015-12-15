@@ -45,7 +45,7 @@ void			Server::run()
   _pool->stopThreadPool();
 }
 
-void		Server::addNewGame()
+void		Server::addNewGame(std::string const &name)
 {
   size_t	idGame = 1;
 
@@ -56,7 +56,7 @@ void		Server::addNewGame()
 	  idGame = (*it)->getId();
       idGame++;
     }
-  Game		*newGame = new Game(idGame);
+  Game		*newGame = new Game(idGame, 2780, name, ""); // Give map name
   _pool->wakeUp(gameReady, newGame);
   _games.push_back(newGame);
 }
@@ -68,36 +68,109 @@ void		Server::authRead(unsigned int size)
   unsigned int		gameId;
   // read authType if ok or not
   // read gameId
+  size -= 3;
   gameId = (mapread[0] << 8) | mapread[1];
   (authType != 1) ? authResponse(Server::UNKNOWN, gameId) : authResponse(Server::NO_ERR, gameId);
 }
 
 void		Server::authResponse(authErr response, unsigned int gameId)
 {
-  if (response == Server::UNKNOWN)
+  unsigned char	*send;
+  bool		found = false;
+  Game		*gametmp = NULL;
+  size_t	port;
+
+  send = buildHeader(AUTH, 7);
+  send[5] = 0;
+  if (response == Server::UNKNOWN || response == Server::GAME_FULL)
     {
-      // 01 00 00 07 03 00 01
+      // 01 00 00 07 03 00 (03 || 01)
+      send[4] = AUTH_ERROR;
+      send[6] = response;
+      //send
     }
   else
     {
       // 01 00 00 07 02 8C A0
+      for (auto it = _games.begin() ; it != _games.end() ; it++)
+	{
+	  if ((*it)->getId() == gameId)
+	    {
+	      found = true;
+	      gametmp = (*it);
+	    }
+	}
+      if (!found)
+	authResponse(Server::UNKNOWN, 0);
+      else
+	{
+	  if (gametmp->getClients().size() >= 4)
+	    authResponse(Server::GAME_FULL, 0);
+	  else
+	    {
+	      port = gametmp->getPort();
+	      send[4] = AUTH_SUCCESS;
+	      send[5] = port >> 8;
+	      send[6] = port & 0xFF;
+	      //send
+	    }
+	}
     }
+  delete send;
+}
+
+size_t		Server::calcResponseLength() const
+{
+  size_t	length = 4;
+
+  for (auto it = _games.begin() ; it != _games.end() ; it++)
+    {
+      length += 5 + (*it)->getName().length() + (*it)->getMapName().length();
+    }
+  return length;
 }
 
 void		Server::infoRead(unsigned int size)
 {
+  unsigned char	request = 0;
 
+  //read game info request if size == 0k
+  if (request == GAME_INFO)
+    infoResponse();
 }
 
-void		Server::infoResponse()
+void			Server::infoResponse()
 {
+  unsigned char		*send = buildHeader(INFO, calcResponseLength() + 1);
+  int			pos = 4;
+  std::string		gameName;
+  std::string		mapName;
 
+  for (auto it = _games.begin() ; it != _games.end() ; it++)
+    {
+      gameName = (*it)->getName();
+      mapName = (*it)->getMapName();
+      send[pos++] = (*it)->getId() >> 8;
+      send[pos++] = (*it)->getId() & 0xFF;
+      send[pos++] = gameName.length();
+      for (unsigned int i = 0 ; i < gameName.length() ; i++)
+	send[pos++] = gameName[i];
+      send[pos++] = (*it)->getClients().size();
+      send[pos++] = mapName.length();
+      for (unsigned int i = 0 ; i < mapName.length() ; i++)
+	send[pos++] = mapName[i];
+    }
+  delete send;
 }
 
 unsigned char		*Server::buildHeader(unsigned char commandCode, unsigned int length)
 {
-  unsigned char		*newHeader = new unsigned char[4];
+  unsigned char		*newHeader = new unsigned char[length + 1];
 
+  for (unsigned int i = 0 ; i <= length ; i++)
+    {
+      newHeader[i] = 0;
+    }
   newHeader[0] = 0;
   newHeader[1] = commandCode;
   newHeader[2] = length >> 8;
@@ -114,7 +187,7 @@ void			Server::readHeader(std::map<int, commandTreat> &sendFct)
   // Read TCP function, adding words to just add some additions ! Hope Hugo and JBoise won't see it in the commit !!!!!!!!!!!!!! HAHA lol EXPLOSION ON THE FLOOR
   length = (get_length[0] << 8) | get_length[1];
   if (identity[0] == 0 || identity[0] == 1)
-    (this->*sendFct[identity[0]])(length);
+    (this->*sendFct[identity[0]])(length - 4);
 }
 
 void		Server::stop()

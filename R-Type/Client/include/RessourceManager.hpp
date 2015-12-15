@@ -7,18 +7,18 @@
 
 # include              "Client_graphicUtils.hh"
 
-# ifdef		linux
-#				define EFFECT_FOLDER    "./assets/audio/effects/"
-#				define MUSIC_FOLDER     "./assets/audio/music/"
-#				define FONT_FOLDER      "./assets/fonts/"
-#				define TEXTURE_FOLDER   "./assets/sprites/"
-//# elif		_WIN32
-#else
+# ifdef		_WIN32
 #				define EFFECT_FOLDER    ".\\assets\\audio\\effects\\"
 #				define ICON_FOLDER    ".\\assets\\icons\\"
 #				define MUSIC_FOLDER     ".\\assets\\audio\\music\\"
 #				define FONT_FOLDER      ".\\assets\\fonts\\"
 #				define TEXTURE_FOLDER   ".\\assets\\sprites\\"
+# else
+#				define EFFECT_FOLDER    "./assets/audio/effects/"
+#				define ICON_FOLDER    "./assets/icons/"
+#				define MUSIC_FOLDER     "./assets/audio/music/"
+#				define FONT_FOLDER      "./assets/fonts/"
+#				define TEXTURE_FOLDER   "./assets/sprites/"
 # endif		// !platform
 // Template Class RessourceManager :
 //

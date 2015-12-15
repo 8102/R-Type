@@ -154,7 +154,7 @@ private:
 public:
 
 	AmmoFactory											_ammoF;
-//	AnimationFactory									_animF;
+	AnimationFactory									_animF;
 	EnnemyFactory										_ennemyF;
 	PlayerFactory										_playF;
 

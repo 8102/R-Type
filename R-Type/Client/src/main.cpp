@@ -11,7 +11,7 @@
 #include            "Ennemy.hh"
 #include            "EnnemyFactory.hh"
 #include            "AmmoFactory.hh"
-#include				"AnimationFactory.hh"
+//#include				"AnimationFactory.hh"
 #include			"PlayerFactory.hh"
 
 void                setupAnimations() {
@@ -44,8 +44,8 @@ void                setupAnimations() {
   Animation        flyingMinion("flyingMinion", Vi(3, 1), Vi(32, 32), Vi(16, 64), 25);
   engine.addAnimation(&flyingMinion);
 
-  AnimationFactory	f;
-  f.loadAnimation();
+  // AnimationFactory	f;
+  // f.loadAnimation();
 
   engine.addAnimation(&plasmaBullet);
   engine.addAnimation(&plasmaExplosion);
@@ -63,9 +63,9 @@ void                setupAnimations() {
   engine.addAnimation(&flyingSaucerAnimation);
   engine.addAnimation(&bountyHunter);
   engine.addAnimation(&jet);
-  engine.addAnimation(f.getAnimation("ufo"));
-  engine.addAnimation(f.getAnimation("spaceFighter"));
-  //  engine.addAnimation(&UFO);
+  // engine.addAnimation(f.getAnimation("ufo"));
+  // engine.addAnimation(f.getAnimation("spaceFighter"));
+  engine.addAnimation(&UFO);
   engine.addAnimation(&BossDeath);
 }
 
@@ -170,12 +170,12 @@ int main() {
   GameEngine&       engine = GameEngine::instanciate();
   SoundSystem&      audioEngine = SoundSystem::instanciate();
   AssetManager::instanciate();
-
+#ifdef _WIN32
   AllocConsole();
   freopen("conin$", "r", stdin);
   freopen("conout$", "w", stdout);
   freopen("conout$", "w", stderr);
-
+#endif
   engine.start();
 
   setupAnimations();

@@ -22,13 +22,13 @@ void                    GameEngine::start() {
 	_isRunning = true;
 	_win = make_unique< sf::RenderWindow >(sf::VideoMode(WIN_W, WIN_H), WINDOW_TITLE, sf::Style::None);
 	_win->setFramerateLimit(WINDOW_FRAME_LIMIT);
-	_animF.loadAnimation();
+//	_animF.loadAnimation();
 	_ammoF.loadAmmoConfigFromFile();
 	_playF.loadConfigs();
 	//_ennemyF.loadEnnemyConfigFromFile();
-	sf::Image		winIcon;
-	if (winIcon.loadFromFile(std::string(ICON_FOLDER) + std::string("gameIcon.gif")) == true)
-	_win->setIcon(150, 150, winIcon.getPixelsPtr());
+	// sf::Image		winIcon;
+	// if (winIcon.loadFromFile(std::string(ICON_FOLDER) + std::string("gameIcon.gif")) == true)
+	// _win->setIcon(150, 150, winIcon.getPixelsPtr());
 }
 
 void                    GameEngine::run() {
@@ -70,7 +70,7 @@ void                    GameEngine::update() {
 	for (auto it = _gameObjects.begin(); it != _gameObjects.end(); it++) {
 		(*it)->update();
 		if ((*it)->hasPassed() == true) {
-			(*it)->setPosition(PLAY_WIDTH * (rand() % 3 + 1), (*it)->getPosition().y); 
+			(*it)->setPosition(PLAY_WIDTH * (rand() % 3 + 1), (*it)->getPosition().y);
 		}
 	}
 	for (auto it = _ammos.begin(); it != _ammos.end();) {
@@ -85,7 +85,7 @@ void                    GameEngine::update() {
 		else {
 			if ((*it)->Ammunition::getType() == Ammunition::EnnemyShot)
 			{
-				if ((*it)->collide(getPlayer()) == true && deleted == false) {
+				if (deleted == false && ((*it)->collide(getPlayer()) == true)) {
 					if ((*it)->dealDamage(getPlayer()) == true)
 						std::cout << "Shot Down !" << std::endl;
 					(*it)->trigger();
@@ -93,13 +93,13 @@ void                    GameEngine::update() {
 					sf::IntRect ir((*it)->getGlobalBounds());
 					sf::Vector2f p(ir.left + ir.width / 2 - getAnimation("explosion").getFrameDimensions().x / 2, ir.top + ir.height / 2 - getAnimation("explosion").getFrameDimensions().y / 2);
 					fx.trigger(p);
-		*/			it = _ammos.erase(it);
+		*/		it = _ammos.erase(it);
 					deleted = true;
 				}
 			}
 			else if ((*it)->Ammunition::getType() == Ammunition::friendlyShot) for (auto ennemyit = _ennemies.begin(); ennemyit != _ennemies.end(); ennemyit++)
 			{
-				if ((*it)->collide(*(*ennemyit)) == true && deleted == false) {
+				if (deleted == false && ((*it)->collide(*(*ennemyit)) == true)) {
 					((*it)->dealDamage(*(*ennemyit)));
 //					FX	 fx("bigExplosion", "r-typesheet44.gif", "bigExplosion.wav");
 			//		FX	 fx("plasmaExplosion", "r-typesheet1.gif", "bigExplosion.wav", sf::Color::White);
@@ -173,10 +173,10 @@ void                    GameEngine::draw() {
 	++score;
 	std::stringstream ss;
 	ss << score / 10;
-	sf::Text t(ss.str(), *requestAssetManager.getFont("nullshock.ttf"), 50);
+	sf::Text t(ss.str(), *requestAssetManager.getFont("nullShock.ttf"), 50);
 	t.setColor(sf::Color::Yellow);
 	_win->draw(t);
-	
+
 	sf::RectangleShape s2(sf::Vector2f(160, 40));
 	sf::Texture			  t2 = *requestAssetManager.getTexture("minigun.png");
 	s2.setTexture(&t2);
@@ -210,7 +210,7 @@ void                    GameEngine::draw() {
 	_win->draw(r2);
 	_win->draw(t);
 	_win->draw(s3);
-	
+
 
 }
 

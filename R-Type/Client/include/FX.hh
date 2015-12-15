@@ -10,7 +10,7 @@ class FX
 public:
 
 	FX(std::string const& animationName, std::string const& visualRessourceName, std::string const& soundEffectName = "", sf::Color const& colorMask = sf::Color::White);
-	FX::FX(FX const& model);
+	FX(FX const& model);
 
 	~FX();
 

@@ -25,6 +25,8 @@ SRC_SERVER	=	main.cpp		\
 			Client.cpp		\
 			Server.cpp		\
 			Game.cpp		\
+			IEntity.cpp		\
+			IMonster.cpp
 
 OBJ_DIR		=	obj/
 

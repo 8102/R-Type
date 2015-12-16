@@ -20,6 +20,12 @@
 
 void		*gameReady(Game *);
 
+# define AUTH		1
+# define AUTH_SUCCESS	2
+# define AUTH_ERROR	3
+# define GAME_INFO	1
+# define INFO		2
+
 class		Server
 {
 public:
@@ -36,7 +42,7 @@ public:
   ~Server();
 public:
   void			run();
-  void			addNewGame();
+  void			addNewGame(std::string const &);
   void			stop();
 public:
   void			authRead(unsigned int size);
@@ -45,6 +51,8 @@ public:
   void			infoResponse();
   void			readHeader(std::map<int, commandTreat> &);
   unsigned char		*buildHeader(unsigned char commandCode, unsigned int length);
+public:
+  size_t		calcResponseLength() const;
 public:
   void			addClientToGame();
 private:

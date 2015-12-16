@@ -63,8 +63,16 @@ void		ThreadPool::waitFunction()
 	  _mutex.lock();
 	  actualGame = _games.front();
 	  _games.pop();
+	  _launchedGames.push_back(actualGame->gameLaunched);
 	  _mutex.unlock();
 	  (*(actualGame->launchGame))(actualGame->gameLaunched);
+	  _mutex.lock();
+	  for (auto it = _launchedGames.begin() ; it != _launchedGames.end() ; it++)
+	    {
+	      if ((*it) == actualGame->gameLaunched)
+		_launchedGames.erase(it);
+	    }
+	  _mutex.unlock();
 	}
       start = false;
     }
@@ -85,6 +93,12 @@ void		ThreadPool::stopThreadPool()
   _working = false;
   std::unique_lock<std::mutex> lock(_mutex);
   _cond.notify_all();
+  _mutex.lock();
+  for (auto it = _launchedGames.begin() ; it != _launchedGames.end() ; it++)
+    {
+      (*it)->closeGame();
+    }
+  _mutex.unlock();
 }
 
 void	*thread_function(void *p)

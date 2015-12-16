@@ -1,5 +1,6 @@
 #include                "AGameElement.hh"
 #include                "GameEngine.hh"
+#include								"FX.hh"
 
 unsigned int counter = 0;
 

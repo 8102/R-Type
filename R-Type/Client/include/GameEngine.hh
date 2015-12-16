@@ -17,6 +17,7 @@
 # include				"AmmoFactory.hh"
 # include				"EnnemyFactory.hh"
 # include				"PlayerFactory.hh"
+# include				"BonusFactory.hh"
 
 #define             PLAY_WIDTH    1600
 #define             PLAY_HEIGHT   900
@@ -89,6 +90,7 @@ public:
 	void				   addFX(std::string const&, std::string const&, sf::Vector2f const&, sf::Color const& colormask = sf::Color::Black);
 	void                addAmmo(Ammunition *ammo);
 	void                addEnnemy(Ennemy *ennemy);
+	void				  addBonus(Bonus const& b);
 	void                setPlayer(Player* player);
 
 	CollisionManager&   getCollisionManager();
@@ -140,8 +142,9 @@ private:
 private:
 
 	std::vector< std::unique_ptr< AGameElement >>  _gameObjects;
-	std::vector< std::unique_ptr< Ammunition >>    _ammos;
-	std::vector< std::unique_ptr< Ennemy >>        _ennemies;
+	std::vector< std::unique_ptr< Ammunition >>		_ammos;
+	std::vector< std::unique_ptr< Ennemy >>				_ennemies;
+	std::vector< std::unique_ptr< Bonus >>				_bonus;
 	/*
 	** Player on this client */
 	std::unique_ptr< Player >                      _player;
@@ -157,6 +160,7 @@ public:
 	AnimationFactory									_animF;
 	EnnemyFactory										_ennemyF;
 	PlayerFactory										_playF;
+	BonusFactory										_bonusF;
 
 	//	AnimationFactory								_animFactory;
 

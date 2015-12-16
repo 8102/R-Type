@@ -29,6 +29,7 @@ public:
 	void                  getDrawn() const;
 	void                  adjustScreenTextPosition();
 	void                  setFunction(void (MenuElement::*)(sf::Event const& event));
+	void					setBaseColor(sf::Color const & color);
 	void                  reset();
 
 	void                  setAction(sf::Event::EventType const& actionType, void (MenuElement::* action)(sf::Event const& event), int const& value);

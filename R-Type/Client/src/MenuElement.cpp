@@ -10,6 +10,7 @@ MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf
 	_screenText.setString(_text);
 	_screenText.setCharacterSize(50);
 	adjustScreenTextPosition();
+
 }
 
 MenuElement::~MenuElement() {
@@ -63,8 +64,14 @@ void                  MenuElement::setAction(sf::Event::EventType const& actionT
 	_actions[actionType] = action;
 }
 
+void					MenuElement::setBaseColor(sf::Color const& color) {
+
+	_baseColor = color;
+}
+
 void                  MenuElement::reset() {
 
+	setColor(_baseColor);
 	_screenText.setColor(_baseColor);
 	_hasBeenToggled = false;
 }
@@ -105,7 +112,8 @@ void                  MenuElement::defaultFunction(/* _unused */ sf::Event const
 		_hasBeenToggled = true;
 		soundEngine.pushEffect("blop.wav");
 	}
-	_screenText.setColor(sf::Color::Cyan);
+	setColor(sf::Color(255, 120, 0));
+	_screenText.setColor(sf::Color(255, 120, 0));
 }
 
 void                  MenuElement::quitGame(/* _unused */ sf::Event const& event) {
@@ -220,7 +228,8 @@ void                  MenuElement::untoggleGauging(/* _unused */ sf::Event const
 
 void					MenuElement::selectPlayer(sf::Event const& event) {
 
+	setBaseColor(sf::Color::Green);
 	requestGameEngine.setPlayer(&requestGameEngine._playF.getPlayer(_argument));
-	requestGameEngine.getPlayer().setPosition(sf::Vector2f(400.0f, _argument * 200.0f));
+	requestGameEngine.getPlayer().setPosition(sf::Vector2f(400.0f, _argument * 100.0f));
 	requestGameEngine.setController<PlayerController >(AGameController::GameControls, new PlayerController(requestGameEngine.getPlayer()));
 }

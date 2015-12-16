@@ -102,6 +102,12 @@
     <ClInclude Include="include\PlayerFactory.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\Bonus.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\BonusFactory.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ACharacter.cpp">
@@ -180,6 +186,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\PlayerFactory.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Bonus.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\BonusFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -456,6 +468,30 @@
     <Image Include="assets\sprites\ufoSelector.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\sprites\bubbleShield.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\atom.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\HBomb - Copie.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\HBomb.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\plasmaBoom - Copie.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\plasmaBoom.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\player2Selector.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\shield.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\freedom.ttf" />
@@ -485,6 +521,9 @@
       <Filter>Resource Files</Filter>
     </Media>
     <Media Include="assets\audio\music\unity.wav">
+      <Filter>Resource Files</Filter>
+    </Media>
+    <Media Include="assets\audio\effects\speedBonus.wav">
       <Filter>Resource Files</Filter>
     </Media>
   </ItemGroup>

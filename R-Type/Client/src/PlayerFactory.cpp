@@ -20,9 +20,10 @@ Player&		PlayerFactory::getPlayer(int const & playerID)
 
 void PlayerFactory::loadConfigs()
 {
-	_bluePrint[1].first = { "flyingSaucer.png", "flyingSaucer", "simpleBullet", { "rocket" }, sf::Color::White, 2, sf::Vector2i(100, 100), "player1" };
-	_bluePrint[2].first = { "UFO.png", "ufo", "plasmaBullet", { "rocket" }, sf::Color(255, 0, 255), 2, sf::Vector2i(250, 250), "player2" };
-	_bluePrint[3].first = { "hunter.png", "spaceFighter", "simpleBullet", { "rocket" }, sf::Color::White, 2, sf::Vector2i(150, 150), "player3" };
+	_bluePrint[1].first = { "flyingSaucer.png", "flyingSaucer", "simpleBullet", { "rocket" }, sf::Color::White, 4, sf::Vector2i(200, 200), "player1" };
+	_bluePrint[2].first = { "UFO.png", "ufo", "plasmaBullet", { "rocket" }, sf::Color(255, 0, 255), 1, sf::Vector2i(300, 300), "player2" };
+	_bluePrint[3].first = { "player3.png", "attackShip", "simpleBullet",{ "rocket" }, sf::Color::White, 2, sf::Vector2i(200, 200), "player3" };
+	_bluePrint[4].first = { "player4.png", "spacePig", "plasmaBullet",{ "rocket" }, sf::Color::White, 3, sf::Vector2i(150, 150), "player4" };
 }
 
 void PlayerFactory::loadPlayer(int const & playerID)

@@ -25,6 +25,7 @@ void                    GameEngine::start() {
 	_animF.loadAnimation();
 	_ammoF.loadAmmoConfigFromFile();
 	_playF.loadConfigs();
+	_bonusF.loadConfig();
 	//_ennemyF.loadEnnemyConfigFromFile();
 	sf::Image		winIcon;
 	if (winIcon.loadFromFile(std::string(ICON_FOLDER) + std::string("gameIcon.gif")) == true)
@@ -70,8 +71,20 @@ void                    GameEngine::update() {
 	for (auto it = _gameObjects.begin(); it != _gameObjects.end(); it++) {
 		(*it)->update();
 		if ((*it)->hasPassed() == true) {
-			(*it)->setPosition(PLAY_WIDTH * (rand() % 3 + 1), (*it)->getPosition().y); 
+			(*it)->setPosition(PLAY_WIDTH * (rand() % 3 + 1), (*it)->getPosition().y);
 		}
+	}
+
+	for (auto it = _bonus.begin(); it != _bonus.end();) {
+		(*it)->update();
+		if ((*it)->collide(*_player.get()) == true)
+		{
+			(*it)->trigger(*_player.get());
+			it = _bonus.erase(it);
+		}
+		else if ((*it)->hasPassed() == true)
+			it = _bonus.erase(it);
+		else ++it;
 	}
 	for (auto it = _ammos.begin(); it != _ammos.end();) {
 
@@ -134,9 +147,12 @@ void                    GameEngine::update() {
 	}
 
 	for (auto it = _ennemies.begin(); it != _ennemies.end(); ) {
-		(*it)->move(-0.5);
+		(*it)->move(-0.5); /* to be replaced by server updates */
 		(*it)->update();
-		if ((*it)->hasPassed() == true || (*it)->getLife().x <= 0)
+		if ((*it)->collide(*_player.get()))
+			_player->setLife(sf::Vector2i(0, _player->getLife().y));
+
+		if ((*it)->hasPassed() == true || (*it)->getLife().x <= 0) /* order to die from server */
 			it = _ennemies.erase(it);
 		else ++it;
 	}
@@ -153,13 +169,18 @@ void                    GameEngine::draw() {
 		_win->draw(*(*it));
 		(*it)->drawLife(*_win.get());
 	}
+
+	for (auto it = _bonus.begin(); it != _bonus.end(); it++)
+		_win->draw(*(*it));
+
 	for (auto it = _ammos.begin(); it != _ammos.end(); it++)
 		_win->draw(*(*it));
 	_win->draw(*_player);
 	for (auto it = _FX.begin(); it != _FX.end(); it++)
 		_win->draw(*(*it));
-	_player->drawInformation(*_win.get());
 
+//	_player->drawInformation(*_win.get());
+	_player->indicateCurrentPlayer(*_win.get());
 	sf::CircleShape	s(100.0f);
 
 	s.setTexture(requestAssetManager.getTexture("coicle.png"));
@@ -168,7 +189,6 @@ void                    GameEngine::draw() {
 	static unsigned int score = 0;
 	s.setOrigin(sf::Vector2f(s.getGlobalBounds().width / 2, s.getGlobalBounds().height / 2));
 	s.setRotation((score / 5) % 360);
-	s.setFillColor(sf::Color(255, 140, 0));
 
 	++score;
 	std::stringstream ss;
@@ -180,16 +200,16 @@ void                    GameEngine::draw() {
 	sf::RectangleShape s2(sf::Vector2f(160, 40));
 	sf::Texture			  t2 = *requestAssetManager.getTexture("minigun.png");
 	s2.setTexture(&t2);
-	s2.setFillColor(sf::Color::Red);
+//	s2.setFillColor(sf::Color::Red);
 	s2.setPosition(sf::Vector2f(20.0f, PLAY_HEIGHT - 120.0f));
 	_win->draw(s);
 	_win->draw(s2);
 
-	s.setScale(sf::Vector2f(0.5f, 0.5f));
+	/*s.setScale(sf::Vector2f(0.5f, 0.5f));
 	s.setPosition(sf::Vector2f(250.0f, PLAY_HEIGHT - 150.0f));
 	s.setRotation(-2 * s.getRotation());
 	_win->draw(s);
-
+*/
 	sf::Sprite					s3;
 	sf::RectangleShape	r2;
 	float							lifeRatio;
@@ -253,6 +273,11 @@ void						GameEngine::addFX(std::string const& animationName, std::string const&
 void                    GameEngine::addEnnemy(Ennemy *ennemy) {
 
 	_ennemies.push_back(make_unique< Ennemy >(*ennemy));
+}
+
+void GameEngine::addBonus(Bonus const & b)
+{
+	_bonus.push_back(make_unique< Bonus >(b));
 }
 
 void                    GameEngine::setPlayer(Player *player) {

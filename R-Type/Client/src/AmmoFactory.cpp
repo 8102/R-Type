@@ -28,7 +28,8 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 		20,
 		sf::Color::Black,
 		sf::Vector2f(1.0f, 1.0f),
-		{"plasmaExplosion", "r-typesheet1.gif", "", sf::Color::Black}
+		{ "plasmaBoom", "plasmaBoom.png", "", sf::Color::White }
+	//	{"plasmaExplosion", "r-typesheet1.gif", "", sf::Color::Black}
 	};
 
 
@@ -49,7 +50,17 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 		75,
 		sf::Color::Black,
 		sf::Vector2f(2.0f, 2.0f),
-		{"bigExplosion", "r-typesheet44.gif", "bigExplosion.wav", sf::Color::Black}
+		{ "bigExplosion", "r-typesheet44.gif", "bigExplosion.wav", sf::Color::Black }
+	};
+	
+	_ammoConfigs["HBomb"] = {
+		std::string("HBomb.png"),
+		std::string("HBomb"),
+		500,
+		75,
+		sf::Color::Black,
+		sf::Vector2f(2.0f, 2.0f),
+		{ "bigExplosion", "r-typesheet44.gif", "bigExplosion.wav", sf::Color::Black }
 	};
 	return true;
 }

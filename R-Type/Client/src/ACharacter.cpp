@@ -3,7 +3,7 @@
 //#include                "UnitTest.hh"
 
 ACharacter::ACharacter(std::string const& filename, Animation const& animation, Ammunition const& weapon, sf::Color const& colorMask)
-	: AnimatedSprite(filename, animation, colorMask), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7) {
+	: AnimatedSprite(filename, animation, colorMask), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7) {
 
 	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
 	_weapons.push_back(Ammunition(_weapon));
@@ -11,7 +11,7 @@ ACharacter::ACharacter(std::string const& filename, Animation const& animation, 
 }
 
 ACharacter::ACharacter(sf::Texture const& texture, Animation const& animation, Ammunition const& weapon, sf::Color const& colorMask)
-	: AnimatedSprite(texture, animation, colorMask), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7) {
+	: AnimatedSprite(texture, animation, colorMask), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7) {
 
 	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
 	_weapons.push_back(Ammunition(_weapon));
@@ -19,7 +19,7 @@ ACharacter::ACharacter(sf::Texture const& texture, Animation const& animation, A
 }
 
 ACharacter::ACharacter(AnimatedSprite const& baseModel, Ammunition const& weapon)
-	: AnimatedSprite(baseModel), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7) {
+	: AnimatedSprite(baseModel), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7) {
 
 	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
 	_weapons.push_back(Ammunition(_weapon));
@@ -27,7 +27,7 @@ ACharacter::ACharacter(AnimatedSprite const& baseModel, Ammunition const& weapon
 }
 
 ACharacter::ACharacter(ACharacter const& model)
-	: AnimatedSprite(model), _speed(model.getSpeed()), _health(model.getLife()), _name(model.getName()), _weapon(model.getWeapon()), _gName(model.getGraphicName()) {
+	: AnimatedSprite(model), _speed(model.getSpeed()), _health(model.getLife()), _name(model.getName()), _weapon(model.getWeapon()), _index(0), _gName(model.getGraphicName()) {
 
 	std::vector<sf::Vector2f> v = model.getShotVertices();
 	for (auto it = v.begin(); it != v.end(); it++)
@@ -51,7 +51,8 @@ void                      ACharacter::shoot(unsigned int shotOriginVertexIndex) 
 	shot->setPosition(getPosition() + _shotVertexes[shotOriginVertexIndex % _shotVertexes.size()]);
 	shot->setTargetPosition(Vf(WIN_W * 2, getPosition().y + getGlobalBounds().height / 2));
 	engine.addAmmo(shot);
-	SoundSystem::instanciate().pushEffect("pulseShot.wav");
+	SoundSystem::instanciate().pushEffect("speedBonus.wav");
+//	SoundSystem::instanciate().pushEffect("pulseShot.wav");
 }
 
 
@@ -63,7 +64,7 @@ void                      ACharacter::shoot(ACharacter& target, /*_unused*/ unsi
 	shot->setPosition(getPosition() + _shotVertexes[shotOriginVertexIndex % _shotVertexes.size()]);
 	shot->setTarget(target);
 	engine.addAmmo(shot);
-	SoundSystem::instanciate().pushEffect("pulseShot.wav");
+//	SoundSystem::instanciate().pushEffect("pulseShot.wav");
 }
 
 void                      ACharacter::shoot(sf::Vector2f const& targetPosition, unsigned int shotOriginVertexIndex) {
@@ -74,21 +75,25 @@ void                      ACharacter::shoot(sf::Vector2f const& targetPosition, 
 	shot->setPosition(getPosition() + _shotVertexes[shotOriginVertexIndex % _shotVertexes.size()]);
 	shot->setTargetPosition(targetPosition);
 	engine.addAmmo(shot);
-	SoundSystem::instanciate().pushEffect("pulseShot.wav");
+//	SoundSystem::instanciate().pushEffect("pulseShot.wav");
 }
 
 void                      ACharacter::shoot(sf::Vector2f const& targetPosition, bool allWeapons)
 {
 	GameEngine&             engine = GameEngine::instanciate();
 
+	SoundSystem::instanciate().pushEffect("pulseShot.wav");
 	if (allWeapons == true) {
 		for (auto it = _shotVertexes.begin(); it != _shotVertexes.end(); it++) {
 			Ammunition*             shot = new Ammunition(_weapon);
 			shot->setPosition(getPosition() + *it);
 			shot->setTargetPosition(targetPosition);
 			engine.addAmmo(shot);
-			SoundSystem::instanciate().pushEffect("pulseShot.wav");
 		}
+	}
+	else {
+		shoot(targetPosition, _index);
+		_index = (_index + 1) % _shotVertexes.size();
 	}
 }
 
@@ -152,7 +157,8 @@ void                    ACharacter::shoot(T& target, bool useAllWeapon, unsigned
 		amo->setPosition(target);
 		amo->setTargetPosition(target);
 		e.addAmmo(amo);
-		SoundSystem::instanciate().pushEffect("pulseShot.wav");
+//		SoundSystem::instanciate().pushEffect("speedBonus.wav");
+		//		SoundSystem::instanciate().pushEffect("pulseShot.wav");
 	}
 }
 

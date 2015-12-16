@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationFactory.hh" />
+    <ClInclude Include="include\BonusFactory.hh" />
+    <ClInclude Include="include\Bonus.hh" />
     <ClInclude Include="FXFactory.hh" />
     <ClInclude Include="include\ACharacter.hh" />
     <ClInclude Include="include\AGameController.hh" />
@@ -49,6 +51,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationFactory.cpp" />
+    <ClCompile Include="src\BonusFactory.cpp" />
+    <ClCompile Include="src\Bonus.cpp" />
     <ClCompile Include="FXFactory.cpp" />
     <ClCompile Include="src\ACharacter.cpp" />
     <ClCompile Include="src\AGameController.cpp" />
@@ -83,10 +87,12 @@
     <Image Include="assets\icons\r-prototype.bmp.bmp" />
     <Image Include="assets\icons\rtype.ico" />
     <Image Include="assets\sprites\AlienShip.png" />
+    <Image Include="assets\sprites\atom.png" />
     <Image Include="assets\sprites\AudioBackground.jpeg" />
     <Image Include="assets\sprites\b9.png" />
     <Image Include="assets\sprites\backgrnd.jpg" />
     <Image Include="assets\sprites\bigGreenPlanet.png" />
+    <Image Include="assets\sprites\bubbleShield.png" />
     <Image Include="assets\sprites\cadran.png" />
     <Image Include="assets\sprites\coicle.png" />
     <Image Include="assets\sprites\destroyedPlanetBackground.jpg" />
@@ -100,6 +106,8 @@
     <Image Include="assets\sprites\glowtube.png" />
     <Image Include="assets\sprites\glowtube2.png" />
     <Image Include="assets\sprites\hbar.png" />
+    <Image Include="assets\sprites\HBomb - Copie.png" />
+    <Image Include="assets\sprites\HBomb.png" />
     <Image Include="assets\sprites\hunter.png" />
     <Image Include="assets\sprites\InputField.png" />
     <Image Include="assets\sprites\left_hbar.png" />
@@ -114,6 +122,9 @@
     <Image Include="assets\sprites\optionMenuBackground.jpg" />
     <Image Include="assets\sprites\planet.png" />
     <Image Include="assets\sprites\plasma.png" />
+    <Image Include="assets\sprites\plasmaBoom - Copie.png" />
+    <Image Include="assets\sprites\plasmaBoom.png" />
+    <Image Include="assets\sprites\player2Selector.png" />
     <Image Include="assets\sprites\r-typesheet1.gif" />
     <Image Include="assets\sprites\r-typesheet10.gif" />
     <Image Include="assets\sprites\r-typesheet11.gif" />
@@ -159,6 +170,7 @@
     <Image Include="assets\sprites\rocket.png" />
     <Image Include="assets\sprites\shadedblueButton.jpg" />
     <Image Include="assets\sprites\shadedblueButton.png" />
+    <Image Include="assets\sprites\shield.jpg" />
     <Image Include="assets\sprites\SNES - Contra 3 The Alien Wars - Alien Ship.png" />
     <Image Include="assets\sprites\SpaceHunterSelector.png" />
     <Image Include="assets\sprites\starfield1.png" />
@@ -181,6 +193,7 @@
     <Media Include="assets\audio\effects\Missle_Launch-Kibblesbob-2118796725.mp3" />
     <Media Include="assets\audio\effects\pulseShot.wav" />
     <Media Include="assets\audio\effects\rocket.wav" />
+    <Media Include="assets\audio\effects\speedBonus.wav" />
     <Media Include="assets\audio\music\menuMusic.mp3" />
     <Media Include="assets\audio\music\menuMusic.wav" />
     <Media Include="assets\audio\music\sound1.wav" />

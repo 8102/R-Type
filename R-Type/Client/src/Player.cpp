@@ -47,6 +47,20 @@ bool                         Player::canShot() const {
 	return _canShot;
 }
 
+void							Player::indicateCurrentPlayer(sf::RenderWindow& win)
+{
+	sf::VertexArray		a(sf::Triangles, 4);
+	sf::FloatRect			r = getGlobalBounds();
+	a[0] = sf::Vector2f(r.left + r.width / 2 - 5, r.top - 5);
+	a[1] = sf::Vector2f(r.left + r.width / 2 + 5, r.top - 5);
+	a[2] = sf::Vector2f(r.left + r.width / 2, r.top);
+	a[3] = sf::Vector2f(r.left + r.width / 2 - 5, r.top - 5);
+	a[0].color = sf::Color(255, 170, 0);
+	a[1].color = sf::Color(255, 170, 0);
+	a[2].color = sf::Color(255, 170, 0);
+	win.draw(a);
+}
+
 void                         Player::shoot(unsigned int shotOriginVertexIndex) {
 
 	if (canShot() == true)
@@ -57,8 +71,8 @@ void                         Player::shoot(unsigned int shotOriginVertexIndex) {
 		shot->setPosition(getPosition() + _shotVertexes[shotOriginVertexIndex % _shotVertexes.size()]);
 		shot->setTargetPosition(Vf(WIN_W * 2, getPosition().y + getGlobalBounds().height / 2));
 		engine.addAmmo(shot);
-		SoundSystem::instanciate().pushEffect("rocket.wav");
-		//      SoundSystem::instanciate().playEffect("pulseShot.wav");
+		SoundSystem::instanciate().pushEffect("speedBonus.wav");
+		//		SoundSystem::instanciate().playEffect("speedBonus.wav");
 		isReloading();
 	}
 }
@@ -72,9 +86,13 @@ void                         Player::shoot(unsigned int shotOriginVertexIndex) {
 //     }
 // }
 
+//void						    Player::ActivateShield()
+//{
+//	_shield = 
+//}
+
 void                         Player::move(int xAxis, int yAxis) {
 
-//	sf::Vector2f               movement(static_cast<float>(_speed * xAxis), static_cast<float>(_speed * yAxis));
 	sf::Vector2f               movement(static_cast<float>(static_cast<int>(_speed * xAxis)), static_cast<float>(static_cast<int>(_speed * yAxis)));
 	sf::Vector2f               nextPosition = getPosition() + movement;
 

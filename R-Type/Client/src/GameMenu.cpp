@@ -19,7 +19,9 @@ void                  GameMenu::draw() {
 	if (_background)
 		_background->getDrawn();
 	for (auto it = _items.begin(); it != _items.end(); it++) {
-		(*it)->getDrawn();
+		{
+			(*it)->getDrawn();
+		}
 	}
 }
 
@@ -35,6 +37,12 @@ bool                  GameMenu::onMouseOver(/* _unused */ sf::Event const& event
 		resetElements();
 		return false;
 	}
+	for (auto it = _items.begin(); it != _items.end(); it++)
+	{
+		if (*it != target)
+			(*it)->reset();
+
+	}
 	target->update(event);
 	return true;
 }
@@ -46,6 +54,10 @@ bool                  GameMenu::onMouseClick(/* _unused */ sf::Event const& even
 	if ((target = getItemOnLocation(sf::Mouse::getPosition(GameEngine::instanciate().getWindow()))) == nullptr)
 		return false;
 	target->update(event);
+	for (auto it = _items.begin(); it != _items.end(); it++)
+		if (*it != target)
+			(*it)->setBaseColor(sf::Color::White);
+
 	_focused = target;
 	return true;
 }

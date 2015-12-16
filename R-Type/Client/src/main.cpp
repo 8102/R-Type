@@ -32,14 +32,18 @@ void                setupAnimations() {
   Animation			jet("alienJet", Vi(5, 1), Vi(56, 47), Vi(0, 0), 10);
   Animation			UFO("ufo", Vi(6, 2), Vi(56, 42), Vi(5, 0), 15);
   Animation			BossDeath("BossDeath", Vi(4, 6), Vi(50, 50), Vi(0, 0));
-
+  Animation			bubbleShield("bubbleShield", Vi(3, 2), Vi(211, 192), Vi(0, 0), 5);
+  Animation			plasmaBoom("plasmaBoom", Vi(4, 2), Vi(128, 128), Vi(0, 0), 1);
   Animation         anim33("a", Vi(3, 1), Vi(64, 64), Vi(132, 36), 15);
   Animation         anim34("b", Vi(5, 1), Vi(64, 64), Vi(0, 100), 500);
   Animation			plasmaBullet( "plasmaBullet", Vi(2, 1), Vi(16, 15), Vi(232, 100), 5);
-
+  Animation			HBomb("HBomb", Vi(8, 1), Vi(15, 15), Vi(0, 0), 10);
+  Animation			Atom("atom", Vi(4, 4), Vi(64, 64), Vi(0, 0), 15);
   Animation			plasmaExplosion("plasmaExplosion", Vi(6, 1), Vi(32, 32), Vi(72, 342), 5);
   Animation         toto = anim33 + anim34;
   Animation         anim35(toto);
+  Animation			plaer3("attackShip", Vi(4, 3), Vi(42, 37), Vi(0, 0), 15);
+  Animation			spacePiggy("spacePig", Vi(4, 3), Vi(50, 50), Vi(0, 0), 5);
 
   Animation        flyingMinion("flyingMinion", Vi(3, 1), Vi(32, 32), Vi(16, 64), 25);
   engine.addAnimation(&flyingMinion);
@@ -47,6 +51,12 @@ void                setupAnimations() {
   AnimationFactory	f;
   f.loadAnimation();
 
+  engine.addAnimation(&spacePiggy);
+  engine.addAnimation(&plaer3);
+  engine.addAnimation(&HBomb);
+  engine.addAnimation(&Atom);
+  engine.addAnimation(&bubbleShield);
+  engine.addAnimation(&plasmaBoom);
   engine.addAnimation(&plasmaBullet);
   engine.addAnimation(&plasmaExplosion);
   anim35.setAnimationName("bigExplosion");
@@ -120,7 +130,16 @@ void               setupAnimatedSprites() {
 
  e.addEnnemy(Boss);
 
-	  //e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH, PLAY_HEIGHT), true));
+ Boss = ef.createEnnemy("alienJet", Vf(3000, 450), false);
+ Boss->setSpeed(4);
+ e.addEnnemy(Boss);
+ Boss = ef.createEnnemy("alienJet", Vf(3100, 400), false);
+ Boss->setSpeed(4);
+ e.addEnnemy(Boss);
+ Boss = ef.createEnnemy("alienJet", Vf(3100, 500), false);
+ Boss->setSpeed(4);
+ e.addEnnemy(Boss);
+ //e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH, PLAY_HEIGHT), true));
   //e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH * 1.5f, PLAY_HEIGHT), true));
   //e.addEnnemy(ef.createEnnemy("boss1", Vf(PLAY_WIDTH * 2, PLAY_HEIGHT), true));
   e.addEnnemy(ef.createEnnemy("alienShipBoss", Vf(500, 0), false));
@@ -136,6 +155,8 @@ void               setupAnimatedSprites() {
   e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2200, 600), false));
   e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(2250, 620), false));
 
+  e.addEnnemy(ef.createEnnemy("bubbleShield", Vf(1000, 500), false));
+
   e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4000, 600), false));
   e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4050, 620), false));
   e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(4100, 600), false));
@@ -150,6 +171,8 @@ void               setupAnimatedSprites() {
   e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6150, 580), false));
   e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6200, 600), false));
   e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6250, 620), false));
+
+  e.addBonus(*(e._bonusF.createBonus("speedBonus", Vf(500, 500), 3)));
 
 }
 

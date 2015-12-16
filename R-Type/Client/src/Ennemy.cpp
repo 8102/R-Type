@@ -38,8 +38,8 @@ void              Ennemy::update() {
 
 	ACharacter::update();
 	if (_reloading <= 0) {
-		shoot(requestGameEngine.getPlayer().getPosition(), true);
-		_reloading = 500;
+		shoot(requestGameEngine.getPlayer().getPosition(), false);
+		_reloading = 350;
 	}
 	else _reloading--;
 }

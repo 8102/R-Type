@@ -28,7 +28,7 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 	_ennemyConfigs["alienShipBoss"] = {
 		std::string("AlienShip.png"),
 		std::string("void"),
-		std::string("simpleBullet"),
+		std::string("HBomb"),
 		sf::Color::Black,
 		std::vector<sf::Vector2f> {
 		Vf(e.getAnimation("void").getFrameDimensions().x / 7 + 5.0f, e.getAnimation("void").getFrameDimensions().y / 4 - 20.0f),
@@ -62,6 +62,15 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 		std::string("ufo"),
 		std::string("simpleBullet"),
 		sf::Color(255, 0, 255),
+		std::vector<sf::Vector2f> {
+	}
+	};
+
+	_ennemyConfigs["bubbleShield"] = {
+		std::string("bubbleShield.png"),
+		std::string("bubbleShield"),
+		std::string("simpleBullet"),
+		sf::Color::Black,
 		std::vector<sf::Vector2f> {
 	}
 	};

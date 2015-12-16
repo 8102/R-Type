@@ -24,6 +24,7 @@ public:
 public:
 
 	bool                canShot() const;
+	void					 indicateCurrentPlayer(sf::RenderWindow & win);
 	void                isReloading();
 
 private:

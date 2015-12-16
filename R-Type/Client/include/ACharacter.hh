@@ -86,6 +86,7 @@ protected:
 
 	/* Represents all the possible origin points from which the Character can shot */
 	std::vector< sf::Vector2f > _shotVertexes;
+	unsigned int						 _index;
 
 protected:
 

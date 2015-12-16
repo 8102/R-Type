@@ -529,5 +529,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\audio\effects\BigExplosion.zip" />
+    <None Include="Makefile" />
   </ItemGroup>
 </Project>

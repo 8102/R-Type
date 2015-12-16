@@ -201,6 +201,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="assets\audio\effects\BigExplosion.zip" />
+    <None Include="Makefile" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{AA18793A-4819-402B-AB2A-D37B56F2CE6F}</ProjectGuid>

@@ -77,6 +77,7 @@ GRAPHICS_SRC		?=	ACharacter.cpp				\
 										SoundTrack.cpp				\
 										FX.cpp								\
 										PlayerFactory.cpp			\
+										BonusFactory.cpp			\
 
 GRAPHICS_SRC+=			InitMenu.cpp					\
 

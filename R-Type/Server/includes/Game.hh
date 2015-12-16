@@ -15,6 +15,7 @@
 # include <iostream>
 # include <mutex>
 # include "Client.hh"
+# include "IEntity.hh"
 
 class		Game
 {
@@ -39,14 +40,15 @@ private:
   size_t		getAllGamesSize() const;
   void			fillAllGamesSend() const;
 private:
-  std::vector<Client *>	_clients;
-  long			_score;
-  std::mutex		*_mu;
-  size_t		_id;
-  bool			_isOver;
-  size_t		_port;
-  std::string		_name;
-  std::string		_mapName;
+  std::vector<Client *>		_clients;
+  std::vector<IEntity *>	_entities;
+  long				_score;
+  std::mutex			*_mu;
+  size_t			_id;
+  bool				_isOver;
+  size_t			_port;
+  std::string			_name;
+  std::string			_mapName;
 };
 
 #endif // GAME_HH__

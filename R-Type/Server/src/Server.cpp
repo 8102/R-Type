@@ -56,7 +56,8 @@ void		Server::addNewGame(std::string const &name)
 	  idGame = (*it)->getId();
       idGame++;
     }
-  Game		*newGame = new Game(idGame, 2780, name, ""); // Give map name
+  Game		*newGame = new Game(idGame, 2780, name, ""); // Give map name && Check size of name && size of mapname
+
   _pool->wakeUp(gameReady, newGame);
   _games.push_back(newGame);
 }
@@ -160,6 +161,7 @@ void			Server::infoResponse()
       for (unsigned int i = 0 ; i < mapName.length() ; i++)
 	send[pos++] = mapName[i];
     }
+  // send
   delete send;
 }
 

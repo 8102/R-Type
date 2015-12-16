@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationFactory.hh" />
+    <ClInclude Include="include\AnimationFactory.hh" />
     <ClInclude Include="include\BonusFactory.hh" />
     <ClInclude Include="include\Bonus.hh" />
     <ClInclude Include="FXFactory.hh" />
@@ -51,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AnimationFactory.cpp" />
+    <ClCompile Include="src\AnimationFactory.cpp" />
     <ClCompile Include="src\BonusFactory.cpp" />
     <ClCompile Include="src\Bonus.cpp" />
     <ClCompile Include="FXFactory.cpp" />

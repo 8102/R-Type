@@ -4,7 +4,7 @@
 
 EnnemyFactory::EnnemyFactory(std::string const& configurationFileName)
 	: _configurationFile(configurationFileName) {
-
+		
 }
 
 EnnemyFactory::~EnnemyFactory() {}
@@ -14,6 +14,7 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 	GameEngine&                 e = requestGameEngine;
 
 	_ennemyConfigs["boss1"] = {
+		
 		std::string("r-typesheet34.gif"),
 		std::string("boss1"),
 		std::string("spaceBomb"),
@@ -22,10 +23,12 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 			Vf(0.0f, static_cast<float>(e.getAnimation("boss1").getFrameDimensions().y / 2 + 10.0f)),
 			Vf(static_cast< float >(e.getAnimation("boss1").getFrameDimensions().x / 4), 5.0f),
 			Vf(static_cast< float >(e.getAnimation("boss1").getFrameDimensions().x / 4 * 3), 15.0f)
-	}
+		},
+		{ "mediumExplosion", "mediumExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
 	_ennemyConfigs["alienShipBoss"] = {
+
 		std::string("AlienShip.png"),
 		std::string("void"),
 		std::string("HBomb"),
@@ -36,60 +39,68 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 			Vf(e.getAnimation("void").getFrameDimensions().x / 4 + 90.0f, e.getAnimation("void").getFrameDimensions().y / 4 - 30.0f),
 			Vf(e.getAnimation("void").getFrameDimensions().x / 4 + 150.0f, e.getAnimation("void").getFrameDimensions().y / 4 - 30.0f),
 			Vf(e.getAnimation("void").getFrameDimensions().x / 4 + 220.0f, e.getAnimation("void").getFrameDimensions().y / 4 - 30.0f)
-	}
+			},
+		{ "mediumExplosion", "mediumExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
 	_ennemyConfigs["bountyHunter"] = {
+
 		std::string("r-typesheet7.gif"),
 		std::string("bountyHunter"),
 		std::string("simpleBullet"),
 		sf::Color(0, 0, 173, 255),
-		std::vector<sf::Vector2f> {
-	}
+		std::vector<sf::Vector2f> {},
+		{ "mediumExplosion", "mediumExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
 	_ennemyConfigs["alienJet"] = {
+
 		std::string("r-typesheet24.gif"),
 		std::string("alienJet"),
 		std::string("simpleBullet"),
 		sf::Color::Black,
-		std::vector<sf::Vector2f> {
-	}
+		std::vector<sf::Vector2f> {},
+		{ "smallExplosion", "smallExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
 	_ennemyConfigs["ufo"] = {
+
 		std::string("UFO.png"),
 		std::string("ufo"),
 		std::string("simpleBullet"),
 		sf::Color(255, 0, 255),
-		std::vector<sf::Vector2f> {
-	}
+		std::vector<sf::Vector2f> {},
+		{ "mediumExplosion", "mediumExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
 	_ennemyConfigs["bubbleShield"] = {
+
 		std::string("bubbleShield.png"),
 		std::string("bubbleShield"),
 		std::string("simpleBullet"),
 		sf::Color::Black,
-		std::vector<sf::Vector2f> {
-	}
+		std::vector<sf::Vector2f> {},
+		{ "plasmaBoom", "plasmaBoom.png", "", sf::Color::White }
 	};
 
 	_ennemyConfigs["spaceFighter"] = {
+
 		std::string("hunter.png"),
 		std::string("spaceFighter"),
 		std::string("simpleBullet"),
 		sf::Color(255, 0, 255),
-		std::vector<sf::Vector2f> {
-	}
+		std::vector<sf::Vector2f> {},
+		{ "mediumExplosion", "mediumExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
 	_ennemyConfigs["flyingMinion"] = {
+
 		"r-typesheet20.gif",
 		"flyingMinion",
 		"simpleBullet",
 		sf::Color::Black,
-		std::vector<sf::Vector2f> {}
+		std::vector<sf::Vector2f> {},
+		{ "mediumExplosion", "mediumExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
 	return true;
@@ -126,6 +137,7 @@ Ennemy*                       EnnemyFactory::createEnnemy(std::string const& enn
 		clone->setPosition(ennemyPosition);
 	else
 		clone->setPosition(Vf(ennemyPosition.x - requestGameEngine.getAnimation(config.animationName).getFrameDimensions().x,
-			ennemyPosition.y - requestGameEngine.getAnimation(config.animationName).getFrameDimensions().y));
+											ennemyPosition.y - requestGameEngine.getAnimation(config.animationName).getFrameDimensions().y));
+	clone->setDeathFX(config.fx.animationName, config.fx.ressourceName, config.fx.effectName, config.fx.colorMask);
 	return clone;
 }

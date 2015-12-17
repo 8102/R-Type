@@ -6,18 +6,19 @@ void          initMainMenu() {
 	AssetManager&     a = AssetManager::instanciate();
 
 	//create main menu and its MenuElements | By default, Inline-block display style
-	GameMenu*         menu = new GameMenu("Menu");
+	GameMenu*         menu = new GameMenu("Menu", GameMenu::InLine);
 	MenuElement*      background = new MenuElement(*a.getTexture("MainMenu.jpg"));
 	MenuElement*      title = new MenuElement(*a.getTexture("title.png"), "", *a.getFont("freedom.ttf"));
-	MenuElement*      button1 = new MenuElement(*a.getTexture("half.png"), "Play Solo", *a.getFont("freedom.ttf"), Vf(300.0f, 100.0f));
-	MenuElement*      button2 = new MenuElement(*a.getTexture("half.png"), "Play Multi", *a.getFont("freedom.ttf"), Vf(300.0f, 300.0f));
-	MenuElement*      button3 = new MenuElement(*a.getTexture("half.png"), "Options", *a.getFont("freedom.ttf"), Vf(300.0f, 500.0f));
-	MenuElement*      button4 = new MenuElement(*a.getTexture("half.png"), "Quit Game", *a.getFont("freedom.ttf"), Vf(300.0f, 700.0f));
+	MenuElement*      button1 = new MenuElement(*a.getTexture("half.png"), "solo", *a.getFont("freedom.ttf"), Vf(300.0f, 100.0f));
+	MenuElement*      button2 = new MenuElement(*a.getTexture("half.png"), "online", *a.getFont("freedom.ttf"), Vf(300.0f, 300.0f));
+	MenuElement*      button3 = new MenuElement(*a.getTexture("half.png"), "settings", *a.getFont("freedom.ttf"), Vf(300.0f, 500.0f));
+	MenuElement*      button4 = new MenuElement(*a.getTexture("half.png"), "Exit", *a.getFont("freedom.ttf"), Vf(300.0f, 700.0f));
 
 	//link MenuElements to actions (if void, link to &MenuElement::defaultFunction)
-	button1->setAction(sf::Event::MouseButtonPressed, &MenuElement::openConnectionMenu);
+	button1->setAction(sf::Event::MouseButtonPressed, &MenuElement::openSelectionMenu);
 	button1->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
 	button2->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
+	button2->setAction(sf::Event::MouseButtonPressed, &MenuElement::openConnectionMenu);
 	button3->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
 	button3->setAction(sf::Event::MouseButtonPressed, &MenuElement::openOptionMenu);
 	button4->setAction(sf::Event::MouseButtonPressed, &MenuElement::quitGame);
@@ -25,14 +26,15 @@ void          initMainMenu() {
 
 	//set all elements to the menu
 	menu->setBackground(background);
-	menu->addItem(title);
 	menu->addItem(button1);
-	//  menu->addItem(button2);
+	 menu->addItem(button2);
 	menu->addItem(button3);
 	menu->addItem(button4);
 
 	//force the menu style on all elements
 	menu->applyStyle();
+	title->setPosition(sf::Vector2f(requestGameEngine.getWindow().getSize().x / 2 - title->getGlobalBounds().width / 2, 100.0f));
+	menu->addItem(title);
 
 
 	// link main menu to the GameEngine as MainMenuController
@@ -145,10 +147,11 @@ void								initCharacterSelectionMenu() {
 	MenuElement*		character4 = new MenuElement(*a.getTexture("player4Selector.png"), "", *a.getFont("nullShock.ttf"));
 
 	playButton->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2 - playButton->getGlobalBounds().width / 2, 640));
-	text->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2 - text->getGlobalBounds().width / 2, 50));
+	text->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2 - text->getGlobalBounds().width / 2, 150));
 	selectionMenu->setBackground(new MenuElement(*a.getTexture("b9.png")));
+	playButton->setOrigin(sf::Vector2f(playButton->getGlobalBounds().width / 2, playButton->getGlobalBounds().height / 2));
 	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::resumeGame);
-	playButton->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
+	playButton->setAction(sf::Event::MouseMoved, &MenuElement::movingFunction);
 	character1->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
 	character1->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 1);
 	character2->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
@@ -164,6 +167,7 @@ void								initCharacterSelectionMenu() {
 	selectionMenu->addItem(character4);
 
 	selectionMenu->applyStyle();
+	playButton->setPosition(sf::Vector2f(playButton->getPosition().x + playButton->getGlobalBounds().width / 2, playButton->getPosition().y + playButton->getGlobalBounds().height / 2));
 	selectionMenu->addItem(text);
 	selectionMenu->addItem(playButton);
 	requestGameEngine.setController< GameMenu >(AGameController::CharacterSelectionMenu, selectionMenu);

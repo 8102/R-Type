@@ -185,9 +185,6 @@
     <ClCompile Include="FXFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="AnimationFactory.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\PlayerFactory.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>

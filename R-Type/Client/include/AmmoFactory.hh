@@ -3,6 +3,13 @@
 
 # include           "Ammunition.hh"
 
+struct		fxPrams {
+	std::string animationName;
+	std::string ressourceName;
+	std::string effectName;
+	sf::Color    colorMask;
+};
+
 class               AmmoFactory
 {
 public:
@@ -16,12 +23,7 @@ public:
 		sf::Color			     colorMask;
 		sf::Vector2f			scale;
 //		struct FXFactory::FXParams fx;
-		struct		fxPrams {
-			std::string animationName;
-			std::string ressourceName;
-			std::string effectName;
-			sf::Color    colorMask;
-		}	fx;
+		struct fxPrams		fx;
 	};
 
 public:

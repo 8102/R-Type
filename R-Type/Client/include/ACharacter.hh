@@ -39,6 +39,8 @@ public:
 	template< class T >
 	void               shoot(T&, bool useAllWeapon = false, unsigned int const& shotOriginVertexIndex = 0);
 
+	void				die();
+ 
 public:
 
 	unsigned int       getSpeed() const;
@@ -46,7 +48,7 @@ public:
 	std::string			  getName() const;
 	Ammunition       getWeapon() const;
 	sf::Text				  getGraphicName() const;
-
+	FX						  getDeathFX() const;
 	void               addWeapon(Ammunition* ammo);
 
 	std::vector<Ammunition>     getAllWeapons() const;
@@ -56,6 +58,7 @@ public:
 	void               setSpeed(unsigned int const& speed);
 	void				  setLife(sf::Vector2i const& life);
 	void				  setName(std::string const& name);
+	void					setDeathFX(std::string const& aName, std::string const& rName, std::string const& eName, sf::Color const& colorMask);
 
 public:
 
@@ -77,6 +80,7 @@ protected:
 protected:
 
 	Ammunition        _weapon;
+	FX							_deathFX;
 
 protected:
 

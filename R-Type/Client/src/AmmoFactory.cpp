@@ -29,7 +29,7 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 		sf::Color::Black,
 		sf::Vector2f(1.0f, 1.0f),
 		{ "plasmaBoom", "plasmaBoom.png", "", sf::Color::White }
-	//	{"plasmaExplosion", "r-typesheet1.gif", "", sf::Color::Black}
+		//	{"plasmaExplosion", "r-typesheet1.gif", "", sf::Color::Black}
 	};
 
 

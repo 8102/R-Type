@@ -15,7 +15,6 @@ Ennemy::Ennemy(AnimatedSprite const& baseModel, Ammunition const& ammo)
 	: ACharacter(baseModel, ammo), _reloading(0) {
 
 	_weapon.setType(Ammunition::EnnemyShot);
-	//    _type = AGameElement::Ennemy;
 	setType(AGameElement::Ennemy);
 }
 

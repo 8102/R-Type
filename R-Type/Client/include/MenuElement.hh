@@ -26,7 +26,7 @@ public:
 
 	void                  update();
 	void                  update(sf::Event const& event);
-	void                  getDrawn() const;
+	void                  getDrawn();
 	void                  adjustScreenTextPosition();
 	void                  setFunction(void (MenuElement::*)(sf::Event const& event));
 	void					setBaseColor(sf::Color const & color);
@@ -45,6 +45,7 @@ public:
 public:
 
 	void                  defaultFunction(sf::Event const& event);
+	void					 movingFunction(sf::Event const& event);
 	void                  resumeGame(sf::Event const& event);
 	void                  quitGame(sf::Event const& event);
 	void                  openOptionMenu(sf::Event const& event);
@@ -77,6 +78,7 @@ private:
 private:
 
 	int					_argument;
+	float					_angle;
 	std::map< sf::Event::EventType, void (MenuElement::*)(sf::Event const& event) >  _actions;
 };
 

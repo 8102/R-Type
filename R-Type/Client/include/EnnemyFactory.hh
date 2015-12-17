@@ -2,6 +2,7 @@
 # define                ___ENNEMY_FACTORY_HH___
 
 # include               "Ennemy.hh"
+# include				  "AmmoFactory.hh"
 
 class                   EnnemyFactory
 {
@@ -16,6 +17,7 @@ public:
 		sf::Color             colorMask;
 		std::vector< sf::Vector2f>  shotOriginVertices;
 		// std::string  const          deathEffectName;
+		struct fxPrams		fx;
 	};
 
 public:

@@ -3,7 +3,7 @@
 //#include                "UnitTest.hh"
 
 ACharacter::ACharacter(std::string const& filename, Animation const& animation, Ammunition const& weapon, sf::Color const& colorMask)
-	: AnimatedSprite(filename, animation, colorMask), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7) {
+	: AnimatedSprite(filename, animation, colorMask), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7), _deathFX("", "") {
 
 	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
 	_weapons.push_back(Ammunition(_weapon));
@@ -11,7 +11,7 @@ ACharacter::ACharacter(std::string const& filename, Animation const& animation, 
 }
 
 ACharacter::ACharacter(sf::Texture const& texture, Animation const& animation, Ammunition const& weapon, sf::Color const& colorMask)
-	: AnimatedSprite(texture, animation, colorMask), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7) {
+	: AnimatedSprite(texture, animation, colorMask), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7), _deathFX("", "") {
 
 	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
 	_weapons.push_back(Ammunition(_weapon));
@@ -19,7 +19,7 @@ ACharacter::ACharacter(sf::Texture const& texture, Animation const& animation, A
 }
 
 ACharacter::ACharacter(AnimatedSprite const& baseModel, Ammunition const& weapon)
-	: AnimatedSprite(baseModel), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7) {
+	: AnimatedSprite(baseModel), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7), _deathFX("", "") {
 
 	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
 	_weapons.push_back(Ammunition(_weapon));
@@ -27,7 +27,7 @@ ACharacter::ACharacter(AnimatedSprite const& baseModel, Ammunition const& weapon
 }
 
 ACharacter::ACharacter(ACharacter const& model)
-	: AnimatedSprite(model), _speed(model.getSpeed()), _health(model.getLife()), _name(model.getName()), _weapon(model.getWeapon()), _index(0), _gName(model.getGraphicName()) {
+	: AnimatedSprite(model), _speed(model.getSpeed()), _health(model.getLife()), _name(model.getName()), _weapon(model.getWeapon()), _index(0), _gName(model.getGraphicName()), _deathFX(model.getDeathFX()) {
 
 	std::vector<sf::Vector2f> v = model.getShotVertices();
 	for (auto it = v.begin(); it != v.end(); it++)
@@ -97,6 +97,18 @@ void                      ACharacter::shoot(sf::Vector2f const& targetPosition, 
 	}
 }
 
+void ACharacter::die()
+{
+	if (_deathFX.getAnimationName().size() > 0)
+	{
+		sf::FloatRect		r = getGlobalBounds();
+		sf::Vector2i	d = requestGameEngine.getAnimation(_deathFX.getAnimationName()).getFrameDimensions();
+		sf::Vector2f	p(r.left + r.width / 2 - d.x / 2, r.top + r.height / 2 - d.y / 2);
+		_deathFX.trigger(p);
+	}
+
+}
+
 unsigned int              ACharacter::getSpeed() const {
 
 	return _speed;
@@ -122,6 +134,11 @@ sf::Text ACharacter::getGraphicName() const
 	return _gName;
 }
 
+FX ACharacter::getDeathFX() const
+{
+	return _deathFX;
+}
+
 void                     ACharacter::setSpeed(unsigned int const& speed) {
 
 	_speed = speed;
@@ -136,6 +153,14 @@ void ACharacter::setName(std::string const & name)
 {
 	_name = name;
 	_gName.setString(name);
+}
+
+void ACharacter::setDeathFX(std::string const & aName, std::string const & rName, std::string const & eName, sf::Color const & colorMask)
+{
+	_deathFX.setAnimationName(aName);
+	_deathFX.setRessourceName(rName);
+	_deathFX.setEffectName(eName);
+	_deathFX.setColorMask(colorMask);
 }
 
 void                     ACharacter::addShotVertex(sf::Vector2f const& shotOriginVertex) {

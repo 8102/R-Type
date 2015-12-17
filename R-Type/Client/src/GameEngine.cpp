@@ -152,9 +152,10 @@ void                    GameEngine::update() {
 		if ((*it)->collide(*_player.get()))
 			_player->setLife(sf::Vector2i(0, _player->getLife().y));
 
-		if ((*it)->hasPassed() == true || (*it)->getLife().x <= 0) /* order to die from server */
+		if ((*it)->hasPassed() == true || (*it)->getLife().x <= 0) /* order to die from server */ {
+			(*it)->die();
 			it = _ennemies.erase(it);
-		else ++it;
+		}	else ++it;
 	}
 	_player->update();
 	requestAudioEngine.update();
@@ -183,7 +184,7 @@ void                    GameEngine::draw() {
 	_player->indicateCurrentPlayer(*_win.get());
 	sf::CircleShape	s(100.0f);
 
-	s.setTexture(requestAssetManager.getTexture("coicle.png"));
+	s.setTexture(requestAssetManager.getTexture("half.png"));
 	s.setPosition(sf::Vector2f(100, PLAY_HEIGHT - 100));
 
 	static unsigned int score = 0;
@@ -252,6 +253,11 @@ bool                    GameEngine::isPaused() const {
 void                    GameEngine::pause(bool pauseFlag) {
 
 	_isPaused = pauseFlag;
+}
+
+bool GameEngine::isReady() const
+{
+	return _player.operator bool();
 }
 
 void                    GameEngine::addAnimation(Animation* animation) {

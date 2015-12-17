@@ -44,13 +44,16 @@ void                setupAnimations() {
   Animation         anim35(toto);
   Animation			plaer3("attackShip", Vi(4, 3), Vi(42, 37), Vi(0, 0), 15);
   Animation			spacePiggy("spacePig", Vi(4, 3), Vi(50, 50), Vi(0, 0), 5);
-
+  Animation			smallExplosion("smallExplosion", Vi(6, 1), Vi(32, 30), Vi(0, 0), 12);
   Animation        flyingMinion("flyingMinion", Vi(3, 1), Vi(32, 32), Vi(16, 64), 25);
   engine.addAnimation(&flyingMinion);
+  engine.addAnimation(&smallExplosion);
+  Animation			mediumExplosion("mediumExplosion", Vi(8, 5), Vi(55, 55), Vi(0, 0), 2);
 
   // AnimationFactory	f;
   // f.loadAnimation();
 
+  engine.addAnimation(&mediumExplosion);
   engine.addAnimation(&spacePiggy);
   engine.addAnimation(&plaer3);
   engine.addAnimation(&HBomb);

@@ -41,7 +41,6 @@ bool                  GameMenu::onMouseOver(/* _unused */ sf::Event const& event
 	{
 		if (*it != target)
 			(*it)->reset();
-
 	}
 	target->update(event);
 	return true;

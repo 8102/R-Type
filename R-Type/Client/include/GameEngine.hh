@@ -66,6 +66,7 @@ public:
 	bool                isRunning() const;
 	bool                isPaused() const;
 	void                pause(bool pauseFlag);
+	bool					isReady() const;
 
 public:
 

@@ -3,14 +3,13 @@
 #include              "SoundSystem.hh"
 
 MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf::Font const& textFont, sf::Vector2f const& position, sf::Color const& color, int const& argument)
-	: AGameElement(texture, 1), _text(text), _texture(texture), _midground(nullptr), _font(textFont), _baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false), _argument(0) {
+	: AGameElement(texture, 1), _text(text), _texture(texture), _midground(nullptr), _font(textFont), _baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false), _argument(0), _angle(0.0f) {
 	setPosition(position);
 
 	_screenText.setFont(_font);
 	_screenText.setString(_text);
 	_screenText.setCharacterSize(50);
 	adjustScreenTextPosition();
-
 }
 
 MenuElement::~MenuElement() {
@@ -29,10 +28,12 @@ void                  MenuElement::update(sf::Event const& event) {
 		(*this.*_actions[event.type])(event);
 }
 
-void                  MenuElement::getDrawn() const {
+void                  MenuElement::getDrawn() {
 
 	GameEngine& engine = GameEngine::instanciate();
 
+	if (_angle != 0.0f)
+		setRotation(getRotation() + _angle);
 	engine.draw(*this);
 	if (_midground != nullptr)
 		engine.draw(*_midground);
@@ -43,8 +44,14 @@ void                  MenuElement::adjustScreenTextPosition() {
 
 	sf::Vector2f        textPosition;
 
-	textPosition.x = getPosition().x + (getGlobalBounds().width / 2) - (_screenText.getGlobalBounds().width / 2);
-	textPosition.y = getPosition().y + (getGlobalBounds().height / 2) - (_screenText.getGlobalBounds().height * (float)1.5);
+	if (getOrigin().x == 0.0f && getOrigin().y == 0.0f) {
+		textPosition.x = getPosition().x + (getGlobalBounds().width / 2) - (_screenText.getGlobalBounds().width / 2);
+		textPosition.y = getPosition().y + (getGlobalBounds().height / 2) - (_screenText.getGlobalBounds().height * (float)1.5);
+	}
+	else {
+		textPosition.x = getGlobalBounds().left + getOrigin().x - _screenText.getGlobalBounds().width / 2;
+		textPosition.y = getGlobalBounds().top + getOrigin().y - _screenText.getGlobalBounds().height;
+	}
 	_screenText.setPosition(textPosition);
 }
 
@@ -74,6 +81,9 @@ void                  MenuElement::reset() {
 	setColor(_baseColor);
 	_screenText.setColor(_baseColor);
 	_hasBeenToggled = false;
+	if (_angle == 1.0f)
+		std::cout << "reseting angle" << std::endl;
+	_angle = 0.0f;
 }
 
 void                  MenuElement::resumeGame(/* _unused */ sf::Event const& event) {
@@ -114,6 +124,19 @@ void                  MenuElement::defaultFunction(/* _unused */ sf::Event const
 	}
 	setColor(sf::Color(255, 120, 0));
 	_screenText.setColor(sf::Color(255, 120, 0));
+}
+
+void MenuElement::movingFunction(sf::Event const & event)
+{
+	SoundSystem&        soundEngine = SoundSystem::instanciate();
+
+	if (_hasBeenToggled == false) {
+		_hasBeenToggled = true;
+		soundEngine.pushEffect("blop.wav");
+	}
+	setColor(requestGameEngine.isReady() == true ? sf::Color::Green : sf::Color::Red);
+	_screenText.setColor(sf::Color(255, 120, 0));
+	_angle = 1.0f;
 }
 
 void                  MenuElement::quitGame(/* _unused */ sf::Event const& event) {

@@ -17,7 +17,9 @@ public:
 		InGrid,
 		InCircle,
 		InBlock,
-		InBlock_straight
+		InBlock_straight,
+		InLine_Bottom,
+		InLine_middleLoose
 	};
 
 public:
@@ -39,6 +41,10 @@ public:
 	bool              onClose(sf::Event const& event);
 	bool              onMouseOver(sf::Event const& event);
 	bool              onText(sf::Event const& event);
+
+public:
+
+	sf::Vector2f	getTotalSize() const;
 
 public:
 

@@ -98,6 +98,17 @@ bool                  GameMenu::onText(sf::Event const& event)
 	return true;
 }
 
+sf::Vector2f					GameMenu::getTotalSize() const
+{
+	sf::Vector2f				totalSize(0.0f, 0.0f);
+
+	for (auto it = _items.begin(); it != _items.end(); it++) {
+		totalSize.x += (*it)->getGlobalBounds().width;
+		totalSize.y += (*it)->getGlobalBounds().height;
+	}
+	return totalSize;
+}
+
 void                  GameMenu::addItem(MenuElement *element) {
 
 	_items.push_back(element);
@@ -105,8 +116,11 @@ void                  GameMenu::addItem(MenuElement *element) {
 
 void                  GameMenu::setBackground(MenuElement *element) {
 
+	sf::Vector2f	center(requestGameEngine.getWindow().getSize().x / 2, requestGameEngine.getWindow().getSize().y / 2);
+
 	setElementScale(element);
 	_background = element;
+	_background->setPosition(center);
 }
 
 void                  GameMenu::setElementScale(MenuElement *element) {
@@ -124,32 +138,32 @@ void                 GameMenu::setElementPosition(MenuElement *element) {
 	(void)element;
 }
 
+
 void                 GameMenu::applyStyle() {
 
-	sf::Vector2f       nextElemPosition;
+	sf::Vector2f	center(requestGameEngine.getWindow().getSize().x / 2, requestGameEngine.getWindow().getSize().y / 2);
+	sf::Vector2f	totalSize = getTotalSize();
+	sf::Vector2f  nextElemPosition(center.x - totalSize.x / 2, center.y - totalSize.y / 2);
+
+	int i = 0;
 	for (auto it = _items.begin(); it != _items.end(); it++)
 	{
 		if (_style == InLine)
 		{
-			sf::Vector2f		 total(0, 0);
-			for (auto i = _items.begin(); i != _items.end(); i++) {
-				total.x += (*it)->getGlobalBounds().width;
-				total.y += (*it)->getGlobalBounds().height;
-			}
-			sf::Vector2f anchor(requestGameEngine.getWindow().getSize().x / 2 - total.x / 2, requestGameEngine.getWindow().getSize().y / 2);
-			auto xStart = anchor.x;
-			for (auto it = _items.begin(); it != _items.end(); it++) {
-				std::cout << "position : " << xStart << " , " << "anchor.y" << std::endl;
-				(*it)->setPosition(Vf(xStart, anchor.y - (*it)->getGlobalBounds().height / 2));
-				xStart += (*it)->getGlobalBounds().width;
-			}
+			(*it)->setPosition(sf::Vector2f(nextElemPosition.x + (*it)->getGlobalBounds().width / 2, center.y));
+			nextElemPosition.x += (*it)->getLocalBounds().width;
 		}
 		if (_style == InBlock)
 		{
-			auto i = it - _items.begin();
-			nextElemPosition = sf::Vector2f(requestGameEngine.getWindow().getSize().x / 2 - (*it)->getGlobalBounds().width / 2,
-				(requestGameEngine.getWindow().getSize().y / _items.size()) * i + (*it)->getGlobalBounds().height / _items.size());
-			(*it)->setPosition(nextElemPosition);
+			float f = static_cast<float>(std::sqrt(_items.size()));
+			int sideSize = static_cast<int>(f);
+			std::cout << sideSize << std::endl;
+			std::cout << f << std::endl;
+			sf::Vector2f padding(center.x / f, center.y / f);
+			std::cout << padding.x << std::endl;
+			sf::Vector2f position(padding.x + (static_cast<int>(i) % sideSize) * (padding.x * 2.0f), padding.y + (static_cast<int>(i) / sideSize) * (padding.y * 1.5f));
+			std::cout << position.x << std::endl;
+			(*it)->setPosition(position);
 		}
 		if (_style == InBlock_straight)
 		{
@@ -172,6 +186,13 @@ void                 GameMenu::applyStyle() {
 			nextElemPosition = sf::Vector2f(x + rx * std::cos(a), y + ry * std::sin(a));
 			(*it)->setPosition(nextElemPosition);
 		}
+
+		if (_style == InLine_Bottom)
+		{
+			(*it)->setPosition(sf::Vector2f(nextElemPosition.x + (*it)->getGlobalBounds().width / 2, center.y / 3 * 5));
+			nextElemPosition.x += (*it)->getLocalBounds().width;
+		}
+		++i;
 	}
 }
 

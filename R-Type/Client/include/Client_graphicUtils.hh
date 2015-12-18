@@ -7,6 +7,7 @@
 # include             <vector>
 # include             <map>
 # include             <memory>
+# include				<sstream>
 
 #define				_USE_MATH_DEFINES
 # include             <cmath>

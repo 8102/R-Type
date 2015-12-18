@@ -6,6 +6,7 @@ MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf
 	: AGameElement(texture, 1), _text(text), _texture(texture), _midground(nullptr), _font(textFont), _baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false), _argument(0), _angle(0.0f) {
 	setPosition(position);
 
+	setOrigin(sf::Vector2f(getGlobalBounds().width / 2, getGlobalBounds().height / 2));
 	_screenText.setFont(_font);
 	_screenText.setString(_text);
 	_screenText.setCharacterSize(50);
@@ -50,7 +51,7 @@ void                  MenuElement::adjustScreenTextPosition() {
 	}
 	else {
 		textPosition.x = getGlobalBounds().left + getOrigin().x - _screenText.getGlobalBounds().width / 2;
-		textPosition.y = getGlobalBounds().top + getOrigin().y - _screenText.getGlobalBounds().height;
+		textPosition.y = getGlobalBounds().top + getOrigin().y - _screenText.getGlobalBounds().height * 1.5f;
 	}
 	_screenText.setPosition(textPosition);
 }
@@ -81,18 +82,18 @@ void                  MenuElement::reset() {
 	setColor(_baseColor);
 	_screenText.setColor(_baseColor);
 	_hasBeenToggled = false;
-	if (_angle == 1.0f)
-		std::cout << "reseting angle" << std::endl;
 	_angle = 0.0f;
 }
 
 void                  MenuElement::resumeGame(/* _unused */ sf::Event const& event) {
 
-	SoundSystem::instanciate().getCurrentMusic().pause();
-	SoundSystem::instanciate().setCurrentMusic("unity.wav");
-	SoundSystem::instanciate().playMusic();
-	GameEngine::instanciate().pause(false);
-	GameEngine::instanciate().setControllerIndex(AGameController::GameControls);
+	if (requestGameEngine.isReady()) {
+		SoundSystem::instanciate().getCurrentMusic().pause();
+		SoundSystem::instanciate().setCurrentMusic("unity.wav");
+		SoundSystem::instanciate().playMusic();
+		GameEngine::instanciate().pause(false);
+		GameEngine::instanciate().setControllerIndex(AGameController::GameControls);
+	}
 }
 
 void                  MenuElement::setPosition(sf::Vector2f const& position) {
@@ -126,7 +127,8 @@ void                  MenuElement::defaultFunction(/* _unused */ sf::Event const
 	_screenText.setColor(sf::Color(255, 120, 0));
 }
 
-void MenuElement::movingFunction(sf::Event const & event)
+
+void MenuElement::startingFunction(sf::Event const & event)
 {
 	SoundSystem&        soundEngine = SoundSystem::instanciate();
 
@@ -136,6 +138,12 @@ void MenuElement::movingFunction(sf::Event const & event)
 	}
 	setColor(requestGameEngine.isReady() == true ? sf::Color::Green : sf::Color::Red);
 	_screenText.setColor(sf::Color(255, 120, 0));
+	_angle = 1.0f;
+}
+
+void MenuElement::movingFunction(sf::Event const & event)
+{
+	defaultFunction(event);
 	_angle = 1.0f;
 }
 

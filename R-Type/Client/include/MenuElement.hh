@@ -46,6 +46,7 @@ public:
 
 	void                  defaultFunction(sf::Event const& event);
 	void					 movingFunction(sf::Event const& event);
+	void					 startingFunction(sf::Event const& event);
 	void                  resumeGame(sf::Event const& event);
 	void                  quitGame(sf::Event const& event);
 	void                  openOptionMenu(sf::Event const& event);

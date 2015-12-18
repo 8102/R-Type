@@ -1,7 +1,7 @@
 #include                "GameEngine.hh"
 #include                "Player.hpp"
 #include				  			"FX.hh"
-
+#include					"GUI.hh"
 GameEngine&             GameEngine::instanciate() {
 
 	static GameEngine     instance;
@@ -182,10 +182,10 @@ void                    GameEngine::draw() {
 
 //	_player->drawInformation(*_win.get());
 	_player->indicateCurrentPlayer(*_win.get());
-	sf::CircleShape	s(100.0f);
+	sf::CircleShape	s(120.0f);
 
-	s.setTexture(requestAssetManager.getTexture("half.png"));
-	s.setPosition(sf::Vector2f(100, PLAY_HEIGHT - 100));
+	s.setTexture(requestAssetManager.getTexture("weaponIconContainer.png"));
+	s.setPosition(sf::Vector2f(101.0f, PLAY_HEIGHT - 100));
 
 	static unsigned int score = 0;
 	s.setOrigin(sf::Vector2f(s.getGlobalBounds().width / 2, s.getGlobalBounds().height / 2));
@@ -198,20 +198,22 @@ void                    GameEngine::draw() {
 	t.setColor(sf::Color::Yellow);
 	_win->draw(t);
 
-	sf::RectangleShape s2(sf::Vector2f(160, 40));
-	sf::Texture			  t2 = *requestAssetManager.getTexture("minigun.png");
+//	sf::RectangleShape s2(sf::Vector2f(160, 40));
+	sf::CircleShape s2(100.0f);
+	sf::Texture			  t2 = *requestAssetManager.getTexture("iconMissile.png");
 	s2.setTexture(&t2);
 //	s2.setFillColor(sf::Color::Red);
-	s2.setPosition(sf::Vector2f(20.0f, PLAY_HEIGHT - 120.0f));
+	s2.setPosition(sf::Vector2f(00.0f, PLAY_HEIGHT - 200.0f));
 	_win->draw(s);
 	_win->draw(s2);
+
 
 	/*s.setScale(sf::Vector2f(0.5f, 0.5f));
 	s.setPosition(sf::Vector2f(250.0f, PLAY_HEIGHT - 150.0f));
 	s.setRotation(-2 * s.getRotation());
 	_win->draw(s);
 */
-	sf::Sprite					s3;
+	/*sf::Sprite					s3;
 	sf::RectangleShape	r2;
 	float							lifeRatio;
 
@@ -232,7 +234,29 @@ void                    GameEngine::draw() {
 	_win->draw(t);
 	_win->draw(s3);
 
+	sf::Sprite					s4;
+	sf::RectangleShape	r5;
+	sf::Texture				ener= *requestAssetManager.getTexture("energy.jpg");
+	ener.setRepeated(false);
 
+	s4.setTexture(*requestAssetManager.getTexture("energybar.png"));
+	s4.setScale(sf::Vector2f(2.0f, 2.0f));
+	s4.setPosition(sf::Vector2f(s3.getPosition().x, s3.getPosition().y - s4.getGlobalBounds().height));
+	r5.setSize(sf::Vector2f(r2.getSize().x, s4.getGlobalBounds().height / 10 * 6));
+	r5.setFillColor(sf::Color::Cyan);
+	r5.setPosition(sf::Vector2f(s4.getPosition().x, s4.getPosition().y + 5));
+	_win->draw(r5);
+	_win->draw(s4);
+
+	sf::RectangleShape		dead;
+
+	dead.setSize(sf::Vector2f(_win->getSize().x, _win->getSize().y));
+	dead.setTexture(requestAssetManager.getTexture("deadvision.png"));
+	_win->draw(dead);*/
+
+	GUI gui(*_player.get(), *_win.get());
+
+	gui.drawUserInfo();
 }
 
 void                    GameEngine::draw(sf::Drawable const& target) {

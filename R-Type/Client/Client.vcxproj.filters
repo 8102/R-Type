@@ -501,6 +501,9 @@
     <Image Include="assets\sprites\shield.jpg">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\sprites\alienButton.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\freedom.ttf" />

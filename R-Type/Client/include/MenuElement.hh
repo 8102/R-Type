@@ -3,6 +3,8 @@
 
 
 # include        <SFML/Graphics.hpp>
+# include			<regex>
+
 # include        "AGameElement.hh"
 # include        "Client_graphicUtils.hh"
 # include        "AssetManager.hh"
@@ -17,6 +19,7 @@ public:
 	MenuElement(sf::Texture const& texture,
 		std::string const& text = "",
 		sf::Font const& textFont = *AssetManager::instanciate().getFont("font.ttf"),
+		GameMenu* container = nullptr,
 		sf::Vector2f const& position = Vf(0.0f, 0.0f),
 		sf::Color const& color = sf::Color::White,
 		int const& argument = 0);
@@ -27,7 +30,7 @@ public:
 	void                  update();
 	void                  update(sf::Event const& event);
 	void                  getDrawn();
-	void                  adjustScreenTextPosition();
+	void                  adjustScreenTextPosition(bool const& up = true);
 	void                  setFunction(void (MenuElement::*)(sf::Event const& event));
 	void					setBaseColor(sf::Color const & color);
 	void                  reset();
@@ -49,6 +52,7 @@ public:
 	void					 startingFunction(sf::Event const& event);
 	void                  resumeGame(sf::Event const& event);
 	void                  quitGame(sf::Event const& event);
+	void					 changeMenu(sf::Event const& event);
 	void                  openOptionMenu(sf::Event const& event);
 	void                  openMainMenu(sf::Event const& event);
 	void                  openConnectionMenu(sf::Event const& event);
@@ -66,6 +70,7 @@ public:
 private:
 
 	std::string           _text;
+	GameMenu*		_container;
 	sf::Texture           _texture;
 	sf::Sprite*           _midground;
 	sf::Text              _screenText;

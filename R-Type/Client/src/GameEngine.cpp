@@ -200,7 +200,21 @@ void                    GameEngine::draw() {
 
 //	sf::RectangleShape s2(sf::Vector2f(160, 40));
 	sf::CircleShape s2(100.0f);
-	sf::Texture			  t2 = *requestAssetManager.getTexture("iconMissile.png");
+	auto v = _player->getAllWeapons();
+
+	//std::cout << "[" << _player->getWeapon().getCurrentAnimation().getAnimationName() << "]" << std::endl;
+	//for (auto o = v.begin(); o != v.end(); o++) {
+	//	std::cout << (*o).getCurrentAnimation().getAnimationName() << std::endl;
+	//}
+
+	sf::Texture			  t2;
+	std::string ws = _player->getWeapon().getCurrentAnimation().getAnimationName();
+	if (ws == std::string("rocket"))
+		t2 = *requestAssetManager.getTexture("iconMissile.png");
+	else if (ws == "plasmaBullet")
+		t2 = *requestAssetManager.getTexture("iconPlasmaCannon.png");
+	else
+		t2 = *requestAssetManager.getTexture("iconMinigun.png");
 	s2.setTexture(&t2);
 //	s2.setFillColor(sf::Color::Red);
 	s2.setPosition(sf::Vector2f(00.0f, PLAY_HEIGHT - 200.0f));

@@ -27,6 +27,10 @@ public:
 	void					 indicateCurrentPlayer(sf::RenderWindow & win);
 	void                isReloading();
 
+public:
+
+	Ammunition	getWeapon() const;
+
 private:
 
 	int                 _reload;

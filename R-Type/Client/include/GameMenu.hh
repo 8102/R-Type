@@ -55,6 +55,8 @@ public:
 
 	void              setElementScale(MenuElement *element);
 	void              setElementPosition(MenuElement *element);
+	void					setFocused(int const& index);
+	void					changeFocused(int const& indexMove, bool const& limited = true);
 	void              applyStyle();
 
 public:

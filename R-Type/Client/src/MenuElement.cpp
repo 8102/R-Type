@@ -2,8 +2,8 @@
 #include              "GameEngine.hh"
 #include              "SoundSystem.hh"
 
-MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf::Font const& textFont, sf::Vector2f const& position, sf::Color const& color, int const& argument)
-	: AGameElement(texture, 1), _text(text), _texture(texture), _midground(nullptr), _font(textFont), _baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false), _argument(0), _angle(0.0f) {
+MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf::Font const& textFont, GameMenu* container, sf::Vector2f const& position, sf::Color const& color, int const& argument)
+	: AGameElement(texture, 1), _text(text), _container(container), _texture(texture), _midground(nullptr), _font(textFont), _baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false), _argument(0), _angle(0.0f) {
 	setPosition(position);
 
 	setOrigin(sf::Vector2f(getGlobalBounds().width / 2, getGlobalBounds().height / 2));
@@ -21,6 +21,11 @@ MenuElement::~MenuElement() {
 
 void                  MenuElement::update() {
 
+	sf::Event		e;
+	e.type = sf::Event::MouseMoved;
+
+	if (_actions[e.type] != nullptr)
+		(*this.*_actions[sf::Event::MouseMoved])(e);
 }
 
 void                  MenuElement::update(sf::Event const& event) {
@@ -41,17 +46,17 @@ void                  MenuElement::getDrawn() {
 	engine.draw(_screenText);
 }
 
-void                  MenuElement::adjustScreenTextPosition() {
+void                  MenuElement::adjustScreenTextPosition(bool const& up) {
 
 	sf::Vector2f        textPosition;
 
 	if (getOrigin().x == 0.0f && getOrigin().y == 0.0f) {
 		textPosition.x = getPosition().x + (getGlobalBounds().width / 2) - (_screenText.getGlobalBounds().width / 2);
-		textPosition.y = getPosition().y + (getGlobalBounds().height / 2) - (_screenText.getGlobalBounds().height * (float)1.5);
+		textPosition.y = getPosition().y + (getGlobalBounds().height / 2) - (_screenText.getGlobalBounds().height * (up == true ? (float)1.5 : 1.0f));
 	}
 	else {
 		textPosition.x = getGlobalBounds().left + getOrigin().x - _screenText.getGlobalBounds().width / 2;
-		textPosition.y = getGlobalBounds().top + getOrigin().y - _screenText.getGlobalBounds().height * 1.5f;
+		textPosition.y = getGlobalBounds().top + getOrigin().y - _screenText.getGlobalBounds().height * (up == true ? (float)1.5 : 1.0f);
 	}
 	_screenText.setPosition(textPosition);
 }
@@ -152,6 +157,13 @@ void                  MenuElement::quitGame(/* _unused */ sf::Event const& event
 	GameEngine::instanciate().stop();
 }
 
+void MenuElement::changeMenu(sf::Event const & event)
+{
+	if (_container != nullptr)
+		_container->setFocused(-1);
+	GameEngine::instanciate().setControllerIndex(static_cast<AGameController::eController>(_argument));
+}
+
 void                  MenuElement::openOptionMenu(/* _unused */ sf::Event const& event) {
 
 	GameEngine::instanciate().setControllerIndex(AGameController::OptionMenu);
@@ -179,22 +191,26 @@ void                  MenuElement::openAudioMenu(/* _unused */ sf::Event const& 
 
 void                  MenuElement::getIPAddrInput(sf::Event const& event) {
 
+	std::string	regularIPExpression = "(\\d{1,3}(\\.\\d{1,3}){3})";
+	std::regex		model(regularIPExpression);
+
 	switch (event.text.unicode)
-	{
-	case 8:
-		if (_text.size() > 0) { _text.pop_back(); }
-		break;
-	default:
-		if ((event.text.unicode >= 48 && event.text.unicode <= 57) || event.text.unicode == '.')
-			if (_text.size() < 17) { _text += static_cast< char >(event.text.unicode); }
-		break;
-	}
+		{
+		case 8:
+			if (_text.size() > 0) { _text.pop_back(); }
+			break;
+		default:
+			if ((event.text.unicode >= 48 && event.text.unicode <= 57) || event.text.unicode == '.')
+				if (_text.size() < 16) { _text += static_cast< char >(event.text.unicode); }
+			break;
+		}
 	_screenText.setString(_text);
-	adjustScreenTextPosition();
+	adjustScreenTextPosition(false);
 }
 
 void                  MenuElement::getLoginInput(sf::Event const& event) {
-
+	
+	std::regex		model("^[a-zA-Z0-9_]*");
 	switch (event.text.unicode)
 	{
 	case 8:
@@ -206,8 +222,11 @@ void                  MenuElement::getLoginInput(sf::Event const& event) {
 		if (_text.size() < 12) { _text += static_cast< char >(event.text.unicode); }
 		break;
 	}
-	_screenText.setString(_text);
-	adjustScreenTextPosition();
+	if (std::regex_match(_text, model))
+		_screenText.setString(_text);
+	else
+		_text.pop_back();
+	adjustScreenTextPosition(false);
 }
 
 void					MenuElement::readjustAudioGaugeToMouseClick(std::string const& gaugeText, void (SoundSystem::*audioTarget)(float const&)) {

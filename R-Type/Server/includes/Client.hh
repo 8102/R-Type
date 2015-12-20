@@ -12,11 +12,12 @@
 # define CLIENT_HH__
 
 # include <vector>
+# include <SFML/System/Vector2.hpp>
 
 class		Client
 {
 public:
-  Client(bool Spectate, char type);
+  Client(bool Spectate, char type, sf::Vector2f const &);
   ~Client();
 
 public:
@@ -28,12 +29,19 @@ public:
   bool		isAlive() const;
   void		setDeath();
   char		getType() const;
+  sf::Vector2f	getCoords() const;
+  void		setCoords(sf::Vector2f const &coords);
+  char		getActiveWeapon() const;
+  void		triggerWeapon();
 private:
   bool		_spectator;
   long		_score;
   bool		_isAlive;
   int		_life;
   char		_type;
+  sf::Vector2f	_coords;
+  char		_weapons[2];
+  int		_activeWeapon;
 };
 
 #endif // !CLIENT_HH__

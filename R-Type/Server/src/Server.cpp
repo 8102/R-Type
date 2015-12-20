@@ -124,7 +124,7 @@ void		Server::authResponse(authErr response, unsigned int gameId)
 
 size_t		Server::calcResponseLength() const
 {
-  size_t	length = 4;
+  size_t	length = 5;
 
   for (auto it = _games.begin() ; it != _games.end() ; it++)
     {
@@ -150,6 +150,7 @@ void			Server::infoResponse()
   std::string		mapName;
   std::vector<Client *>	clients;
 
+  send[pos++] = 2;
   for (auto it = _games.begin() ; it != _games.end() ; it++)
     {
       clients = (*it)->getClients();
@@ -180,8 +181,8 @@ unsigned char		*Server::buildHeader(unsigned char commandCode, unsigned int leng
     {
       newHeader[i] = 0;
     }
-  newHeader[0] = 0;
-  newHeader[1] = commandCode;
+  newHeader[0] = commandCode;
+  newHeader[1] = 0;
   newHeader[2] = length >> 8;
   newHeader[3] = length & 0xFF;
   return newHeader;

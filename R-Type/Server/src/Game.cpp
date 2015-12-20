@@ -88,13 +88,27 @@ void			Game::closeGame()
   _isOver = true;
 }
 
+void			Game::checkPlayersLife()
+{
+  for (auto it = _clients.begin() ; it != _clients.end() ; it++)
+    {
+      if ((*it)->getLife()<= 0)
+	{
+	  Destroy((*it)->getType());
+	  delete (*it);
+	  it = _clients.erase(it);
+	}
+    }
+}
+
 void			Game::timedPlay()
 {
   while (!_isOver)
     {
       if (!_pause)
 	{
-
+	  checkPlayersLife();
+	  newWave();
 	}
     }
 }
@@ -108,7 +122,7 @@ void				Game::playing()
       std::cout << "Game n°" << _id << " playing..." << std::endl;
       while (!_isOver)
 	{
-	  readHeader();
+	  readHeader(); // listening to all clients.
 	}
     }
   catch (std::exception &e)
@@ -173,13 +187,14 @@ void		Game::Action(unsigned int size)
   short int	x = 0; // read x
   short int	y = 0; // read y
   Client	*tmp = NULL;
+  char		broadact[12] = {3, 0, 0, 12, 3, 0, 0, 0, 0, 0, 0, 0};
 
   for (auto it = _clients.begin() ; it != _clients.end() ; it++)
     {
-      if (act[0] == (*it)->getType())
+      if (act[1] == (*it)->getType())
 	tmp = (*it);
     }
-  if (actionCode == 1 && tmp)
+  if (actionCode == 1 && tmp && tmp->isAlive())
     {
       //fire
       sf::Vector2f	direction;
@@ -187,15 +202,23 @@ void		Game::Action(unsigned int size)
       direction.x = x;
       direction.y = y;
       addNewEntity(tmp->getCoords(), direction, 41, tmp->getActiveWeapon()); // adjust fire number type bullet
-      // broadcast new element
+      broadact[6] = act[1];
+      broadact[7] = 1;
+      broadact[8] = (x >> 8) & 0xFF;
+      broadact[9] = x & 0xFF;
+      broadact[10] = (y >> 8) & 0xFF;
+      broadact[11] = y & 0xFF;
+      Broadcast(broadact, 12); // broadcast new element
     }
-  else if (actionCode == 2 && tmp)
+  else if (actionCode == 2 && tmp && tmp->isAlive())
     {
       // switch weapon
       tmp->triggerWeapon();
-      //broadcast update to all
+      broadact[6] = act[1];
+      broadact[7] = 2;
+      Broadcast(broadact, 12); //broadcast update to all
     }
-  else if (actionCode == 3 && tmp)
+  else if (actionCode == 3 && tmp && tmp->isAlive())
     {
       // pause
       Pause();
@@ -218,10 +241,17 @@ void		Game::Player(unsigned int size)
       if (playId[0] == (*it)->getType())
 	tmp = (*it);
     }
-  if (tmp)
+  if (tmp && tmp->isAlive())
     {
+      char		playerBroad[11] = {3, 0, 0, 11, 4, 0, 0, 0, 0, 0, 0};
+
       tmp->setCoords(coords);
-      //broadcast new position
+      playerBroad[6] = playId[0];
+      playerBroad[7] = (x >> 8) & 0xFF;
+      playerBroad[8] = x & 0xFF;
+      playerBroad[9] = (y >> 8) & 0xFF;
+      playerBroad[10] = y & 0xFF;
+      Broadcast(playerBroad, 11); //broadcast new position
     }
   _mu->lock();
 }
@@ -236,13 +266,13 @@ void		Game::Pause()
 	std::chrono::duration_cast<std::chrono::duration<double> >(std::chrono::steady_clock::now() - _pausedTime);
       _elapsedTime = time_span.count();
       _pause = false;
-      // Broadcast Unpause : broadPause
+      Broadcast(broadPause, 12);      // Broadcast Unpause : broadPause
     }
   else
     {
       _pause = true;
       _pausedTime = std::chrono::steady_clock::now();
-      // Broadcast Pause :  : broadPause
+      Broadcast(broadPause, 12);      // Broadcast Pause :  : broadPause
     }
 }
 
@@ -262,22 +292,25 @@ void		Game::Destroy(short int id)
   to_destroy[5] = id >> 8;
   to_destroy[6] = id & 0xFF;
   //send
+  Broadcast(to_destroy, 7);
 }
 
 void		Game::Score()
 {
-  char		to_destroy[9] = {3, 0, 0, 9, 5, 0, 0, 0, 0};
+  char		to_score[9] = {3, 0, 0, 9, 5, 0, 0, 0, 0};
   //03 00 00 09 05 00 00 42 15
-  to_destroy[5] = (_score >> 24) & 0xFF;
-  to_destroy[6] = (_score >> 16) & 0xFF;
-  to_destroy[7] = (_score >> 8) & 0xFF;
-  to_destroy[8] = _score & 0xFF;
-  //Broadcast
+
+  to_score[5] = (_score >> 24) & 0xFF;
+  to_score[6] = (_score >> 16) & 0xFF;
+  to_score[7] = (_score >> 8) & 0xFF;
+  to_score[8] = _score & 0xFF;
+  Broadcast(to_score, 9);  //Broadcast
 }
 
 void		Game::newWave()
 {
-
+  // check time && launch wave       std::chrono::duration<double> time_span =
+  //	std::chrono::duration_cast<std::chrono::duration<double> >(std::chrono::steady_clock::now() - _originalTime);  - _elapsedTime in case of pause
 }
 
 void		Game::Broadcast(char *to_send, unsigned int size)

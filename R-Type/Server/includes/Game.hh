@@ -33,6 +33,7 @@ public:
   void				addPlayer(Client *);
   void				addNewEntity(sf::Vector2f const &, sf::Vector2f const &, char, int);
   void				readHeader();
+  void				checkPlayersLife();
 public:
   void				closeGame();
 

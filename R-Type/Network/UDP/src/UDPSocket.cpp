@@ -27,7 +27,7 @@ bool	UDPSocket::open(unsigned short port, bool client)
 		std::cerr << "UDPSocket : open -> Can't create the required ressource !" << std::endl;
 		return false;
 	}
-	int enable = 1;
+	char const enable = 1;
 	if (setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
 	{
 		std::cerr << "UDPSocket : open -> Can't set re-use address flag !" << std::endl;
@@ -48,7 +48,7 @@ bool	UDPSocket::open(unsigned short port, bool client)
 		}		
 	}
 	# ifdef _WIN32
-		long iMode = 1;
+		unsigned long iMode = 1;
 		if (ioctlsocket(_fd, FIONBIO, &iMode) != 0)
 		{
 			std::cerr << "UDPSocket : open -> Can't set non-blocking flag !" << std::endl;
@@ -92,7 +92,7 @@ bool	UDPSocket::send(Address const &to, void const *data, size_t size)
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = htonl(to.getAddress());
 	addr.sin_port = htons(to.getPort());
-	if (::sendto(_fd, data, size, 0, reinterpret_cast<const sockaddr *>(&addr), sizeof(sockaddr_in)) == -1)
+	if (::sendto(_fd, static_cast<char const *>(data), size, 0, reinterpret_cast<const sockaddr *>(&addr), sizeof(sockaddr_in)) == -1)
 	{
 		std::cerr << "UDPSocket : send -> Can't send your packet !" << std::endl;
 		return false;
@@ -100,13 +100,13 @@ bool	UDPSocket::send(Address const &to, void const *data, size_t size)
 	return true;
 }
 
-int		UDPSocket::receive(Address &from, void *data, size_t size)
+size_t		UDPSocket::receive(Address &from, void *data, size_t size)
 {
 	if (!this->isOpen() || !data || !size)
 		return false;
 	sockaddr_in addr;
 	socklen_t addrlen = sizeof(sockaddr_in);
-	ssize_t recv_bytes = recvfrom(_fd, data, size, 0, reinterpret_cast<sockaddr *>(&addr), &addrlen);
+	size_t recv_bytes = recvfrom(_fd, static_cast<char *>(data), size, 0, reinterpret_cast<sockaddr *>(&addr), &addrlen);
 	if (recv_bytes <= 0)
 		return 0;
 	from = Address(ntohl(addr.sin_addr.s_addr), ntohs(addr.sin_port));

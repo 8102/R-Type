@@ -5,7 +5,7 @@
 
 # ifdef _WIN32
 	# include <winsock2.h>
-	// # include <WS2tcpip.h>
+	# include <WS2tcpip.h>
 	# pragma comment(lib, "Ws2_32.lib")
 # else
 	# include <sys/types.h>
@@ -13,6 +13,7 @@
 	# include <netinet/in.h>
 	# include <fcntl.h>
 	# include <unistd.h>
+	typedef int	SOCKET
 
 # endif // defined(_WIN32)
 
@@ -29,10 +30,10 @@ public:
 	bool	isOpen() const;
 	void	close();
 	bool	send(Address const &to, void const *data, size_t size);
-	int		receive(Address &from, void *data, size_t size);
+	size_t	receive(Address &from, void *data, size_t size);
 
 private:
-	int	_fd;
+	SOCKET	_fd;
 
 };
 

@@ -41,7 +41,7 @@ bool	Connection::listen(unsigned short port)
 bool	Connection::connect(std::string const &address)
 {
 	_address = Address(address);
-	if (!_socket.open(_address.getAddress(), _address.getPort()))
+	if (!_socket.open(_address.getAddress(), true))
 	{
 		if (_debug)
 			std::cerr << "Can't connect to " << address << std::endl;
@@ -74,22 +74,22 @@ bool	Connection::sendPacket(void const *data, size_t size)
 {
 	if (_state == Disconnected || _address.getAddress() == 0)
 		return false;
-	char packet[size + _header_size];
+	std::unique_ptr<char[]> packet(new char[size + _header_size]);
 	packet[0] = static_cast<char>(_protocolID >> 24);
 	packet[1] = static_cast<char>((_protocolID >> 16) & 0xFF);
 	packet[2] = static_cast<char>((_protocolID >> 8) & 0xFF);
 	packet[3] = static_cast<char>(_protocolID & 0xFF);
 	std::memcpy(&packet[4], data, size);
-	return _socket.send(_address, packet, size + _header_size);
+	return _socket.send(_address, packet.get(), size + _header_size);
 }
 
 size_t	Connection::receivePacket(void *data, size_t size)
 {
 	if (_state == Disconnected)
 		return 0;
-	char packet[size + _header_size];
+	std::unique_ptr<char[]> packet(new char[size + _header_size]);
 	Address from;
-	size_t recv_bytes = _socket.receive(from, packet, size + _header_size);
+	size_t recv_bytes = _socket.receive(from, packet.get(), size + _header_size);
 	if (recv_bytes <= 4 || packet[0] != static_cast<char>(_protocolID >> 24) ||
 	    packet[1] != static_cast<char>((_protocolID >> 16) & 0xFF) || packet[2] != static_cast<char>((_protocolID >> 8) & 0xFF) ||
 	    packet[3] != static_cast<char>(_protocolID & 0xFF))
@@ -112,4 +112,24 @@ size_t	Connection::receivePacket(void *data, size_t size)
 		return recv_bytes;
 	}
 	return 0;
+}
+
+/*
+** Static methodes
+*/
+bool	Connection::initConnection()
+{
+	#ifdef _WIN32
+		WSADATA Wsadata;
+		return WSAStartup(MAKEWORD(2, 2), &Wsadata) != NO_ERROR;
+	#else
+		return true;
+	#endif // defined(_WIN32)
+}
+
+void	Connection::stopConnection()
+{
+	#ifdef _WIN32
+	WSACleanup();
+	#endif // defined(_WIN32)
 }

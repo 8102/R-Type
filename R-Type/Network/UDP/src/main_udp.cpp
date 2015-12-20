@@ -31,9 +31,8 @@ int main(int argc, char **argv)
 	{
 		// server
 		Connection server(_PROTOCOL_ID);
-		server.listen(atoi(argv[1]));
-		std::string packet("[server]: coucou ceci est un packet !\n");
-		server.sendPacket(packet.c_str(), packet.length());
+		if (!server.listen(atoi(argv[1])))
+			return 1;
 		char ret[100] = {0};
 		while (true)
 		{
@@ -44,14 +43,17 @@ int main(int argc, char **argv)
 			}
 			my_wait(1);
 		}
+		std::string packet("[server]: coucou ceci est un packet !");
+		server.sendPacket(packet.c_str(), packet.length());
 	}
 	if (argc == 3)
 	{
 		// client
 		Connection client(_PROTOCOL_ID);
 		std::string addr(std::string(argv[1]) + ':' + std::string(argv[2]));
-		client.connect(addr);
-		std::string packet("[client]: coucou ceci est un packet !\n");
+		if (!client.connect(addr))
+			return 1;
+		std::string packet("[client]: coucou ceci est un packet !");
 		client.sendPacket(packet.c_str(), packet.length());
 		char ret[100] = {0};
 		while (true)

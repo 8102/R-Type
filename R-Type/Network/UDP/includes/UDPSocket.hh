@@ -13,7 +13,6 @@
 	# include <netinet/in.h>
 	# include <fcntl.h>
 	# include <unistd.h>
-	typedef int	SOCKET
 
 # endif // defined(_WIN32)
 
@@ -24,7 +23,7 @@ class UDPSocket
 public:
 	UDPSocket();
 	~UDPSocket();
-	
+
 public:
 	bool	open(unsigned short port, bool client = false);
 	bool	isOpen() const;
@@ -33,7 +32,11 @@ public:
 	size_t	receive(Address &from, void *data, size_t size);
 
 private:
-	SOCKET	_fd;
+	#ifdef _WIN32
+		SOCKET _fd;
+	#else
+		int	_fd;
+	#endif // defined(_WIN32)
 
 };
 

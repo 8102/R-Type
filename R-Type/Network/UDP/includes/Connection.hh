@@ -4,6 +4,7 @@
 # pragma once
 
 # include <cstring>
+# include <memory>
 # include "Address.hh"
 # include "UDPSocket.hh"
 
@@ -20,6 +21,10 @@ public:
 	bool	sendPacket(void const *data, size_t size);
 	size_t	receivePacket(void *data, size_t size);
 	
+public:
+	static bool	initConnection();
+	static void	stopConnection();
+
 private:
 	enum State
 	{

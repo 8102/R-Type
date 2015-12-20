@@ -27,6 +27,7 @@ int main(int argc, char **argv)
 		std::cout << "Usage: " << argv[0] << " [address] [port]" << std::endl;
 		return (-1);
 	}
+	Connection::initConnection();
 	if (argc == 2)
 	{
 		// server
@@ -67,5 +68,6 @@ int main(int argc, char **argv)
 		}
 	}
 	std::cout << "Turning off..." << std::endl;
+	Connection::stopConnection();
 	return 0;
 }

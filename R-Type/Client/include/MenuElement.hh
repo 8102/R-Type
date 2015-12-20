@@ -34,6 +34,7 @@ public:
 	void                  setFunction(void (MenuElement::*)(sf::Event const& event));
 	void					setBaseColor(sf::Color const & color);
 	void                  reset();
+	void					toggle(bool const& toggled = true);
 
 	void                  setAction(sf::Event::EventType const& actionType, void (MenuElement::* action)(sf::Event const& event), int const& value);
 	void                  setAction(sf::Event::EventType const& actionType, void (MenuElement::* action)(sf::Event const& event));

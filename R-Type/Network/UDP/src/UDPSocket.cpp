@@ -3,7 +3,8 @@
 /*
 ** Constructors / Destructors
 */
-UDPSocket::UDPSocket()
+UDPSocket::UDPSocket() :
+	_fd(0)
 {
 
 }
@@ -16,7 +17,7 @@ UDPSocket::~UDPSocket()
 /*
 ** Public methodes
 */
-bool	UDPSocket::open(unsigned short port)
+bool	UDPSocket::open(unsigned short port, bool client)
 {
 	if (this->isOpen())
 		return false;
@@ -26,17 +27,26 @@ bool	UDPSocket::open(unsigned short port)
 		std::cerr << "UDPSocket : open -> Can't create the required ressource !" << std::endl;
 		return false;
 	}
-	sockaddr_in addr;
-	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = INADDR_ANY;
-	addr.sin_port = htons(port);
-	if (bind(_fd, reinterpret_cast<const sockaddr *>(&addr), sizeof(sockaddr_in)) == -1)
+	int enable = 1;
+	if (setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
 	{
-		std::cerr << "UDPSocket : open -> Can't bind the socket !" << std::endl;
+		std::cerr << "UDPSocket : open -> Can't set re-use address flag !" << std::endl;
 		this->close();
-		return false;
+		return false;			
 	}
-
+	if (!client)
+	{
+		sockaddr_in addr;
+		addr.sin_family = AF_INET;
+		addr.sin_addr.s_addr = INADDR_ANY;
+		addr.sin_port = htons(port);
+		if (bind(_fd, reinterpret_cast<const sockaddr *>(&addr), sizeof(sockaddr_in)) == -1)
+		{
+			std::cerr << "UDPSocket : open -> Can't bind the socket !" << std::endl;
+			this->close();
+			return false;
+		}		
+	}
 	# ifdef _WIN32
 		long iMode = 1;
 		if (ioctlsocket(_fd, FIONBIO, &iMode) != 0)
@@ -53,13 +63,6 @@ bool	UDPSocket::open(unsigned short port)
 			return false;
 		}
 	# endif // defined(_WIN32)
-	int enable = 1;
-	if (setsockopt(_fd, SOL_SOCKET, SO_REUSEADDR, &enable, sizeof(int)) < 0)
-	{
-		std::cerr << "UDPSocket : open -> Can't set re-use address flag !" << std::endl;
-		this->close();
-		return false;			
-	}
 	return true;
 }
 
@@ -89,9 +92,9 @@ bool	UDPSocket::send(Address const &to, void const *data, size_t size)
 	addr.sin_family = AF_INET;
 	addr.sin_addr.s_addr = htonl(to.getAddress());
 	addr.sin_port = htons(to.getPort());
-	if (sendto(_fd, data, size, 0, reinterpret_cast<const sockaddr *>(&addr), sizeof(sockaddr_in)) == -1)
+	if (::sendto(_fd, data, size, 0, reinterpret_cast<const sockaddr *>(&addr), sizeof(sockaddr_in)) == -1)
 	{
-		std::cerr << "UDPSocket : send -> Can't send your packet !" << std::endl;		
+		std::cerr << "UDPSocket : send -> Can't send your packet !" << std::endl;
 		return false;
 	}
 	return true;

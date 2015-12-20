@@ -13,6 +13,7 @@
 	# include <netinet/in.h>
 	# include <fcntl.h>
 	# include <unistd.h>
+
 # endif // defined(_WIN32)
 
 # include "Address.hh"
@@ -24,7 +25,7 @@ public:
 	~UDPSocket();
 	
 public:
-	bool	open(unsigned short port);
+	bool	open(unsigned short port, bool client = false);
 	bool	isOpen() const;
 	void	close();
 	bool	send(Address const &to, void const *data, size_t size);

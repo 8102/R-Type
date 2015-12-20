@@ -185,8 +185,8 @@ void GameMenu::changeFocused(int const & indexMove, bool const& limited)
 				size_t index = std::distance(_items.begin(), it);
 				if (limited == true) index = (index == 0 && indexMove < 0 ? 0 : (index + indexMove >= _items.size() ? _items.size() - 1 : index + indexMove));
 				else index = (index == 0 &&  indexMove < 0 ? _items.size() - 1 : (index + indexMove >= _items.size() ? 0 : index + indexMove));
-				_focused = _items[index];
 				resetElements();
+				_focused = _items[index];
 				break;
 			}
 	}
@@ -227,7 +227,7 @@ void                 GameMenu::applyStyle() {
 			unsigned int sizeH = 0;
 			for (auto it2 = _items.begin(); it2 != _items.end(); it2++)
 				sizeH += static_cast< unsigned int >((*it2)->getGlobalBounds().height * 1.5);
-			nextElemPosition = sf::Vector2f(requestGameEngine.getWindow().getSize().x / 2 - (*it)->getGlobalBounds().width / 2,
+			nextElemPosition = sf::Vector2f(requestGameEngine.getWindow().getSize().x / 2,
 				static_cast<float>(((requestGameEngine.getWindow().getSize().y / 2) - sizeH / 2) + (sizeH / _items.size() * i)));
 			(*it)->setPosition(nextElemPosition);
 		}
@@ -266,6 +266,8 @@ void                 GameMenu::resetElements() {
 	{
 		(*it)->reset();
 	}
+	if (_focused != nullptr)
+		_focused->toggle();
 }
 
 MenuElement*        GameMenu::getElementNextTo(MenuElement* element, int index)

@@ -504,6 +504,90 @@
     <Image Include="assets\sprites\alienButton.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="assets\sprites\blackhole.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\bonusMinigun.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\deadvision.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\desert_world.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\connection.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\connectionMenu.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\connectionMenu.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\fire.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\mediumExplosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\iconPlasmaCannon.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\iconMissile.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\iconMinigun.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\half.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\fullGaugeYellow.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\fullGaugeBlue.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\energybar.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\emptyGauge.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\energy.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\player1Selector.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\player4Selector.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\player3.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\player3Selector.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\player4.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\redDesert.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\smallExplosion.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\smallExplosion.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\space-background1.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="assets\sprites\weaponIconContainer.png">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Font Include="assets\fonts\freedom.ttf" />

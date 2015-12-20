@@ -34,9 +34,7 @@ void			Server::run()
   try
     {
       while (_running)
-	{
-	  readHeader(sendFct);
-	}
+	readHeader(sendFct);
     }
   catch (std::exception  &e)
     {
@@ -79,6 +77,7 @@ void		Server::authResponse(authErr response, unsigned int gameId)
   unsigned char	*send;
   bool		found = false;
   Game		*gametmp = NULL;
+  std::mutex	*mut;
   size_t	port;
 
   send = buildHeader(AUTH, 7);
@@ -105,6 +104,8 @@ void		Server::authResponse(authErr response, unsigned int gameId)
 	authResponse(Server::UNKNOWN, 0);
       else
 	{
+	  mut = gametmp->getMutex();
+	  mut->lock();
 	  if (gametmp->getClients().size() >= 4)
 	    authResponse(Server::GAME_FULL, 0);
 	  else
@@ -115,6 +116,7 @@ void		Server::authResponse(authErr response, unsigned int gameId)
 	      send[6] = port & 0xFF;
 	      //send
 	    }
+	  mut->unlock();
 	}
     }
   delete send;
@@ -126,7 +128,7 @@ size_t		Server::calcResponseLength() const
 
   for (auto it = _games.begin() ; it != _games.end() ; it++)
     {
-      length += 5 + (*it)->getName().length() + (*it)->getMapName().length();
+      length += 5 + (*it)->getName().length() + (*it)->getMapName().length() + (*it)->getClients().size();
     }
   return length;
 }
@@ -146,9 +148,11 @@ void			Server::infoResponse()
   int			pos = 4;
   std::string		gameName;
   std::string		mapName;
+  std::vector<Client *>	clients;
 
   for (auto it = _games.begin() ; it != _games.end() ; it++)
     {
+      clients = (*it)->getClients();
       gameName = (*it)->getName();
       mapName = (*it)->getMapName();
       send[pos++] = (*it)->getId() >> 8;
@@ -156,11 +160,14 @@ void			Server::infoResponse()
       send[pos++] = gameName.length();
       for (unsigned int i = 0 ; i < gameName.length() ; i++)
 	send[pos++] = gameName[i];
-      send[pos++] = (*it)->getClients().size();
+      send[pos++] = clients.size();
+      for (auto itc = clients.begin() ; itc != clients.end() ; itc++)
+	send[pos++] = (*itc)->getType();
       send[pos++] = mapName.length();
       for (unsigned int i = 0 ; i < mapName.length() ; i++)
 	send[pos++] = mapName[i];
     }
+  send[pos] = 0;
   // send
   delete send;
 }

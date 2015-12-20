@@ -10,11 +10,15 @@
 
 #include "IEntity.hh"
 
-IEntity::IEntity(int hp, int x, int y) : _hp(hp)
+IEntity::IEntity(int x, int y, short int id, char type)
 {
-  _coords.first = x;
-  _coords.second = y;
+  _hp = 0;
+  _coords.x = x;
+  _coords.y = y;
   _isAlive = true;
+  _id = id;
+  _isBreakable = (_id < 31) ? true : false;
+  _type = type;
 }
 
 IEntity::~IEntity()
@@ -22,15 +26,20 @@ IEntity::~IEntity()
 
 }
 
-std::pair<int, int>	IEntity::getPos() const
+sf::Vector2f	IEntity::getPos() const
 {
   return _coords;
 }
 
+sf::Vector2f	IEntity::getDirection() const
+{
+  return _direction;
+}
+
 void			IEntity::move(int x, int y)
 {
-  _coords.first = x;
-  _coords.second = y;
+  _coords.x = x;
+  _coords.y = y;
 }
 
 void			IEntity::takeDamage(int dam)
@@ -38,4 +47,24 @@ void			IEntity::takeDamage(int dam)
   _hp -= dam;
   if (_hp <= 0)
     _isAlive = false;
+}
+
+void			IEntity::setHp(int hp)
+{
+  _hp = hp;
+}
+
+short int		IEntity::getId() const
+{
+  return _id;
+}
+
+char			IEntity::getType() const
+{
+  return _type;
+}
+
+bool			IEntity::isBreakable() const
+{
+  return _isBreakable;
 }

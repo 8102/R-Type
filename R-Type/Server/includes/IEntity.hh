@@ -12,20 +12,30 @@
 # define IENTITY_HH__
 
 # include <utility>
+# include <SFML/System/Vector2.hpp>
 
 class	IEntity
 {
 public:
-  IEntity(int, int , int);
+  IEntity(int, int, short int, char);
   ~IEntity();
 public:
-  std::pair<int, int>	getPos() const;
+  sf::Vector2f		getPos() const;
+  sf::Vector2f		getDirection() const;
   void			move(int , int);
   void			takeDamage(int);
+  short int		getId() const;
+  char			getType() const;
+  void			setHp(int);
+  bool			isBreakable() const;
 private:
   int			_hp;
-  std::pair<int, int>	_coords;
   bool			_isAlive;
+  short int		_id;
+  char			_type;
+  sf::Vector2f		_coords;
+  sf::Vector2f		_direction;
+  bool			_isBreakable;
 };
 
 #endif // !IENTITY_HH__

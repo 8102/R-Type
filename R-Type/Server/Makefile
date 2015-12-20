@@ -26,7 +26,6 @@ SRC_SERVER	=	main.cpp		\
 			Server.cpp		\
 			Game.cpp		\
 			IEntity.cpp		\
-			IMonster.cpp
 
 OBJ_DIR		=	obj/
 
@@ -56,7 +55,7 @@ CFLAGS		=	-W -Wall -Wextra -I$(LIBS_DIR) -I$(INC_DIR)
 
 CFLAGS		+=	-I$(INC_DIR_COMMON) -std=c++11
 
-LFLAGS		=	-lpthread
+LFLAGS		= 	-lsfml-system -lsfml-graphics -lsfml-window -lsfml-audio -lpthread
 
 ifeq ($(DEBUG),yes)
 

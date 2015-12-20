@@ -14,6 +14,10 @@
 # include <vector>
 # include <iostream>
 # include <mutex>
+# include <ctime>
+# include <ratio>
+# include <chrono>
+# include <thread>
 # include "Client.hh"
 # include "IEntity.hh"
 
@@ -24,31 +28,43 @@ public:
   ~Game();
 
 public:
-  void			playing();
-  void			addPlayer();
+  void				timedPlay();
+  void				playing();
+  void				addPlayer(Client *);
+  void				readHeader();
 public:
-  void			closeGame();
+  void				closeGame();
 
 public:
-  std::mutex		*getMutex() const;
-  size_t		getId() const;
-  size_t		getPort() const;
-  std::vector<Client *>	getClients() const;
-  std::string		getName() const;
-  std::string		getMapName() const;
+  std::mutex			*getMutex() const;
+  size_t			getId() const;
+  size_t			getPort() const;
+  std::vector<Client *>		getClients() const;
+  std::string			getName() const;
+  std::string			getMapName() const;
+  float				getElapsedTime() const;
 private:
-  size_t		getAllGamesSize() const;
-  void			fillAllGamesSend() const;
+  size_t			getEntitiesSize();
 private:
-  std::vector<Client *>		_clients;
-  std::vector<IEntity *>	_entities;
-  long				_score;
-  std::mutex			*_mu;
-  size_t			_id;
-  bool				_isOver;
-  size_t			_port;
-  std::string			_name;
-  std::string			_mapName;
+  void				Update();
+  void				Destroy();
+  void				Action(unsigned int size);
+  void				Player(unsigned int size);
+  void				Score();
+  void				newWave();
+private:
+  std::vector<Client *>				_clients;
+  std::vector<IEntity *>			_entities;
+  long						_score;
+  std::mutex					*_mu;
+  size_t					_id;
+  bool						_isOver;
+  size_t					_port;
+  std::string					_name;
+  std::string					_mapName;
+  std::chrono::steady_clock::time_point		_originTime;
 };
+
+void		game_timing(Game *);
 
 #endif // GAME_HH__

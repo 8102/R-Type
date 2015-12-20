@@ -16,16 +16,24 @@
 class		Client
 {
 public:
-  Client(bool Spectate);
+  Client(bool Spectate, char type);
   ~Client();
 
 public:
   bool		isSpectator() const;
   long		getScore() const;
   void		setScore(long);
+  int		getLife() const;
+  void		setLife(int);
+  bool		isAlive() const;
+  void		setDeath();
+  char		getType() const;
 private:
   bool		_spectator;
   long		_score;
+  bool		_isAlive;
+  int		_life;
+  char		_type;
 };
 
 #endif // !CLIENT_HH__

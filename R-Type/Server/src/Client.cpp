@@ -10,7 +10,8 @@
 
 #include "Client.hh"
 
-Client::Client(bool spectate) : _spectator(spectate), _score(0)
+Client::Client(bool spectate, char type) :
+  _spectator(spectate), _score(0), _isAlive(true), _life(100), _type(type)
 {
 }
 
@@ -32,4 +33,29 @@ long		Client::getScore() const
 void		Client::setScore(long score)
 {
   _score = score;
+}
+
+int		Client::getLife() const
+{
+  return _life;
+}
+
+void		Client::setLife(int life)
+{
+  _life = life;
+}
+
+bool		Client::isAlive() const
+{
+  return _isAlive;
+}
+
+void		Client::setDeath()
+{
+  _isAlive = false;
+}
+
+char		Client::getType() const
+{
+  return _type;
 }

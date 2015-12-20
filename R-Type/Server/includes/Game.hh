@@ -31,6 +31,7 @@ public:
   void				timedPlay();
   void				playing();
   void				addPlayer(Client *);
+  void				addNewEntity(sf::Vector2f const &, sf::Vector2f const &, char, int);
   void				readHeader();
 public:
   void				closeGame();
@@ -47,11 +48,13 @@ private:
   size_t			getEntitiesSize();
 private:
   void				Update();
-  void				Destroy();
+  void				Destroy(short int);
   void				Action(unsigned int size);
   void				Player(unsigned int size);
   void				Score();
   void				newWave();
+  void				Pause();
+  void				Broadcast(char *, unsigned int size);
 private:
   std::vector<Client *>				_clients;
   std::vector<IEntity *>			_entities;
@@ -63,6 +66,9 @@ private:
   std::string					_name;
   std::string					_mapName;
   std::chrono::steady_clock::time_point		_originTime;
+  std::chrono::steady_clock::time_point		_pausedTime;
+  bool						_pause;
+  float						_elapsedTime;
 };
 
 void		game_timing(Game *);

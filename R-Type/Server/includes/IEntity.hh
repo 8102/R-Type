@@ -17,13 +17,16 @@
 class	IEntity
 {
 public:
-  IEntity(int, int, short int, char);
+  IEntity(sf::Vector2f const &, sf::Vector2f const &, short int, char);
   ~IEntity();
 public:
   sf::Vector2f		getPos() const;
   sf::Vector2f		getDirection() const;
+  void			setDirection(sf::Vector2f const &);
   void			move(int , int);
   void			takeDamage(int);
+  int			getDamage() const;
+  void			setDamage(int);
   short int		getId() const;
   char			getType() const;
   void			setHp(int);
@@ -36,6 +39,7 @@ private:
   sf::Vector2f		_coords;
   sf::Vector2f		_direction;
   bool			_isBreakable;
+  int			_damage;
 };
 
 #endif // !IENTITY_HH__

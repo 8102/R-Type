@@ -3,6 +3,7 @@
 
 # pragma once
 
+# include <cstring>
 # include "Address.hh"
 # include "UDPSocket.hh"
 

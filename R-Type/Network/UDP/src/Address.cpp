@@ -19,12 +19,9 @@ Address::Address(std::string const &address)
 	std::getline(ss, port);
 	_port = std::stoi(port);
 	ss.str(addr);
-	std::cout << ss.str() << std::endl;
+	ss.clear();
 	while (std::getline(ss, tok, '.'))
-	{
-		std::cout << "[" << tok << "]" << std::endl;
 		addrtok.push_back(static_cast<char>(std::stoi(tok)));
-	}
 	_address = (addrtok[0] << 24) | (addrtok[1] << 16) | (addrtok[2] << 8) | addrtok[3];
 }
 
@@ -52,7 +49,7 @@ std::string Address::toString() const
 {
 	std::stringstream addr;
 
-	addr << (_address >> 24 & 0xFF) << '.' << (_address >> 16 & 0xFF) << '.' << (_address >> 8 & 0xFF) << ':' << (_address & 0xFF) << ':' << _port;
+	addr << (_address >> 24 & 0xFF) << '.' << (_address >> 16 & 0xFF) << '.' << (_address >> 8 & 0xFF) << '.' << (_address & 0xFF) << ':' << _port;
 	return addr.str();
 }
 

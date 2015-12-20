@@ -97,6 +97,7 @@
     <Image Include="assets\icons\gameIcon.gif" />
     <Image Include="assets\icons\r-prototype.bmp.bmp" />
     <Image Include="assets\icons\rtype.ico" />
+    <Image Include="assets\sprites\alienButton.png" />
     <Image Include="assets\sprites\AlienShip.png" />
     <Image Include="assets\sprites\atom.png" />
     <Image Include="assets\sprites\AudioBackground.jpeg" />

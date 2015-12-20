@@ -20,6 +20,15 @@ void BonusFactory::loadConfig()
 		sf::Color::White
 	};
 
+	_BonusFunctions["minigun"] = &Bonus::giveSpeed;
+	_config["minigunBonus"] = {
+		"bonusMinigun.png",
+		"icon",
+		"speed",
+		sf::Color::White
+	};
+
+
 
 }
 

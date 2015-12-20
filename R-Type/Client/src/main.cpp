@@ -19,7 +19,7 @@ void                setupAnimations() {
   GameEngine&       engine = GameEngine::instanciate();
 
   Animation         anim1("boss1", Vi(1, 4), Vi(260, 145), Vi(0, 0), 50);
-  Animation         anim2("loadingShot", Vi(8, 1), Vi(32, 32), Vi(0, 48), 5);
+  Animation         anim2("loadingShot", Vi(8, 1), Vi(32, 32), Vi(0, 48), 1	);
   Animation         anim3("explosion", Vi(6, 1), Vi(32, 32), Vi(130, 0), 5);
   Animation         anim4("ship", Vi(1, 1), Vi(32, 17), Vi(0, 0), 100);
   Animation         anim5("void", Vi(1, 1), Vi(1768, 140), Vi(168, 16), 800);
@@ -46,6 +46,10 @@ void                setupAnimations() {
   Animation			spacePiggy("spacePig", Vi(4, 3), Vi(50, 50), Vi(0, 0), 5);
   Animation			smallExplosion("smallExplosion", Vi(6, 1), Vi(32, 30), Vi(0, 0), 12);
   Animation        flyingMinion("flyingMinion", Vi(3, 1), Vi(32, 32), Vi(16, 64), 25);
+  Animation			icon("icon", Vi(4, 2), Vi(64, 64), Vi(0, 0), 5);
+  Animation			fire("fireshot", Vi(2, 1), Vi(32, 16), Vi(0, 0), 1);
+
+  engine.addAnimation(&fire);
   engine.addAnimation(&flyingMinion);
   engine.addAnimation(&smallExplosion);
   Animation			mediumExplosion("mediumExplosion", Vi(8, 5), Vi(55, 55), Vi(0, 0), 2);
@@ -53,6 +57,7 @@ void                setupAnimations() {
   // AnimationFactory	f;
   // f.loadAnimation();
 
+  engine.addAnimation(&icon);
   engine.addAnimation(&mediumExplosion);
   engine.addAnimation(&spacePiggy);
   engine.addAnimation(&plaer3);
@@ -176,6 +181,7 @@ void               setupAnimatedSprites() {
   e.addEnnemy(ef.createEnnemy("flyingMinion", Vf(6250, 620), false));
 
   e.addBonus(*(e._bonusF.createBonus("speedBonus", Vf(500, 500), 3)));
+  e.addBonus(*(e._bonusF.createBonus("minigunBonus", Vf(1000, 500), 3)));
 
 }
 

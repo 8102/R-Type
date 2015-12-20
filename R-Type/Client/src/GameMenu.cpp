@@ -16,6 +16,8 @@ GameMenu::~GameMenu() {
 
 void                  GameMenu::draw() {
 
+	if (_focused != nullptr)
+		_focused->update();
 	if (_background)
 		_background->getDrawn();
 	for (auto it = _items.begin(); it != _items.end(); it++) {
@@ -43,6 +45,7 @@ bool                  GameMenu::onMouseOver(/* _unused */ sf::Event const& event
 			(*it)->reset();
 	}
 	target->update(event);
+	_focused = target;
 	return true;
 }
 
@@ -78,11 +81,42 @@ bool                  GameMenu::onKeyPressed(/* _unused */ sf::Event const& even
 
 	switch (event.key.code)
 	{
-	case sf::Keyboard::Escape:
-		engine.stop();
-		break;
-	default:
-		break;
+		case sf::Keyboard::Escape:
+			engine.stop();
+			break;
+
+		case sf::Keyboard::Tab:
+			changeFocused(1, false);
+			break;
+
+		case	sf::Keyboard::Up:
+			changeFocused(-1);
+			break;
+
+		case	sf::Keyboard::Down:
+			changeFocused(1);
+			break;
+
+		case sf::Keyboard::Left:
+			changeFocused(-1);
+			break;
+
+		case	sf::Keyboard::Right:
+			changeFocused(1);
+			break;
+
+		case sf::Keyboard::Return :
+			if (_focused != nullptr)
+			{
+				sf::Event e;
+
+				e.type =  sf::Event::MouseButtonPressed;
+				_focused->update(e);
+			}
+			break;
+
+		default:
+			break;
 	}
 	return true;
 }
@@ -94,8 +128,8 @@ bool                  GameMenu::onClose(/* _unused */ sf::Event const& event) {
 bool                  GameMenu::onText(sf::Event const& event)
 {
 	if (_focused != nullptr)
-		_focused->update(event);
-	return true;
+		 _focused->update(event);
+		return true;
 }
 
 sf::Vector2f					GameMenu::getTotalSize() const
@@ -136,6 +170,28 @@ void                  GameMenu::setElementScale(MenuElement *element) {
 void                 GameMenu::setElementPosition(MenuElement *element) {
 
 	(void)element;
+}
+
+void GameMenu::setFocused(int const & index)
+{
+	_focused = (index < 0 || index >= _items.size()) ? nullptr : _items[index];
+}
+
+void GameMenu::changeFocused(int const & indexMove, bool const& limited)
+{
+	if (_focused != nullptr) {
+		for (auto it = _items.begin(); it != _items.end(); it++)
+			if (*it == _focused) {
+				size_t index = std::distance(_items.begin(), it);
+				if (limited == true) index = (index == 0 && indexMove < 0 ? 0 : (index + indexMove >= _items.size() ? _items.size() - 1 : index + indexMove));
+				else index = (index == 0 &&  indexMove < 0 ? _items.size() - 1 : (index + indexMove >= _items.size() ? 0 : index + indexMove));
+				_focused = _items[index];
+				resetElements();
+				break;
+			}
+	}
+	else _focused = _items.size() > 0 ? _items[0] : nullptr;
+
 }
 
 

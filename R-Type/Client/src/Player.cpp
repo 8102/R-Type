@@ -31,7 +31,8 @@ void                         Player::update() {
 	ACharacter::update();
 	if (_reloadingTime <= 0)
 	{
-		_reloadingTime = _reload;
+		std::string s = _weapons[_weaponIndex].getCurrentAnimation().getAnimationName();
+		_reloadingTime = (s == "rocket" ? 120 : (s == "simpleBullet" ? 20 : 40));
 		_canShot = true;
 	}
 	else _reloadingTime -= 1;
@@ -40,6 +41,11 @@ void                         Player::update() {
 void                         Player::isReloading() {
 
 	_canShot = false;
+}
+
+Ammunition Player::getWeapon() const
+{
+	return _weapons[_weaponIndex];
 }
 
 bool                         Player::canShot() const {
@@ -74,6 +80,10 @@ void                         Player::shoot(unsigned int shotOriginVertexIndex) {
 		SoundSystem::instanciate().pushEffect("speedBonus.wav");
 		//		SoundSystem::instanciate().playEffect("speedBonus.wav");
 		isReloading();
+		if (_weapons[_weaponIndex].getCurrentAnimation().getAnimationName() == "plasmaBullet")
+			engine.addFX("loadingShot", "r-typesheet1.gif", sf::Vector2f(getPosition().x + _shotVertexes[shotOriginVertexIndex].x, getPosition().y + _shotVertexes[shotOriginVertexIndex].y - engine.getAnimation("loadingShot").getFrameDimensions().y / 2), sf::Color::Black);
+		else 
+		engine.addFX("fireshot", "fire.png", sf::Vector2f(getPosition().x + _shotVertexes[shotOriginVertexIndex].x, getPosition().y + _shotVertexes[shotOriginVertexIndex].y - engine.getAnimation("fireshot").getFrameDimensions().y / 2), sf::Color::White);
 	}
 }
 
@@ -108,7 +118,9 @@ void                         Player::switchWeapon() {
 	std::cout << "[Player::switchWeapon] : ";
 	_weaponIndex = (_weaponIndex + 1) % _weapons.size();
 	_weapon = _weapons[_weaponIndex];
-	std::cout << "{ " << _weapon.getCurrentAnimation().getAnimationName() << " }" << std::endl;
+	std::cout << " Extern switch : " << getWeapon().getCurrentAnimation().getAnimationName() << std::endl;
+	std::cout << "{ " << _weapon.getCurrentAnimation().getAnimationName() << " } :  [" << _weapon.getDamage() << "]" << std::endl;
+	std::cout << "{ " << _weapons[_weaponIndex].getCurrentAnimation().getAnimationName() << " } :  [" << _weapons[_weaponIndex].getDamage() << "]" << std::endl;
 }
 
 Player::~Player() {}

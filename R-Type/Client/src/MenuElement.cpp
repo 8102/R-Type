@@ -90,6 +90,11 @@ void                  MenuElement::reset() {
 	_angle = 0.0f;
 }
 
+void MenuElement::toggle(bool const & toggled)
+{
+	_hasBeenToggled = toggled;
+}
+
 void                  MenuElement::resumeGame(/* _unused */ sf::Event const& event) {
 
 	if (requestGameEngine.isReady()) {
@@ -118,6 +123,8 @@ void					MenuElement::setArgument(int const& argument) {
 void                  MenuElement::setMidground(sf::Sprite *elem)
 {
 	_midground = elem;
+//	_midground->setOrigin(sf::Vector2f(_midground->getGlobalBounds().width / 2, _midground->getGlobalBounds().height / 2));
+
 }
 
 void                  MenuElement::defaultFunction(/* _unused */ sf::Event const& event) {
@@ -229,19 +236,20 @@ void                  MenuElement::getLoginInput(sf::Event const& event) {
 	adjustScreenTextPosition(false);
 }
 
-void					MenuElement::readjustAudioGaugeToMouseClick(std::string const& gaugeText, void (SoundSystem::*audioTarget)(float const&)) {
+void								MenuElement::readjustAudioGaugeToMouseClick(std::string const& gaugeText, void (SoundSystem::*audioTarget)(float const&)) {
 	
-	float               ratio = 0.0f;
-	std::stringstream   ss;
+	float							ratio = 0.0f;
+	int							newSize = 0;
+	std::stringstream		ss;
 
-	_midground->setTextureRect(sf::IntRect(0, 0,
-		sf::Mouse::getPosition(requestGameEngine.getWindow()).x - static_cast<int>(_midground->getPosition().x),
-		_midground->getTextureRect().height));
+	newSize = sf::Mouse::getPosition(requestGameEngine.getWindow()).x - (static_cast<int>(_midground->getGlobalBounds().left));
+	newSize = (newSize < 0 ? 0 : (newSize > getGlobalBounds().width ? getGlobalBounds().width : newSize));
+	_midground->setTextureRect(sf::IntRect(0, 0, newSize, _midground->getTextureRect().height));
 	ratio = static_cast<float>(_midground->getTextureRect().width * 100 / getTextureRect().width);
 	((requestAudioEngine).*(audioTarget))(ratio);
 	_screenText.setCharacterSize(25);
 	_text = gaugeText + std::string(" : ");
-	ss << ratio + 1;
+	ss << ratio;
 	_text += ss.str() + "%";
 	_screenText.setString(_text);
 	adjustScreenTextPosition();

@@ -107,13 +107,13 @@ void              initSettingsMenu() {
 
 	GameMenu*       audioMenu = new GameMenu("audio", GameMenu::InBlock_straight);
 	MenuElement*    audioBackground = new MenuElement(*a.getTexture("blackhole.jpg"));
-	MenuElement*    audioButton1 = new MenuElement(*a.getTexture("fullGlowGauge.png"), "", *a.getFont("nullShock.ttf"), nullptr, Vf(0, 0), sf::Color::Black);
-	MenuElement*    audioButton2 = new MenuElement(*a.getTexture("fullGlowGauge.png"), "", *a.getFont("nullShock.ttf"), nullptr, Vf(0, 0), sf::Color::Black);
-	MenuElement*    audioButton3 = new MenuElement(*a.getTexture("fullGlowGauge.png"), "", *a.getFont("nullShock.ttf"), nullptr, Vf(0, 0), sf::Color::Black);
+	MenuElement*    audioButton1 = new MenuElement(*a.getTexture("emptyGauge.png"), "", *a.getFont("nullShock.ttf"), nullptr, Vf(0, 0), sf::Color::Black);
+	MenuElement*    audioButton2 = new MenuElement(*a.getTexture("emptyGauge.png"), "", *a.getFont("nullShock.ttf"), nullptr, Vf(0, 0), sf::Color::Black);
+	MenuElement*    audioButton3 = new MenuElement(*a.getTexture("emptyGauge.png"), "", *a.getFont("nullShock.ttf"), nullptr, Vf(0, 0), sf::Color::Black);
 	MenuElement*    audioButton4 = new MenuElement(*a.getTexture("half.png"), "Back", *a.getFont("freedom.ttf"));
-	MenuElement*    mid1 = new MenuElement(*a.getTexture("emptyGlowGauge.png"), "", *a.getFont("freedom.ttf"));
-	MenuElement*    mid2 = new MenuElement(*a.getTexture("emptyGlowGauge.png"), "", *a.getFont("freedom.ttf"));
-	MenuElement*    mid3 = new MenuElement(*a.getTexture("emptyGlowGauge.png"), "", *a.getFont("freedom.ttf"));
+	MenuElement*    mid1 = new MenuElement(*a.getTexture("fullGaugeBlue.png"), "", *a.getFont("freedom.ttf"));
+	MenuElement*    mid2 = new MenuElement(*a.getTexture("fullGaugeBlue.png"), "", *a.getFont("freedom.ttf"));
+	MenuElement*    mid3 = new MenuElement(*a.getTexture("fullGaugeBlue.png"), "", *a.getFont("freedom.ttf"));
 
 	audioMenu->setBackground(audioBackground);
 	audioButton1->setMidground(mid1);

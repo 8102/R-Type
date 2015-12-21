@@ -34,6 +34,7 @@ public:
   void				addNewEntity(sf::Vector2f const &, sf::Vector2f const &, char, int);
   void				readHeader();
   void				checkPlayersLife();
+  void				onePlayerPresent();
 public:
   void				closeGame();
 
@@ -45,6 +46,8 @@ public:
   std::string			getName() const;
   std::string			getMapName() const;
   float				getElapsedTime() const;
+  void				triggerLaunch();
+  bool				getLaunch() const;
 private:
   size_t			getEntitiesSize();
 private:
@@ -70,6 +73,7 @@ private:
   std::chrono::steady_clock::time_point		_pausedTime;
   bool						_pause;
   float						_elapsedTime;
+  bool						_beginGame;
 };
 
 void		game_timing(Game *);

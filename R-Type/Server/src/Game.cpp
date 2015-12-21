@@ -17,6 +17,7 @@ Game::Game(size_t id, size_t port, std::string const &name, std::string const &m
   _mu = new std::mutex();
   _originTime = std::chrono::steady_clock::now();
   _pause = false;
+  _beginGame = false;
 }
 
 Game::~Game()
@@ -79,6 +80,16 @@ size_t		Game::getEntitiesSize()
   return (totalSize);
 }
 
+void			Game::triggerLaunch()
+{
+  _beginGame = true;
+}
+
+bool			Game::getLaunch() const
+{
+  return _beginGame;
+}
+
 //
 // Principal Game functions
 //
@@ -101,14 +112,21 @@ void			Game::checkPlayersLife()
     }
 }
 
+void			Game::onePlayerPresent()
+{
+  if (_clients.empty())
+    closeGame();
+}
+
 void			Game::timedPlay()
 {
   while (!_isOver)
     {
-      if (!_pause)
+      if (!_pause && _beginGame)
 	{
-	  checkPlayersLife();
 	  newWave();
+	  checkPlayersLife();
+	  onePlayerPresent();
 	}
     }
 }
@@ -121,9 +139,7 @@ void				Game::playing()
 
       std::cout << "Game n°" << _id << " playing..." << std::endl;
       while (!_isOver)
-	{
-	  readHeader(); // listening to all clients.
-	}
+	readHeader(); // listening to all clients.
     }
   catch (std::exception &e)
     {
@@ -152,6 +168,8 @@ void		Game::addPlayer(Client *newone)
 {
   _mu->lock();
   _clients.push_back(newone);
+  if (!_beginGame)
+    triggerLaunch();
   _mu->unlock();
 }
 
@@ -309,8 +327,8 @@ void		Game::Score()
 
 void		Game::newWave()
 {
-  // check time && launch wave       std::chrono::duration<double> time_span =
-  //	std::chrono::duration_cast<std::chrono::duration<double> >(std::chrono::steady_clock::now() - _originalTime);  - _elapsedTime in case of pause
+  // check time && launch wave
+  //	getElapsedTime
 }
 
 void		Game::Broadcast(char *to_send, unsigned int size)

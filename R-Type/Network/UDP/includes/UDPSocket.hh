@@ -13,6 +13,7 @@
 	# include <netinet/in.h>
 	# include <fcntl.h>
 	# include <unistd.h>
+	# include <arpa/inet.h>
 
 # endif // defined(_WIN32)
 

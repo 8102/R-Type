@@ -41,7 +41,7 @@ bool	Connection::listen(unsigned short port)
 bool	Connection::connect(std::string const &address)
 {
 	_address = Address(address);
-	if (!_socket.open(_address.getAddress(), true))
+	if (!_socket.open(_address.getPort(), true))
 	{
 		if (_debug)
 			std::cerr << "Can't connect to " << address << std::endl;
@@ -57,7 +57,7 @@ bool	Connection::connect(std::string const &address)
 bool	Connection::connect(unsigned int address, unsigned short port)
 {
 	_address = Address(address, port);
-	if (!_socket.open(port))
+	if (!_socket.open(port, true))
 	{
 		if (_debug)
 			std::cerr << "Can't connect to : " << _address.toString() << std::endl;

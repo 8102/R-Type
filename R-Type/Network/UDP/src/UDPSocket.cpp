@@ -90,7 +90,7 @@ bool	UDPSocket::send(Address const &to, void const *data, size_t size)
 		return false;
 	sockaddr_in addr;
 	addr.sin_family = AF_INET;
-	addr.sin_addr.s_addr = htonl(to.getAddress());
+	inet_pton(AF_INET, to.getAddressStr().c_str(), &(addr.sin_addr));
 	addr.sin_port = htons(to.getPort());
 	if (::sendto(_fd, static_cast<char const *>(data), size, 0, reinterpret_cast<const sockaddr *>(&addr), sizeof(sockaddr_in)) == -1)
 	{

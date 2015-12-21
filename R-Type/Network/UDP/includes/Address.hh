@@ -19,6 +19,7 @@ public:
 public:
 	unsigned int getAddress() const;
 	std::string toString() const;
+	std::string getAddressStr() const;
 	unsigned short getPort() const;
 	void setAddress(unsigned int address);
 	void setAddress(std::string const &address);
@@ -31,6 +32,7 @@ public:
 private:
 	unsigned int _address;
 	unsigned short _port;
+	std::string _addrstr;
 
 };
 

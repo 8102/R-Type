@@ -10,7 +10,7 @@
 ** Constructors / Destructors
 */
 Connection::Connection(uint32_t protocolID) :
-	_protocolID(protocolID), _header_size(4)
+	_protocolID(protocolID), _header_size(4), _state(Disconnected)
 {
 
 }

@@ -34,3 +34,15 @@ void Bonus::giveSpeed(Player & p, int const& speed) const
 {
 	p.setSpeed(p.getSpeed() + speed);
 }
+
+void Bonus::giveEnergy(Player & p, int const& amount) const
+{
+	int		value = amount + p.getEnergy().x;
+	if (value > p.getEnergy().y)
+		value = p.getEnergy().y;
+	else if (value < 0)
+		value = 0;
+	p.setEnergy(sf::Vector2i(value, p.getEnergy().y));
+}
+
+

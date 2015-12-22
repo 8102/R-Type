@@ -29,7 +29,7 @@ public:
 
 	void              update();
 
-	bool				 dealDamage(ACharacter& target);
+	bool				 dealDamage(ACharacter& target) const;
 	void				 trigger();
 
 public:

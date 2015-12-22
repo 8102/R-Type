@@ -48,8 +48,10 @@ void                setupAnimations() {
   Animation        flyingMinion("flyingMinion", Vi(3, 1), Vi(32, 32), Vi(16, 64), 25);
   Animation			icon("icon", Vi(4, 2), Vi(64, 64), Vi(0, 0), 5);
   Animation			fire("fireshot", Vi(2, 1), Vi(32, 16), Vi(0, 0), 1);
+  Animation			shieldBonus("shieldBonus", Vi(1, 1), Vi(48, 48), Vi(0, 0), 1000);
 
   engine.addAnimation(&fire);
+  engine.addAnimation(&shieldBonus);
   engine.addAnimation(&flyingMinion);
   engine.addAnimation(&smallExplosion);
   Animation			mediumExplosion("mediumExplosion", Vi(8, 5), Vi(55, 55), Vi(0, 0), 2);
@@ -127,6 +129,8 @@ void               setupAnimatedSprites() {
   AmmoFactory                 af;
 
   ef.loadEnnemyConfigFromFile();
+  e._ennemyF.loadEnnemyConfigFromFile();
+
   af.loadAmmoConfigFromFile();
 
   Ennemy*			Boss = ef.createEnnemy("boss1", Vf(PLAY_WIDTH - 300, PLAY_HEIGHT), true);
@@ -191,6 +195,7 @@ void initOptionMenu();
 void initSettingsMenu();
 void initConnectionMenu();
 void initCharacterSelectionMenu();
+void initMapSelectionMenu();
 
 
 #ifdef			_WIN32
@@ -217,6 +222,7 @@ int main() {
   initOptionMenu();
   initConnectionMenu();
   initSettingsMenu();
+  initMapSelectionMenu();
   initCharacterSelectionMenu();
   audioEngine.addMusic("unity.wav");
   audioEngine.addMusic("menuMusic.wav");

@@ -7,18 +7,18 @@ PlayerController::PlayerController(Player& player) : AGameController(), _player(
 
 PlayerController::~PlayerController() {}
 
-bool                                PlayerController::onMouseOver(/* _unused */ sf::Event const& event) {
+bool                                PlayerController::onMouseOver(_unused sf::Event const& event) {
 
 	return false;
 }
 
-bool                                PlayerController::onMouseClick(/* _unused */ sf::Event const& event) {
+bool                                PlayerController::onMouseClick(_unused sf::Event const& event) {
 
 	_player.shoot();
 	return false;
 }
 
-bool                                PlayerController::onMouseClickReleased(/* _unused */ sf::Event const& event) {
+bool                                PlayerController::onMouseClickReleased(_unused sf::Event const& event) {
 
 	return false;
 }
@@ -35,7 +35,7 @@ void                                PlayerController::openMainMenu() {
 	engine.setControllerIndex(AGameController::MainMenu);
 }
 
-bool                                PlayerController::onKeyPressed(/* _unused */ sf::Event const& event) {
+bool                                PlayerController::onKeyPressed(_unused sf::Event const& event) {
 
 	switch (event.key.code) {
 
@@ -94,12 +94,12 @@ bool                                PlayerController::handleKeysDown() {
 	return true;
 }
 
-bool                                PlayerController::onClose(/* _unused */ sf::Event const& event) {
+bool                                PlayerController::onClose(_unused sf::Event const& event) {
 
 	return false;
 }
 
-bool                                PlayerController::onText(/* _unused */ sf::Event const& event) {
+bool                                PlayerController::onText(_unused sf::Event const& event) {
 
 	return false;
 }

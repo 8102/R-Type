@@ -8,6 +8,8 @@
 # include             <map>
 # include             <memory>
 # include				<sstream>
+# include				<fstream>
+# include				<regex>
 
 #define				_USE_MATH_DEFINES
 # include             <cmath>
@@ -26,6 +28,8 @@
 
 # ifdef					__GNUC__
 #	define              _unused                   __attribute__((unused))
+# else
+#	define				_unused
 # endif					// !__GNUC___
 
 # define              requestGameEngine			GameEngine::instanciate()

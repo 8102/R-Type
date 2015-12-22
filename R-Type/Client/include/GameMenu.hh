@@ -19,7 +19,8 @@ public:
 		InBlock,
 		InBlock_straight,
 		InLine_Bottom,
-		InLine_middleLoose
+		InLine_middleLoose,
+		InNarrowGrid
 	};
 
 public:
@@ -44,20 +45,27 @@ public:
 
 public:
 
-	sf::Vector2f	getTotalSize() const;
+	sf::Vector2f		getTotalSize() const;
 
 public:
 
-	void              addItem(MenuElement *element);
-	void              setBackground(MenuElement *element);
+	void					addItem(MenuElement *element);
+	void					setBackground(MenuElement *element);
+	void					setStyledElementsCadre(sf::FloatRect const& cadre);
 
 public:
 
-	void              setElementScale(MenuElement *element);
-	void              setElementPosition(MenuElement *element);
+	void					setElementScale(MenuElement *element);
+	void					setElementPosition(MenuElement *element);
 	void					setFocused(int const& index);
 	void					changeFocused(int const& indexMove, bool const& limited = true);
-	void              applyStyle();
+
+public:
+
+	void					applyInLineStyle();
+	void					applyInLineBottomStyle();
+	void					applyInNarrowGridStyle();
+	void					applyStyle();
 
 public:
 
@@ -70,16 +78,17 @@ public:
 
 private:
 
-	std::string       _name;
-	eMenuStyle        _style;
+	std::string			_name;
+	eMenuStyle			_style;
+	sf::FloatRect			_cadre;
 
 private:
 
-	std::map< sf::Event, bool(*)(IInteractive&) >   _eventTable;
-	std::vector<MenuElement *>                       _items;
-	MenuElement*                                     _background;
+	std::map< sf::Event, bool(*)(IInteractive&) >		_eventTable;
+	std::vector<MenuElement *>								_items;
+	MenuElement*													_background;
 
-	MenuElement*                                     _focused;
+	MenuElement*													_focused;
 };
 
 #endif              /* !___GAME_MENU_HH___ */

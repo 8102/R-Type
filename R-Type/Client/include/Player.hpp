@@ -16,31 +16,51 @@ public:
 
 public:
 
-	void                update();
-	void                move(int xAxis = 0, int yAxis = 0);
-	void                shoot(unsigned int shotOriginVertex = 0);
-	void                switchWeapon();
+	void						update();
+	void						getDrawn(sf::RenderWindow& win);
+
+	void						move(int xAxis = 0, int yAxis = 0);
+	void						shoot(unsigned int shotOriginVertex = 0);
+	void						switchWeapon();
+	void						activateShield(bool const& shieldState);
+	void						receiveDamage(Ammunition const& it);
+	bool						collide(AGameElement const& collider, bool const& shieldCollision = true) const;
 
 public:
 
-	bool                canShot() const;
-	void					 indicateCurrentPlayer(sf::RenderWindow & win);
-	void                isReloading();
+	bool						canShot() const;
+	void						indicateCurrentPlayer(sf::RenderWindow & win);
+	void						isReloading();
 
 public:
 
-	Ammunition	getWeapon() const;
+	Ammunition		getWeapon() const;
+
+	AnimatedSprite	getShield() const;
+	bool						isShielded() const;
+	sf::Vector2i			getEnergy() const;
+
+	void						setEnergy(sf::Vector2i const& v);
 
 private:
 
-	int                 _reload;
-	int                 _reloadingTime;
-	bool               _canShot;
+	int						_reload;
+	int						_reloadingTime;
+	bool						_canShot;
 
 private:
 
 	unsigned int        _weaponIndex;
 
+private:
+
+	AnimatedSprite	_shield;
+	bool						_isShielded;
+	sf::Vector2i			_energy;
+
+private:
+
+	static AnimatedSprite&	initPlayerShield();
 };
 
 template < class T, class ... Args >

@@ -3,7 +3,7 @@
 #include              "SoundSystem.hh"
 
 MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf::Font const& textFont, GameMenu* container, sf::Vector2f const& position, sf::Color const& color, int const& argument)
-	: AGameElement(texture, 1), _text(text), _container(container), _texture(texture), _midground(nullptr), _font(textFont), _baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false), _argument(0), _angle(0.0f) {
+	: AGameElement(texture, 1), _text(text), _container(container), _texture(texture), _midground(nullptr), _font(textFont), _baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false), _applyStyle(true), _argument(0), _angle(0.0f) {
 	setPosition(position);
 
 	setOrigin(sf::Vector2f(getGlobalBounds().width / 2, getGlobalBounds().height / 2));
@@ -95,13 +95,14 @@ void MenuElement::toggle(bool const & toggled)
 	_hasBeenToggled = toggled;
 }
 
-void                  MenuElement::resumeGame(/* _unused */ sf::Event const& event) {
+void                  MenuElement::resumeGame(_unused sf::Event const& event) {
 
 	if (requestGameEngine.isReady()) {
 		SoundSystem::instanciate().getCurrentMusic().pause();
 		SoundSystem::instanciate().setCurrentMusic("unity.wav");
 		SoundSystem::instanciate().playMusic();
 		GameEngine::instanciate().pause(false);
+		requestGameEngine.launchGame();
 		GameEngine::instanciate().setControllerIndex(AGameController::GameControls);
 	}
 }
@@ -127,7 +128,17 @@ void                  MenuElement::setMidground(sf::Sprite *elem)
 
 }
 
-void                  MenuElement::defaultFunction(/* _unused */ sf::Event const& event) {
+void MenuElement::applyStyle(bool const & style)
+{
+	_applyStyle = style;
+}
+
+bool MenuElement::applyStyle() const
+{
+	return _applyStyle;
+}
+
+void                  MenuElement::defaultFunction(_unused sf::Event const& event) {
 
 	SoundSystem&        soundEngine = SoundSystem::instanciate();
 
@@ -159,7 +170,7 @@ void MenuElement::movingFunction(sf::Event const & event)
 	_angle = 1.0f;
 }
 
-void                  MenuElement::quitGame(/* _unused */ sf::Event const& event) {
+void                  MenuElement::quitGame(_unused sf::Event const& event) {
 
 	GameEngine::instanciate().stop();
 }
@@ -171,27 +182,27 @@ void MenuElement::changeMenu(sf::Event const & event)
 	GameEngine::instanciate().setControllerIndex(static_cast<AGameController::eController>(_argument));
 }
 
-void                  MenuElement::openOptionMenu(/* _unused */ sf::Event const& event) {
+void                  MenuElement::openOptionMenu(_unused sf::Event const& event) {
 
 	GameEngine::instanciate().setControllerIndex(AGameController::OptionMenu);
 }
 
-void                  MenuElement::openMainMenu(/* _unused */ sf::Event const& event) {
+void                  MenuElement::openMainMenu(_unused sf::Event const& event) {
 
 	GameEngine::instanciate().setControllerIndex(AGameController::MainMenu);
 }
 
-void                  MenuElement::openSelectionMenu(/* _unused */ sf::Event const& event) {
+void                  MenuElement::openSelectionMenu(_unused sf::Event const& event) {
 
 	GameEngine::instanciate().setControllerIndex(AGameController::CharacterSelectionMenu);
 }
 
-void                  MenuElement::openConnectionMenu(/* _unused */ sf::Event const& event) {
+void                  MenuElement::openConnectionMenu(_unused sf::Event const& event) {
 
 	GameEngine::instanciate().setControllerIndex(AGameController::ConnectionMenu);
 }
 
-void                  MenuElement::openAudioMenu(/* _unused */ sf::Event const& event) {
+void                  MenuElement::openAudioMenu(_unused sf::Event const& event) {
 
 	requestGameEngine.setControllerIndex(AGameController::AudioMenu);
 }
@@ -227,7 +238,7 @@ void                  MenuElement::getLoginInput(sf::Event const& event) {
 		if (event.text.unicode == 32 && _actions[sf::Event::MouseButtonPressed] != nullptr)
 			(*this.*_actions[sf::Event::MouseButtonPressed])(event);
 		if (_text.size() < 12) { _text += static_cast< char >(event.text.unicode); }
-		break;
+			break;
 	}
 	if (std::regex_match(_text, model))
 		_screenText.setString(_text);
@@ -243,7 +254,7 @@ void								MenuElement::readjustAudioGaugeToMouseClick(std::string const& gauge
 	std::stringstream		ss;
 
 	newSize = sf::Mouse::getPosition(requestGameEngine.getWindow()).x - (static_cast<int>(_midground->getGlobalBounds().left));
-	newSize = (newSize < 0 ? 0 : (newSize > getGlobalBounds().width ? getGlobalBounds().width : newSize));
+	newSize = (newSize < 0 ? 0 : (newSize > getGlobalBounds().width ? static_cast<int>(getGlobalBounds().width) : newSize));
 	_midground->setTextureRect(sf::IntRect(0, 0, newSize, _midground->getTextureRect().height));
 	ratio = static_cast<float>(_midground->getTextureRect().width * 100 / getTextureRect().width);
 	((requestAudioEngine).*(audioTarget))(ratio);
@@ -255,31 +266,31 @@ void								MenuElement::readjustAudioGaugeToMouseClick(std::string const& gauge
 	adjustScreenTextPosition();
 }
 
-void                  MenuElement::setEffectVolume(/* _unused */ sf::Event const& event) {
+void                  MenuElement::setEffectVolume(_unused sf::Event const& event) {
 
 	if (_hasBeenToggled == true && _midground != nullptr)
 		readjustAudioGaugeToMouseClick("Effects", &SoundSystem::setEffectVolume);
 }
 
-void                  MenuElement::setMusicVolume(/* _unused */ sf::Event const& event) {
+void                  MenuElement::setMusicVolume(_unused sf::Event const& event) {
 
 	if (_hasBeenToggled == true && _midground != nullptr)
 		readjustAudioGaugeToMouseClick("Music", &SoundSystem::setMusicVolume);
 }
 
 
-void                  MenuElement::setMasterVolume(/* _unused */ sf::Event const& event) {
+void                  MenuElement::setMasterVolume(_unused sf::Event const& event) {
 
 	if (_hasBeenToggled == true && _midground != nullptr)
 		readjustAudioGaugeToMouseClick("Master", &SoundSystem::setMasterVolume);
 }
 
-void                  MenuElement::toggleGauging(/* _unused */ sf::Event const& event) {
+void                  MenuElement::toggleGauging(_unused sf::Event const& event) {
 
 	_hasBeenToggled = !_hasBeenToggled;
 }
 
-void                  MenuElement::untoggleGauging(/* _unused */ sf::Event const& event) {
+void                  MenuElement::untoggleGauging(_unused sf::Event const& event) {
 
 	_hasBeenToggled = false;
 }

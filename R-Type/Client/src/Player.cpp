@@ -2,26 +2,26 @@
 #include                     "GameEngine.hh"
 //#include                     "UnitTest.hh"
 Player::Player(std::string const& filename, Animation const& animation, Ammunition const& ammo, sf::Color const& colorMask)
-	: ACharacter(filename, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0) {
+	: ACharacter(filename, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(100, 100) {
 
 	setType(AGameElement::Friendly);
 }
 
 Player::Player(sf::Texture const& texture, Animation const& animation, Ammunition const& ammo, sf::Color const& colorMask)
-	: ACharacter(texture, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0) {
+	: ACharacter(texture, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(true), _energy(1000, 1000) {
 
 	setType(AGameElement::Friendly);
 }
 
 Player::Player(AnimatedSprite const& baseModel, Ammunition const& ammo)
-	: ACharacter(baseModel, ammo), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0) {
+	: ACharacter(baseModel, ammo), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(true), _energy(3000, 100) {
 
 	setType(AGameElement::Friendly);
 }
 
 
 Player::Player(ACharacter const& baseModel)
-	: ACharacter(baseModel), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0) {
+	: ACharacter(baseModel), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(true), _energy(3000, 100) {
 
 	setType(AGameElement::Friendly);
 }
@@ -29,13 +29,22 @@ Player::Player(ACharacter const& baseModel)
 void                         Player::update() {
 
 	ACharacter::update();
+	if (_isShielded == true)
+		_shield.update();
 	if (_reloadingTime <= 0)
 	{
 		std::string s = _weapons[_weaponIndex].getCurrentAnimation().getAnimationName();
-		_reloadingTime = (s == "rocket" ? 120 : (s == "simpleBullet" ? 20 : 40));
+		_reloadingTime = (s == "rocket" ? 80 : (s == "simpleBullet" ? 1 : 10));
 		_canShot = true;
 	}
 	else _reloadingTime -= 1;
+}
+
+void Player::getDrawn(sf::RenderWindow & win)
+{
+	win.draw(*this);
+	if (isShielded() == true)
+		win.draw(_shield);
 }
 
 void                         Player::isReloading() {
@@ -43,9 +52,38 @@ void                         Player::isReloading() {
 	_canShot = false;
 }
 
-Ammunition Player::getWeapon() const
+Ammunition			Player::getWeapon() const
 {
 	return _weapons[_weaponIndex];
+}
+
+AnimatedSprite Player::getShield() const
+{
+	return _shield;
+}
+
+bool						Player::isShielded() const
+{
+
+	return _isShielded;
+}
+
+sf::Vector2i Player::getEnergy() const
+{
+
+	return	_energy;
+}
+
+void Player::setEnergy(sf::Vector2i const & v)
+{
+	_energy = v;
+}
+
+AnimatedSprite & Player::initPlayerShield()
+{
+	static AnimatedSprite	shield(*requestAssetManager.getTexture("bubbleShield.png"), requestGameEngine.getAnimation("bubbleShield"), sf::Color::Black);
+
+	return shield;
 }
 
 bool                         Player::canShot() const {
@@ -87,20 +125,6 @@ void                         Player::shoot(unsigned int shotOriginVertexIndex) {
 	}
 }
 
-// void                         Player::shoot(unsigned int shotOriginVertex, sf::Vector2f const& targetPosition) {
-//
-//   if (canShot() == true)
-//     {
-//       ACharacter::shoot(shotOriginVertex, targetPosition)
-//       isReloading();
-//     }
-// }
-
-//void						    Player::ActivateShield()
-//{
-//	_shield = 
-//}
-
 void                         Player::move(int xAxis, int yAxis) {
 
 	sf::Vector2f               movement(static_cast<float>(static_cast<int>(_speed * xAxis)), static_cast<float>(static_cast<int>(_speed * yAxis)));
@@ -111,16 +135,48 @@ void                         Player::move(int xAxis, int yAxis) {
 		nextPosition.y > 10 &&
 		nextPosition.y < (WIN_H - getGlobalBounds().height - 10))
 		setPosition(nextPosition);
+	if (isShielded() == true)
+	{
+		_shield.setPosition(sf::Vector2f(getGlobalBounds().left + getGlobalBounds().width / 2.0f - _shield.getGlobalBounds().width / 2.0f,
+			getGlobalBounds().top + getGlobalBounds().height / 2.0f - _shield.getGlobalBounds().height / 2.0f));
+	}
 }
 
 void                         Player::switchWeapon() {
 
-	std::cout << "[Player::switchWeapon] : ";
 	_weaponIndex = (_weaponIndex + 1) % _weapons.size();
 	_weapon = _weapons[_weaponIndex];
-	std::cout << " Extern switch : " << getWeapon().getCurrentAnimation().getAnimationName() << std::endl;
-	std::cout << "{ " << _weapon.getCurrentAnimation().getAnimationName() << " } :  [" << _weapon.getDamage() << "]" << std::endl;
-	std::cout << "{ " << _weapons[_weaponIndex].getCurrentAnimation().getAnimationName() << " } :  [" << _weapons[_weaponIndex].getDamage() << "]" << std::endl;
+	//std::cout << " Extern switch : " << getWeapon().getCurrentAnimation().getAnimationName() << std::endl;
+	//std::cout << "{ " << _weapon.getCurrentAnimation().getAnimationName() << " } :  [" << _weapon.getDamage() << "]" << std::endl;
+	//std::cout << "{ " << _weapons[_weaponIndex].getCurrentAnimation().getAnimationName() << " } :  [" << _weapons[_weaponIndex].getDamage() << "]" << std::endl;
 }
 
+void Player::activateShield(bool const & shieldState)
+{
+	_isShielded = shieldState;
+}
+
+void Player::receiveDamage(Ammunition const & shot)
+{
+	if (_isShielded == true) {
+		_energy.x -= shot.getDamage();
+		if (_energy.x <= 0) {
+			_health.x -= _energy.x;
+			_energy.x = 0;
+			_isShielded = false;
+		}
+	} else {
+		shot.dealDamage(*this);
+	}
+}
+
+bool Player::collide(AGameElement const & collider, bool const &shieldCollision) const
+{
+	if (isShielded() == true && shieldCollision == true)
+		return collider.collide(_shield);
+	return collider.collide(*this);
+}
+
+
 Player::~Player() {}
+

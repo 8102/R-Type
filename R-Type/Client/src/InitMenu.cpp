@@ -79,7 +79,7 @@ void                  initConnectionMenu() {
 	MenuElement*        connectionButton2 = new MenuElement(*a.getTexture("half.png"), "Back", *a.getFont("freedom.ttf"));
 
 	connectionMenu->setBackground(connectionMenuBackground);
-	connectionButton1->setAction(sf::Event::MouseButtonPressed, &MenuElement::changeMenu, AGameController::CharacterSelectionMenu);
+	connectionButton1->setAction(sf::Event::MouseButtonPressed, &MenuElement::changeMenu, AGameController::MapSelectionMenu);
 	connectionButton1->setAction(sf::Event::MouseMoved, &MenuElement::startingFunction);
 	connectionButton2->setAction(sf::Event::MouseButtonPressed, &MenuElement::changeMenu, AGameController::MainMenu);
 	connectionButton2->setAction(sf::Event::MouseMoved, &MenuElement::movingFunction);
@@ -169,9 +169,44 @@ void								initCharacterSelectionMenu() {
 	selectionMenu->addItem(character3);
 	selectionMenu->addItem(character4);
 
-	selectionMenu->applyStyle();
 	playButton->setPosition(sf::Vector2f(playButton->getPosition().x + playButton->getGlobalBounds().width / 2, playButton->getPosition().y + playButton->getGlobalBounds().height / 2));
-//	selectionMenu->addItem(text);
+	playButton->applyStyle(false);
+	//	playButton->setPosition(sf::Vector2f(playButton->getPosition().x + playButton->getGlobalBounds().width / 2, playButton->getPosition().y + playButton->getGlobalBounds().height / 2));
 	selectionMenu->addItem(playButton);
+	selectionMenu->applyStyle();
+	//	selectionMenu->addItem(text);
 	requestGameEngine.setController< GameMenu >(AGameController::CharacterSelectionMenu, selectionMenu);
+}
+
+void			initMapSelectionMenu()
+{
+	AssetManager&		a = requestAssetManager;
+
+	GameMenu*			selectionMenu = new GameMenu("Character Selection", GameMenu::InNarrowGrid);
+	MenuElement*		playButton = new MenuElement(*a.getTexture("half.png"), "NEXT", *a.getFont("nullShock.ttf"));
+	MenuElement*		name = new MenuElement(*a.getTexture("mapName.png"), "Endor", *a.getFont("nullShock.ttf"));
+
+	selectionMenu->setBackground(new MenuElement(*a.getTexture("mapSelection.jpg")));
+	playButton->setOrigin(sf::Vector2f(playButton->getGlobalBounds().width / 2, playButton->getGlobalBounds().height / 2));
+	playButton->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2, 800));
+	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::changeMenu, AGameController::CharacterSelectionMenu);
+	playButton->setAction(sf::Event::MouseMoved, &MenuElement::startingFunction);
+
+	playButton->applyStyle(false);
+	selectionMenu->setStyledElementsCadre(sf::FloatRect(sf::Vector2f(494.0f, 267.0f), sf::Vector2f(641.0f, 408.0f)));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Endor", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("nbPlayer.png"), "3/4", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("void.png"), "", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Manhattan", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("nbPlayer.png"), "0/4", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("void.png"), "", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Sin City", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("nbPlayer.png"), "2/4", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("void.png"), "", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Tamanoir II", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("nbPlayer.png"), "4/4", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("void.png"), "", *a.getFont("nullShock.ttf")));
+	selectionMenu->applyStyle();
+	selectionMenu->addItem(playButton);
+	requestGameEngine.setController< GameMenu >(AGameController::MapSelectionMenu, selectionMenu);
 }

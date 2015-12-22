@@ -25,6 +25,7 @@ public:
 public:
 
 	void								giveSpeed(Player& p, int const& speed) const;
+	void								giveEnergy(Player&p, int const& amount) const;
 
 private:
 

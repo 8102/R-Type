@@ -40,7 +40,7 @@ public:
 	void               shoot(T&, bool useAllWeapon = false, unsigned int const& shotOriginVertexIndex = 0);
 
 	void				die();
- 
+
 public:
 
 	unsigned int       getSpeed() const;
@@ -80,7 +80,6 @@ protected:
 protected:
 
 	Ammunition        _weapon;
-	FX							_deathFX;
 
 protected:
 
@@ -95,6 +94,7 @@ protected:
 protected:
 
 	sf::Text				_gName;
+	FX							_deathFX;
 };
 
 #endif                /* !___ABSTRACT_CHARACTER_HH___ */

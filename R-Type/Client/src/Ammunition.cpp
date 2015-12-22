@@ -20,13 +20,6 @@ Ammunition::Ammunition(Ammunition const& model)
 }
 
 Ammunition::~Ammunition() {
-
-	//if (requestGameEngine.isPaused() == false && requestGameEngine.isRunning() == true) {
-	//	AnimatedSprite*  fx = new AnimatedSprite(*requestAssetManager.getTexture("r-typesheet44.gif"),
-	//		requestGameEngine.getAnimation("explosion"),
-	//		sf::Color::Black);
-	//	requestGameEngine.addFX(fx, *this);
-	//}
 }
 
 void                      Ammunition::update() {
@@ -38,7 +31,7 @@ void                      Ammunition::update() {
 	if (_animationState != Animation::current)
 		changeFrame();
 }
-bool Ammunition::dealDamage(ACharacter& target)
+bool Ammunition::dealDamage(ACharacter& target) const
 {
 	target.setLife(sf::Vector2i(target.getLife().x - _damage, target.getLife().y));
 	if (target.getLife().x < 0)
@@ -58,8 +51,19 @@ void Ammunition::trigger()
 }
 void                      Ammunition::setTargetPosition(sf::Vector2f const& targetPosition) {
 
+	float					vx, vy, deltax, deltay, angle;
+
 	_targetPosition = targetPosition;
-	_movement = sf::Vector2f((_targetPosition.x - getPosition().x) / _speed, (_targetPosition.y - getPosition().y) / _speed);
+	deltax = targetPosition.x - getPosition().x;
+	deltay = targetPosition.y - getPosition().y;
+	#ifdef _WIN32
+		angle = std::atan2f(deltay, deltax);
+	#else
+		angle = static_cast<float>(std::atan2(deltay, deltax));
+	#endif
+	vx = std::cos(angle) * _speed;
+	vy = std::sin(angle) * _speed;
+	_movement = sf::Vector2f(vx, vy);
 }
 
 void                      Ammunition::setSpeed(unsigned int const&  speed) {

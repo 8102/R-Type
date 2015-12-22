@@ -1,7 +1,7 @@
 #include            "GameDecor.hh"
 #include            "GameEngine.hh"
 
-GameDecor::GameDecor(std::string const& filename, unsigned int Zindex, sf::Color const& colorMask, bool repeated)
+GameDecor::GameDecor(std::string const& filename, unsigned int Zindex, sf::Color const& colorMask, _unused bool repeated)
 	: AGameElement(Zindex)
 {
 	_image.loadFromFile(filename);

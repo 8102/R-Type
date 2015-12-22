@@ -15,11 +15,14 @@
 # include <iostream>
 # include <vector>
 # include <map>
+# include <sys/time.h>
+# include <sys/types.h>
+# include <sys/select.h>
+# include <unistd.h>
 # include "Game.hh"
 # include "ThreadPool.hh"
 # include "Client.hh"
-
-void		*gameReady(Game *);
+# include "TCPConnection.hh"
 
 # define AUTH		1
 # define AUTH_SUCCESS	2
@@ -43,28 +46,34 @@ public:
   Server(int port);
   ~Server();
 public:
-  void			run();
-  short int		addNewGame(std::string const &name, std::string const & map);
-  bool			addNewPlayer(unsigned short int idGame, char player);
-  void			stop();
+  void					run();
+  short int				addNewGame(std::string const &name, std::string const & map);
+  bool					addNewPlayer(unsigned short int idGame, char player);
+  void					stop();
+  void					acceptClients();
 public:
-  void			authRead(unsigned int size);
-  void			authResponse(authErr, unsigned short int, char);
-  void			infoRead(unsigned int size);
-  void			infoResponse();
-  void			gameRead(unsigned int size);
-  void			gameResponse(unsigned short int);
-  void			readHeader(std::map<int, commandTreat> &);
-  unsigned char		*buildHeader(unsigned char commandCode, unsigned int length);
+  void					authRead(unsigned int size);
+  void					authResponse(authErr, unsigned short int, char);
+  void					infoRead(unsigned int size);
+  void					infoResponse();
+  void					gameRead(unsigned int size);
+  void					gameResponse(unsigned short int);
+  void					readHeader(std::map<int, commandTreat> &);
+  unsigned char				*buildHeader(unsigned char commandCode, unsigned int length);
 public:
-  size_t		calcResponseLength() const;
+  size_t				calcResponseLength() const;
 public:
-  void			addClientToGame();
+  void					addClientToGame();
 private:
-  bool			_running;
-  int			_port;
-  ThreadPool		*_pool;
-  std::vector<Game *>	_games;
+  bool						_running;
+  int						_port;
+  ThreadPool					*_pool;
+  std::vector<std::shared_ptr<Game> >		_games;
+  TCPConnection					*_server;
+  std::vector<std::shared_ptr<TCPSocket> >	_clients;
 };
+
+void		*gameReady(Game *);
+void		*acceptClient(Server *);
 
 #endif // !SERVER_HH__

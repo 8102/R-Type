@@ -36,16 +36,33 @@ LIBS_DIR	=	libs/
 INC_DIR		=	includes/
 
 #########################################################
-#                       COMMON                          #
+#                       UDP                             #
 #########################################################
 
-SRC_COMMON	=
+SRC_UDP	=		Connection.cpp	\
+			UDPSocket.cpp	\
+			Address.cpp
 
-OBJ_DIR_COMMON	=	obj/
+OBJ_DIR_UDP	=	obj/
 
-SRC_DIR_COMMON	=	src/
+SRC_DIR_UDP	=	../Network/UDP/src/
 
-INC_DIR_COMMON	=	includes/
+INC_DIR_UDP	=	../Network/UDP/includes/
+
+INC_DIR_INTER	=	../Network/Interfaces/
+
+#########################################################
+#                       TCP                             #
+#########################################################
+
+SRC_TCP	=		TCPConnection.cpp	\
+			TCPSocket.cpp		\
+
+OBJ_DIR_TCP	=	obj/
+
+SRC_DIR_TCP	=	../Network/TCP/src/
+
+INC_DIR_TCP	=	../Network/TCP/includes/
 
 #########################################################
 #                        FLAGS                          #
@@ -53,7 +70,7 @@ INC_DIR_COMMON	=	includes/
 
 CFLAGS		=	-W -Wall -Wextra -I$(LIBS_DIR) -I$(INC_DIR)
 
-CFLAGS		+=	-I$(INC_DIR_COMMON) -std=c++11
+CFLAGS		+=	-I$(INC_DIR_UDP) -I$(INC_DIR_TCP) -I$(INC_DIR_INTER) -std=c++11
 
 LFLAGS		= 	-lsfml-system -lsfml-graphics -lsfml-window -lsfml-audio -lpthread
 
@@ -75,26 +92,33 @@ BUILD_PRINT	=	\e[1;34mBuilding\e[0m \e[1;33m$<\e[0m
 
 OBJS		=	$(patsubst %.cpp,${OBJ_DIR}%.o, $(SRC_SERVER))
 
-OBJS_COMMON	=	$(patsubst %.cpp,${OBJ_DIR_COMMON}%.o, $(SRC_COMMON))
+OBJS_UDP	=	$(patsubst %.cpp,${OBJ_DIR_UDP}%.o, $(SRC_UDP))
+
+OBJS_TCP	=	$(patsubst %.cpp,${OBJ_DIR_TCP}%.o, $(SRC_TCP))
 
 FIRST		:=	$(shell test -d $(OBJ_DIR) || mkdir $(OBJ_DIR))
 
-FIRST		:=	$(shell test -d $(OBJ_DIR_COMMON) || mkdir $(OBJ_DIR_COMMON))
+FIRST		:=	$(shell test -d $(OBJ_DIR_UDP) || mkdir $(OBJ_DIR_UDP))
+
+FIRST		:=	$(shell test -d $(OBJ_DIR_TCP) || mkdir $(OBJ_DIR_TCP))
 
 $(OBJ_DIR)%.o	:	$(patsubst %.cpp, ${SRC_DIR}%.cpp, %.cpp)
 			@echo -e "$(BUILD_PRINT)" && $(CC) $(CFLAGS) -c $< -o $@
 
-$(OBJ_DIR_COMMON)%.o:	$(patsubst %.cpp, ${SRC_DIR_COMMON}%.cpp, %.cpp)
+$(OBJ_DIR_UDP)%.o:	$(patsubst %.cpp, ${SRC_DIR_UDP}%.cpp, %.cpp)
 			@echo -e "$(BUILD_PRINT)" && $(CC) $(CFLAGS) -c $< -o $@
 
-$(NAME_SERVER)	:	$(OBJS) $(OBJS_COMMON)
-			$(CC) $(OBJS) $(OBJS_COMMON) -o $(NAME_SERVER) $(LFLAGS)
+$(OBJ_DIR_UDP)%.o:	$(patsubst %.cpp, ${SRC_DIR_TCP}%.cpp, %.cpp)
+			@echo -e "$(BUILD_PRINT)" && $(CC) $(CFLAGS) -c $< -o $@
+
+$(NAME_SERVER)	:	$(OBJS) $(OBJS_UDP) $(OBJS_TCP)
+			$(CC) $(OBJS) $(OBJS_UDP) $(OBJS_TCP) -o $(NAME_SERVER) $(LFLAGS)
 
 all		:
 			@$(MAKE) --no-print-directory $(NAME_SERVER)
 
 clean		:
-			$(RM) $(OBJS) $(OBJ_DIR) $(OBJS_COMMON) $(OBJ_DIR_COMMON)
+			$(RM) $(OBJS) $(OBJ_DIR) $(OBJS_UDP) $(OBJS_TCP) $(OBJ_DIR_UDP) $(OBJ_DIR_TCP)
 
 fclean		:	clean
 			$(RM) $(NAME_SERVER)

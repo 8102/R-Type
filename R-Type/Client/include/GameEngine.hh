@@ -18,6 +18,9 @@
 # include				"EnnemyFactory.hh"
 # include				"PlayerFactory.hh"
 # include				"BonusFactory.hh"
+# include				"GameRythmer.hh"
+# include				"Timer.hh"
+# include				"GUI.hh"
 
 #define             PLAY_WIDTH    1600
 #define             PLAY_HEIGHT   900
@@ -50,22 +53,34 @@ public:
 
 public:
 
-	void                start();
-	void                run();
-	void                stop();
-	void                exit();
+	void					start();
+	void					run();
+	void					launchGame();
+	void					pause();
+	void					stop();
+	void					exit();
 
 public:
 
-	void                update();
-	void                draw();
-	void                draw(sf::Drawable const& target);
+	void					updateDecors();
+	void					updateBonus();
+	void					updateAmmos();
+	void					updateFXs();
+	void					updateEnnemies();
+	void					updatePlayers();
 
 public:
 
-	bool                isRunning() const;
-	bool                isPaused() const;
-	void                pause(bool pauseFlag);
+	void					update();
+	void					draw();
+	void					draw(sf::Drawable const& target);
+
+
+public:
+
+	bool					isRunning() const;
+	bool					isPaused() const;
+	void					pause(bool pauseFlag);
 	bool					isReady() const;
 
 public:
@@ -85,26 +100,32 @@ public:
 
 	void                setControllerIndex(AGameController::eController const& index);
 
-	void                addFX(AnimatedSprite *FX, sf::Vector2f const& position = Vf(0.0f, 0.0f));
-	void                addFX(AnimatedSprite *FX, Ammunition const& ammo);
-	void                addFX(std::string const& FXName, sf::Vector2f const& position = Vf(0.0f, 0.0f));
-	void				   addFX(std::string const&, std::string const&, sf::Vector2f const&, sf::Color const& colormask = sf::Color::Black);
-	void                addAmmo(Ammunition *ammo);
-	void                addEnnemy(Ennemy *ennemy);
-	void				  addBonus(Bonus const& b);
-	void                setPlayer(Player* player);
+	void					addFX(AnimatedSprite *FX, sf::Vector2f const& position = Vf(0.0f, 0.0f));
+	void					addFX(AnimatedSprite *FX, Ammunition const& ammo);
+	void					addFX(std::string const& FXName, sf::Vector2f const& position = Vf(0.0f, 0.0f));
+	void					addFX(std::string const&, std::string const&, sf::Vector2f const&, sf::Color const& colormask = sf::Color::Black);
+	void					addAmmo(Ammunition *ammo);
+	void					addEnnemy(Ennemy *ennemy);
+	void					addBonus(Bonus const& b);
 
-	CollisionManager&   getCollisionManager();
-
-public:
-
-	Animation&          getAnimation(std::string const& animationName);
-	AGameElement&       getGameObject(unsigned int index);
-	Player&             getPlayer();
+	void					setPlayer(Player* player);
 
 public:
 
-	sf::RenderWindow&   getWindow() const;
+	Animation&							getAnimation(std::string const& animationName);
+	AGameElement&					getGameObject(unsigned int index);
+	Player&								getPlayer();
+
+public:
+
+	sf::RenderWindow&			getWindow() const;
+	CollisionManager&				getCollisionManager();
+	GUI&									getGUI();
+
+public:
+
+	void										startClock();
+	float										getTime();
 
 private:
 
@@ -125,34 +146,38 @@ private:
 	/*
 	** PixelCollisionManager, initialised at creation of GameEngine
 	** | shortcut : requestCollider */
-	CollisionManager   _collisionChecker;
+	CollisionManager											_collisionChecker;
+	
+	std::unique_ptr< GUI >									_GUI;
+	
+	Timer																_clock;
 
 private:
 
 	/*
 	** For event loop */
-	sf::Event                                      _eventCatcher;
+	sf::Event															 _eventCatcher;
 	/*
 	** indicates which of _gameControllers directs actions
 	** according to user's inputs */
-	AGameController::eController                   _controlerIndex;
+	AGameController::eController							_controlerIndex;
 
 	std::map< AGameController::eController,
-		std::unique_ptr< AGameController >> _gameControllers;
+		std::unique_ptr< AGameController >>		_gameControllers;
 
 private:
 
-	std::vector< std::unique_ptr< AGameElement >>  _gameObjects;
-	std::vector< std::unique_ptr< Ammunition >>		_ammos;
-	std::vector< std::unique_ptr< Ennemy >>				_ennemies;
-	std::vector< std::unique_ptr< Bonus >>				_bonus;
+	std::vector< std::unique_ptr< AGameElement >>			_gameObjects;
+	std::vector< std::unique_ptr< Ammunition >>				_ammos;
+	std::vector< std::unique_ptr< Ennemy >>						_ennemies;
+	std::vector< std::unique_ptr< Bonus >>						_bonus;
 	/*
 	** Player on this client */
-	std::unique_ptr< Player >                      _player;
+	std::unique_ptr< Player >												 _player;
 
 private:
 
-	std::vector< std::unique_ptr < AnimatedSprite > >    _FX;
+	std::vector< std::unique_ptr < AnimatedSprite > >		_FX;
 	std::map<std::string, std::unique_ptr< Animation >>  _animations;
 
 public:
@@ -160,8 +185,8 @@ public:
 	AmmoFactory											_ammoF;
 //	AnimationFactory									_animF;
 	EnnemyFactory										_ennemyF;
-	PlayerFactory										_playF;
-	BonusFactory										_bonusF;
+	PlayerFactory											_playF;
+	BonusFactory											_bonusF;
 
 	//	AnimationFactory								_animFactory;
 

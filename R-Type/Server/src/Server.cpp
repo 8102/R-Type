@@ -14,34 +14,49 @@
 Server::Server(int port) : _running(true), _port(port)
 {
   std::cout << "The server is running on port: " << _port << std::endl;
-  _pool = new ThreadPool(5);
+  _pool = new ThreadPool(10);
+  _server = new TCPConnection;
 }
 
 Server::~Server()
 {
   delete _pool;
-  for (auto it = _games.begin() ; it != _games.end() ; it++)
-    delete *it;
+  delete _server;
   while (!_games.empty())
     _games.pop_back();
+  while (!_clients.empty())
+    _clients.pop_back();
+}
+
+void			Server::acceptClients()
+{
+  while (_running)
+    {
+      std::shared_ptr<TCPSocket>	newClient(_server->accept());
+      _clients.push_back(newClient);
+    }
 }
 
 void			Server::run()
 {
-  std::map<int, commandTreat>	sendFct;
-  sendFct[1] = &Server::authRead;
-  sendFct[2] = &Server::infoRead;
-  sendFct[4] = &Server::gameRead;
   try
     {
-      while (_running)
-	readHeader(sendFct);
+      std::map<int, commandTreat>	sendFct;
+      sendFct[1] = &Server::authRead;
+      sendFct[2] = &Server::infoRead;
+      sendFct[4] = &Server::gameRead;
+      if (_server->listen(_port))
+	{
+	  std::thread	acceptThread(acceptClient, this);
+	  while (_running)
+	    readHeader(sendFct);
+	}
     }
   catch (std::exception  &e)
     {
       std::cerr << "Exception thrown :" << e.what() << std::endl;
     }
-  _pool->stopThreadPool();
+  stop();
 }
 
 short int		Server::addNewGame(std::string const &name, std::string const &map)
@@ -55,9 +70,9 @@ short int		Server::addNewGame(std::string const &name, std::string const &map)
 	  idGame = (*it)->getId();
       idGame++;
     }
-  Game		*newGame = new Game(idGame, idGame + 4000, name, map); // Give port
+  std::shared_ptr<Game>		newGame(new Game(idGame, idGame + 4000, name, map));
 
-  _pool->wakeUp(gameReady, newGame);
+  _pool->wakeUp(gameReady, newGame.get());
   _games.push_back(newGame);
   return (idGame);
 }
@@ -74,7 +89,7 @@ bool		Server::addNewPlayer(unsigned short int idGame, char player)
   for (auto it = _games.begin() ; it != _games.end() ; it++)
     {
       if ((*it)->getId() == idGame)
-	gametmp = *it;
+	gametmp = (*it).get();
     }
   if (gametmp)
     {
@@ -95,6 +110,10 @@ size_t		Server::calcResponseLength() const
     }
   return length;
 }
+
+//
+// Getters && Setters
+//
 
 //
 // Client messages management
@@ -138,7 +157,7 @@ void		Server::authResponse(authErr response, unsigned short int gameId, char pla
 	  if ((*it)->getId() == gameId)
 	    {
 	      found = true;
-	      gametmp = (*it);
+	      gametmp = (*it).get();
 	    }
 	}
       if (!found)
@@ -180,7 +199,7 @@ void			Server::infoResponse()
   int			pos = 4;
   std::string		gameName;
   std::string		mapName;
-  std::vector<Client *>	clients;
+  std::vector<std::shared_ptr<Client> >	clients;
 
   send[pos++] = 2;
   for (auto it = _games.begin() ; it != _games.end() ; it++)
@@ -261,11 +280,16 @@ void			Server::readHeader(std::map<int, commandTreat> &sendFct)
 
 void		Server::stop()
 {
-
+  _pool->stopThreadPool();
 }
 
 void	*gameReady(Game *g)
 {
   g->playing();
   return (NULL);
+}
+
+void	*acceptClient(Server *s)
+{
+  s->acceptClients();
 }

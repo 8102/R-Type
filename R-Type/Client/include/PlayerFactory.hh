@@ -8,14 +8,15 @@ class PlayerFactory
 
 	struct	playerParams {
 
-		std::string			textureName;
-		std::string			animationName;
-		std::string			weaponName;
-		std::vector<std::string> _additionalWeapons;
-		sf::Color			_colorMask;
-		unsigned int		_speed;
-		sf::Vector2i		health;
-		std::string			name;
+		std::string							textureName;
+		std::string							animationName;
+		std::string							weaponName;
+		std::vector<std::string>		_additionalWeapons;
+		sf::Color								_colorMask;
+		unsigned int						_speed;
+		sf::Vector2i							health;
+		std::string							name;
+		std::vector<sf::Vector2f>	shotVertices;
 	};
 
 public:

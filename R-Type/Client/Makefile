@@ -78,8 +78,10 @@ GRAPHICS_SRC		?=	ACharacter.cpp				\
 										FX.cpp								\
 										PlayerFactory.cpp			\
 										BonusFactory.cpp			\
-										Bonus.cpp				\
-										GUI.cpp					\
+										Bonus.cpp							\
+										GUI.cpp								\
+										Timer.cpp							\
+										GameRythmer.cpp				\
 
 GRAPHICS_SRC+=			InitMenu.cpp					\
 

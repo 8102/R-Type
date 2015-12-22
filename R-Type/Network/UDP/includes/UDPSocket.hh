@@ -17,12 +17,21 @@
 
 # endif // defined(_WIN32)
 
+# include <cstring>
 # include "Address.hh"
 
 class UDPSocket
 {
+private:
+	#ifdef _WIN32
+		SOCKET _fd;
+	#else
+		int	_fd;
+	#endif // defined(_WIN32)
+
 public:
 	UDPSocket();
+	UDPSocket(decltype(_fd) fd);
 	~UDPSocket();
 
 public:
@@ -32,12 +41,8 @@ public:
 	bool	send(Address const &to, void const *data, size_t size);
 	size_t	receive(Address &from, void *data, size_t size);
 
-private:
-	#ifdef _WIN32
-		SOCKET _fd;
-	#else
-		int	_fd;
-	#endif // defined(_WIN32)
+public:
+	decltype(_fd)	getSocket() const;
 
 };
 

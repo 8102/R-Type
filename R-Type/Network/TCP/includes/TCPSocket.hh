@@ -7,7 +7,7 @@ class TCPSocket : public HFSocket
 {
 public:
 	TCPSocket();
-	TCPSocket(decltype(_fd));
+	TCPSocket(decltype(_fd) fd);
 	~TCPSocket();
 
 public:

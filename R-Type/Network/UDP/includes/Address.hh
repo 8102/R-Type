@@ -26,8 +26,8 @@ public:
 	void setPort(unsigned short port);
 
 public:
-	bool operator==(Address const &other);
-	bool operator!=(Address const &other);
+	bool operator==(Address const &other) const;
+	bool operator!=(Address const &other) const;
 
 private:
 	unsigned int _address;

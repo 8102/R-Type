@@ -15,7 +15,7 @@ public:
 	~GameRythmer();
 
 public:
-	
+
 	bool										start();
 	void										stop();
 	void										update();
@@ -30,7 +30,7 @@ public:
 
 	void										openGameMap();
 	void										getNextActionBlock();
-	
+
 	template<typename T>
 	sf::Vector2<T>					fillVector(std::string const& s) const {
 
@@ -58,6 +58,7 @@ public:
 
 private:
 
+	GameEngine&							_engine;
 	std::string							_fileName;
 	std::fstream							_file;
 	size_t									_offset;

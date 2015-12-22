@@ -2,7 +2,7 @@
 #include              "GameEngine.hh"
 #include              "SoundSystem.hh"
 
-MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf::Font const& textFont, GameMenu* container, sf::Vector2f const& position, sf::Color const& color, int const& argument)
+MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf::Font const& textFont, GameMenu* container, sf::Vector2f const& position, sf::Color const& color, _unused int const& argument)
 	: AGameElement(texture, 1), _text(text), _container(container), _texture(texture), _midground(nullptr), _font(textFont), _baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false), _applyStyle(true), _argument(0), _angle(0.0f) {
 	setPosition(position);
 
@@ -151,7 +151,7 @@ void                  MenuElement::defaultFunction(_unused sf::Event const& even
 }
 
 
-void MenuElement::startingFunction(sf::Event const & event)
+void MenuElement::startingFunction(_unused sf::Event const & event)
 {
 	SoundSystem&        soundEngine = SoundSystem::instanciate();
 
@@ -175,7 +175,7 @@ void                  MenuElement::quitGame(_unused sf::Event const& event) {
 	GameEngine::instanciate().stop();
 }
 
-void MenuElement::changeMenu(sf::Event const & event)
+void MenuElement::changeMenu(_unused sf::Event const & event)
 {
 	if (_container != nullptr)
 		_container->setFocused(-1);
@@ -207,7 +207,7 @@ void                  MenuElement::openAudioMenu(_unused sf::Event const& event)
 	requestGameEngine.setControllerIndex(AGameController::AudioMenu);
 }
 
-void                  MenuElement::getIPAddrInput(sf::Event const& event) {
+void                  MenuElement::getIPAddrInput(_unused sf::Event const& event) {
 
 	std::string	regularIPExpression = "(\\d{1,3}(\\.\\d{1,3}){3})";
 	std::regex		model(regularIPExpression);
@@ -226,8 +226,8 @@ void                  MenuElement::getIPAddrInput(sf::Event const& event) {
 	adjustScreenTextPosition(false);
 }
 
-void                  MenuElement::getLoginInput(sf::Event const& event) {
-	
+void                  MenuElement::getLoginInput(_unused sf::Event const& event) {
+
 	std::regex		model("^[a-zA-Z0-9_]*");
 	switch (event.text.unicode)
 	{
@@ -248,7 +248,7 @@ void                  MenuElement::getLoginInput(sf::Event const& event) {
 }
 
 void								MenuElement::readjustAudioGaugeToMouseClick(std::string const& gaugeText, void (SoundSystem::*audioTarget)(float const&)) {
-	
+
 	float							ratio = 0.0f;
 	int							newSize = 0;
 	std::stringstream		ss;
@@ -295,7 +295,7 @@ void                  MenuElement::untoggleGauging(_unused sf::Event const& even
 	_hasBeenToggled = false;
 }
 
-void					MenuElement::selectPlayer(sf::Event const& event) {
+void					MenuElement::selectPlayer(_unused sf::Event const& event) {
 
 	setBaseColor(sf::Color::Green);
 	requestGameEngine.setPlayer(&requestGameEngine._playF.getPlayer(_argument));

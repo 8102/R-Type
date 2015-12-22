@@ -50,13 +50,17 @@ void Ammunition::trigger()
 	}
 }
 void                      Ammunition::setTargetPosition(sf::Vector2f const& targetPosition) {
-	
+
 	float					vx, vy, deltax, deltay, angle;
-	
+
 	_targetPosition = targetPosition;
 	deltax = targetPosition.x - getPosition().x;
 	deltay = targetPosition.y - getPosition().y;
-	angle = std::atan2f(deltay, deltax);
+	#ifdef _WIN32
+		angle = std::atan2f(deltay, deltax);
+	#else
+		angle = static_cast<float>(std::atan2(deltay, deltax));
+	#endif
 	vx = std::cos(angle) * _speed;
 	vy = std::sin(angle) * _speed;
 	_movement = sf::Vector2f(vx, vy);

@@ -1,8 +1,8 @@
 #include "GameRythmer.hh"
 #include	"GameEngine.hh"
 
-GameRythmer::GameRythmer(GameEngine & engine, std::string const & filename)
-	: _fileName(filename), _file(), _offset(0), _actions(), _nextActionBlock(0.0f), _clock(), _nextActionTime(0.0f), _isReady(false)
+GameRythmer::GameRythmer(GameEngine &engine, std::string const & filename)
+	: _engine(engine), _fileName(filename), _file(), _offset(0), _actions(), _nextActionBlock(0.0f), _clock(), _nextActionTime(0.0f), _isReady(false)
 {
 
 }

@@ -183,7 +183,7 @@ void                 GameMenu::setElementPosition(MenuElement *element) {
 
 void GameMenu::setFocused(int const & index)
 {
-	_focused = (index < 0 || index >= _items.size()) ? nullptr : _items[index];
+	_focused = (index < 0 || index >= static_cast<int>(_items.size())) ? nullptr : _items[index];
 }
 
 void GameMenu::changeFocused(int const & indexMove, bool const& limited)
@@ -242,7 +242,6 @@ void GameMenu::applyInLineBottomStyle()
 void GameMenu::applyInNarrowGridStyle()
 {
 	sf::Vector2f	center(requestGameEngine.getWindow().getSize().x / 2, requestGameEngine.getWindow().getSize().y / 2);
-	sf::Vector2f	totalSize = getTotalSize();
 	int i = 0;
 	sf::Vector2f	width(0.0f, 0.0f);
 	if (_items.size() < 3)
@@ -257,7 +256,7 @@ void GameMenu::applyInNarrowGridStyle()
 		if ((*it)->applyStyle() == true) {
 
 			(*it)->setPosition(sf::Vector2f(nextElemPosition.x + (*it)->getGlobalBounds().width / 2.0f, _cadre.top + (i / 3) * (*it)->getGlobalBounds().height));
-			nextElemPosition.x = ((i + 1) % 3 != 0 ? nextElemPosition.x + (*it)->getGlobalBounds().width : center.x - width.x / 2.0f);	
+			nextElemPosition.x = ((i + 1) % 3 != 0 ? nextElemPosition.x + (*it)->getGlobalBounds().width : center.x - width.x / 2.0f);
 			++i;
 		}
 	}

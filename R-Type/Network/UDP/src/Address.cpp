@@ -27,11 +27,14 @@ Address::Address(std::string const &address)
 }
 
 Address::Address(unsigned int address, unsigned short port) :
-	_address(address), _port(port)
+	_address(address), _port(port), _addrstr("")
 {
-	std::stringstream addr;
+	std::stringstream addr("");
 
-	addr << (_address >> 24 & 0xFF) << '.' << (_address >> 16 & 0xFF) << '.' << (_address >> 8 & 0xFF) << '.' << (_address & 0xFF);
+	addr << (_address >> 24 & 0xFF);
+	addr << '.' << (_address >> 16 & 0xFF);
+	addr << '.' << (_address >> 8 & 0xFF);
+	addr << '.' << (_address & 0xFF);
 	_addrstr = addr.str();
 }
 
@@ -97,12 +100,12 @@ std::string Address::getAddressStr() const
 ** Operator overloading
 */
 
-bool Address::operator==(Address const &other)
+bool Address::operator==(Address const &other) const
 {
 	return (_address == other._address && _port == other._port);
 }
 
-bool Address::operator!=(Address const &other)
+bool Address::operator!=(Address const &other) const
 {
 	return !(*this == other);
 }

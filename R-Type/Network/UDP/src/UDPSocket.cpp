@@ -9,6 +9,12 @@ UDPSocket::UDPSocket() :
 
 }
 
+UDPSocket::UDPSocket(decltype(_fd) fd) :
+	_fd(fd)
+{
+
+}
+
 UDPSocket::~UDPSocket()
 {
 	close();
@@ -103,8 +109,9 @@ bool	UDPSocket::send(Address const &to, void const *data, size_t size)
 size_t		UDPSocket::receive(Address &from, void *data, size_t size)
 {
 	if (!this->isOpen() || !data || !size)
-		return false;
+		return 0;
 	sockaddr_in addr;
+	std::memset(&addr, 0, sizeof(addr));
 	socklen_t addrlen = sizeof(sockaddr_in);
 	size_t recv_bytes = recvfrom(_fd, static_cast<char *>(data), size, 0, reinterpret_cast<sockaddr *>(&addr), &addrlen);
 	if (recv_bytes <= 0)

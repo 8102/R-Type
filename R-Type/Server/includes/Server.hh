@@ -17,6 +17,7 @@
 # include <map>
 # include "Game.hh"
 # include "ThreadPool.hh"
+# include "Client.hh"
 
 void		*gameReady(Game *);
 
@@ -25,6 +26,7 @@ void		*gameReady(Game *);
 # define AUTH_ERROR	3
 # define GAME_INFO	1
 # define INFO		2
+# define GAME		4
 
 class		Server
 {
@@ -42,13 +44,16 @@ public:
   ~Server();
 public:
   void			run();
-  void			addNewGame(std::string const &);
+  short int		addNewGame(std::string const &name, std::string const & map);
+  bool			addNewPlayer(unsigned short int idGame, char player);
   void			stop();
 public:
   void			authRead(unsigned int size);
-  void			authResponse(authErr, unsigned int);
+  void			authResponse(authErr, unsigned short int, char);
   void			infoRead(unsigned int size);
   void			infoResponse();
+  void			gameRead(unsigned int size);
+  void			gameResponse(unsigned short int);
   void			readHeader(std::map<int, commandTreat> &);
   unsigned char		*buildHeader(unsigned char commandCode, unsigned int length);
 public:

@@ -1,5 +1,6 @@
 # include "Connection.hh"
 # include <stdlib.h> // thug life
+# include <vector>
 
 # define _PROTOCOL_ID 0xff423861
 
@@ -22,10 +23,10 @@
 
 int main(int argc, char **argv)
 {
-	if (argc != 2 && argc != 3)
+	if (argc != 2 && argc != 3 && argc != 4)
 	{
-		std::cout << "Usage: " << argv[0] << " [address] [port]" << std::endl;
-		return (-1);
+		std::cout << "Usage: " << argv[0] << " [address] [port] [mode_cli]" << std::endl;
+		return (1);
 	}
 	Connection::initConnection();
 	if (argc == 2)
@@ -34,18 +35,17 @@ int main(int argc, char **argv)
 		Connection server(_PROTOCOL_ID);
 		if (!server.listen(atoi(argv[1])))
 			return 1;
-		char ret[100] = {0};
+		std::vector<Connection *> clients;
 		while (true)
 		{
-			if (server.receivePacket(ret, 99))
-			{
-				std::cout << ret << std::endl;
+			char ret[100] = {0};
+			size_t len = server.receivePacket(ret, 99);
+			if (len > 0)
+				server.broadcast(ret, len);
+			if (std::string(ret) == "quit")
 				break;
-			}
-			my_wait(1);
+			my_wait(0.1);
 		}
-		std::string packet("[server]: coucou ceci est un packet !");
-		server.sendPacket(packet.c_str(), packet.length());
 	}
 	if (argc == 3)
 	{
@@ -54,17 +54,30 @@ int main(int argc, char **argv)
 		std::string addr(std::string(argv[1]) + ':' + std::string(argv[2]));
 		if (!client.connect(addr))
 			return 1;
-		std::string packet("[client]: coucou ceci est un packet !");
-		client.sendPacket(packet.c_str(), packet.length());
-		char ret[100] = {0};
 		while (true)
 		{
+			char ret[100] = {0};
 			if (client.receivePacket(ret, 99))
-			{
 				std::cout << ret << std::endl;
+			if (std::string(ret) == "quit")
 				break;
-			}
-			my_wait(1);	
+			my_wait(0.1);	
+		}
+	}
+	if (argc == 4)
+	{
+		Connection client(_PROTOCOL_ID);
+		std::string addr(std::string(argv[1]) + ':' + std::string(argv[2]));
+		if (!client.connect(addr))
+			return 1;
+		while (true)
+		{
+			std::string ret;
+			std::getline(std::cin, ret);
+			std::cout << "jenvois: [" << ret << "]" << std::endl;
+			client.sendPacket(ret.c_str(), ret.length());
+			if (ret == "quit")
+				break;
 		}
 	}
 	std::cout << "Turning off..." << std::endl;

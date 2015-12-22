@@ -1,0 +1,2 @@
+TCP: g++ -I Interfaces -I UDP/includes -I TCP/includes TCP/src/*.cpp UDP/src/Address.cpp -std=c++11 -D DEBUG
+UDP: g++ -I Interfaces -I UDP/includes UDP/src/*.cpp -std=c++11 -D DEBUG

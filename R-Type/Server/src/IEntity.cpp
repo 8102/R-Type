@@ -85,3 +85,8 @@ bool			IEntity::isBreakable() const
 {
   return _isBreakable;
 }
+
+bool			IEntity::isAlive() const
+{
+  return _isAlive;
+}

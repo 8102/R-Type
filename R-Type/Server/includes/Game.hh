@@ -13,6 +13,7 @@
 
 # include <vector>
 # include <iostream>
+# include <memory>
 # include <mutex>
 # include <ctime>
 # include <ratio>
@@ -20,6 +21,11 @@
 # include <thread>
 # include "Client.hh"
 # include "IEntity.hh"
+# include "Address.hh"
+# include "Connection.hh"
+# include "UDPSocket.hh"
+
+# define PROTOCOL_ID	0x1a9f0496
 
 class		Game
 {
@@ -28,40 +34,40 @@ public:
   ~Game();
 
 public:
-  void				timedPlay();
-  void				playing();
-  void				addPlayer(Client *);
-  void				addNewEntity(sf::Vector2f const &, sf::Vector2f const &, char, int);
-  void				readHeader();
-  void				checkPlayersLife();
-  void				onePlayerPresent();
+  void						timedPlay();
+  void						playing();
+  void						addPlayer(Client *);
+  void						addNewEntity(sf::Vector2f const &, sf::Vector2f const &, char, int);
+  void						readHeader();
+  void						checkPlayersLife();
+  void						onePlayerPresent();
 public:
-  void				closeGame();
+  void						closeGame();
 
 public:
-  std::mutex			*getMutex() const;
-  size_t			getId() const;
-  size_t			getPort() const;
-  std::vector<Client *>		getClients() const;
-  std::string			getName() const;
-  std::string			getMapName() const;
-  float				getElapsedTime() const;
-  void				triggerLaunch();
-  bool				getLaunch() const;
+  std::mutex					*getMutex() const;
+  size_t					getId() const;
+  size_t					getPort() const;
+  std::vector<std::shared_ptr<Client> >		getClients() const;
+  std::string					getName() const;
+  std::string					getMapName() const;
+  float						getElapsedTime() const;
+  void						triggerLaunch();
+  bool						getLaunch() const;
 private:
-  size_t			getEntitiesSize();
+  size_t					getEntitiesSize();
 private:
-  void				Update();
-  void				Destroy(short int);
-  void				Action(unsigned int size);
-  void				Player(unsigned int size);
-  void				Score();
-  void				newWave();
-  void				Pause();
-  void				Broadcast(char *, unsigned int size);
+  void						Update(unsigned short int);
+  void						Destroy(short int);
+  void						Action();
+  void						Player();
+  void						Score();
+  void						newWave();
+  void						Pause();
 private:
-  std::vector<Client *>				_clients;
-  std::vector<IEntity *>			_entities;
+  Connection					*_server;
+  std::vector<std::shared_ptr<Client> >		_clients;
+  std::vector<std::shared_ptr<IEntity> >	_entities;
   long						_score;
   std::mutex					*_mu;
   size_t					_id;

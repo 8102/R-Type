@@ -31,6 +31,7 @@ public:
   char			getType() const;
   void			setHp(int);
   bool			isBreakable() const;
+  bool			isAlive() const;
 private:
   int			_hp;
   bool			_isAlive;

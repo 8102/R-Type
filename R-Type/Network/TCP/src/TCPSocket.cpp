@@ -19,16 +19,6 @@ TCPSocket::~TCPSocket()
 
 }
 
-
-/*
-** Getters / Setters
-*/
-
-auto	TCPSocket::getSocket() const -> decltype(_fd)
-{
-	return _fd;
-}
-
 /*
 ** Public methodes
 */

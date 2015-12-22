@@ -1,5 +1,5 @@
-#ifndef _CONNECTION_HH_
-# define _CONNECTION_HH_
+#ifndef _UDPCONNECTION_HH_
+# define _UDPCONNECTION_HH_
 
 # pragma once
 
@@ -7,7 +7,7 @@
 # include <memory>
 # include <list>
 # include <vector>
-# include "Address.hh"
+# include "HFConnection.hh"
 # include "UDPSocket.hh"
 
 # define AUTH_TOKEN	0x03dc018c
@@ -16,11 +16,11 @@
 ** The connections you get by the methode getNewConnection are deleting when the "Connection"
 ** instance is destroy, so you don't have to worry about deleting these pointers.
 */
-class Connection
+class UDPConnection : public HFConnection
 {
 public:
-	Connection(uint32_t protocolID);
-	~Connection();
+	UDPConnection(uint32_t protocolID);
+	~UDPConnection();
 
 public:
 	bool		listen(unsigned short port);
@@ -28,18 +28,14 @@ public:
 	bool		connect(unsigned int address, unsigned short port);
 	bool		sendPacket(void const *data, size_t size);
 	size_t		receivePacket(void *data, size_t size);
-	Connection 	*getNewConnection();
-	void		broadcast(void *data, size_t size, Connection const *except = nullptr);
+	UDPConnection 	*getNewConnection();
+	void		broadcast(void *data, size_t size, UDPConnection const *except = nullptr);
 
 public:
 	Address const &getAddress() const;
 
-public:
-	static bool	initConnection();
-	static void	stopConnection();
-
 private:
-	Connection(Connection const &other, Address address);
+	UDPConnection(UDPConnection const &other, Address address);
 
 private:
 	enum State
@@ -56,11 +52,11 @@ private:
 	Address 					_address;
 	State						_state;
 	unsigned short				_header_size;
-	std::list<Connection *>		_new_connections;
-	std::vector<Connection *>	_known_connections;
+	std::list<UDPConnection *>		_new_connections;
+	std::vector<UDPConnection *>	_known_connections;
 
 private:
 	static bool		_debug;
 };
 
-#endif // _CONNECTION_HH_
+#endif // _UDPCONNECTION_HH_

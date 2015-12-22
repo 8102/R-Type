@@ -40,8 +40,11 @@ public:
 	// virtual size_t	receive(Address &from, void *data, size_t size) = 0;
 
 public:
-	virtual decltype(_fd)	getSocket() const = 0;
-	
+	virtual auto	getSocket() const -> decltype(_fd)
+	{
+		return _fd;
+	}
+
 };
 
 #endif // _HFSOCKET_HH_

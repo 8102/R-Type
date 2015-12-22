@@ -1,21 +1,21 @@
-#include "Connection.hh"
+#include "UDPConnection.hh"
 
 # ifdef DEBUG
-	bool Connection::_debug = true;
+	bool UDPConnection::_debug = true;
 # else
-	bool Connection::_debug = false;
+	bool UDPConnection::_debug = false;
 #endif // DEBUG
 
 /*
 ** Constructors / Destructors
 */
-Connection::Connection(uint32_t protocolID) :
+UDPConnection::UDPConnection(uint32_t protocolID) :
 	_protocolID(protocolID), _state(Disconnected), _header_size(4)
 {
 
 }
 
-Connection::Connection(Connection const &other, Address address)
+UDPConnection::UDPConnection(UDPConnection const &other, Address address)
 {
 	if (&other != this)
 	{
@@ -28,7 +28,7 @@ Connection::Connection(Connection const &other, Address address)
 }
 
 
-Connection::~Connection()
+UDPConnection::~UDPConnection()
 {
 	if (_socket.isOpen())
 		_socket.close();
@@ -43,7 +43,7 @@ Connection::~Connection()
 ** Setters / Getters
 */
 
-Address const &Connection::getAddress() const
+Address const &UDPConnection::getAddress() const
 {
 	return _address;
 }
@@ -51,7 +51,7 @@ Address const &Connection::getAddress() const
 /*
 ** Public methodes
 */
-bool	Connection::listen(unsigned short port)
+bool	UDPConnection::listen(unsigned short port)
 {
 	if (!_socket.open(port))
 	{
@@ -65,7 +65,7 @@ bool	Connection::listen(unsigned short port)
 	return true;
 }
 
-bool	Connection::connect(std::string const &address)
+bool	UDPConnection::connect(std::string const &address)
 {
 	_address = Address(address);
 	if (!_socket.open(_address.getPort(), true))
@@ -83,7 +83,7 @@ bool	Connection::connect(std::string const &address)
 	return true;
 }
 
-bool	Connection::connect(unsigned int address, unsigned short port)
+bool	UDPConnection::connect(unsigned int address, unsigned short port)
 {
 	_address = Address(address, port);
 	if (!_socket.open(port, true))
@@ -101,7 +101,7 @@ bool	Connection::connect(unsigned int address, unsigned short port)
 	return true;
 }
 
-bool	Connection::sendPacket(void const *data, size_t size)
+bool	UDPConnection::sendPacket(void const *data, size_t size)
 {
 	if (_state == Disconnected || _state == Listening)
 		return false;
@@ -114,7 +114,7 @@ bool	Connection::sendPacket(void const *data, size_t size)
 	return _socket.send(_address, packet.get(), size + _header_size);
 }
 
-size_t	Connection::receivePacket(void *data, size_t size)
+size_t	UDPConnection::receivePacket(void *data, size_t size)
 {
 	if (_state == Disconnected)
 		return 0;
@@ -141,7 +141,7 @@ size_t	Connection::receivePacket(void *data, size_t size)
 			{
 				if (_debug)
 					std::cout << "New connection from: " << from.toString() << std::endl;
-				Connection *new_connection = new Connection(*this, from);
+				UDPConnection *new_connection = new UDPConnection(*this, from);
 				_new_connections.push_back(new_connection);
 				_known_connections.push_back(new_connection);
 			}
@@ -154,7 +154,7 @@ size_t	Connection::receivePacket(void *data, size_t size)
 		{
 			std::memcpy(data, &packet[4], recv_bytes - _header_size);
 			return recv_bytes;
-		}			
+		}
 	}
 	if (_address == from)
 	{
@@ -164,42 +164,22 @@ size_t	Connection::receivePacket(void *data, size_t size)
 	return 0;
 }
 
-Connection 	*Connection::getNewConnection()
+UDPConnection 	*UDPConnection::getNewConnection()
 {
 	if (_new_connections.empty())
 		return nullptr;
-	Connection *last = _new_connections.front();
+	UDPConnection *last = _new_connections.front();
 	_new_connections.pop_front();
 	return last;
 }
 
-void		Connection::broadcast(void *data, size_t size, Connection const *except)
+void		UDPConnection::broadcast(void *data, size_t size, UDPConnection const *except)
 {
 	for (auto it = _known_connections.begin(); it != _known_connections.end(); ++it)
 	{
 		if (except && except->getAddress() != (*it)->getAddress())
 			(*it)->sendPacket(data, size);
 		if (except == nullptr)
-			(*it)->sendPacket(data, size);			
+			(*it)->sendPacket(data, size);
 	}
-}
-
-/*
-** Static methodes
-*/
-bool	Connection::initConnection()
-{
-	#ifdef _WIN32
-		WSADATA Wsadata;
-		return WSAStartup(MAKEWORD(2, 2), &Wsadata) != NO_ERROR;
-	#else
-		return true;
-	#endif // defined(_WIN32)
-}
-
-void	Connection::stopConnection()
-{
-	#ifdef _WIN32
-	WSACleanup();
-	#endif // defined(_WIN32)
 }

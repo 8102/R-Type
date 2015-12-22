@@ -50,6 +50,12 @@ protected:
 	Address 		_address;
 	State			_state;
 
+public:
+	virtual auto getSocketfd() const -> decltype(_socket->getSocket())
+	{
+		return _socket->getSocket();
+	}
+
 };
 
 #endif // _HFCONNECTION_HH_

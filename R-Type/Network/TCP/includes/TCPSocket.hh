@@ -17,9 +17,6 @@ public:
 	bool	send(void const *data, size_t size);
 	size_t	receive(void *data, size_t size);
 
-public:
-	decltype(_fd)	getSocket() const;
-
 };
 
 #endif // _TCPSOCKET_HH_

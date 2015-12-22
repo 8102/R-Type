@@ -1,10 +1,10 @@
-# include "Connection.hh"
+# include "UDPConnection.hh"
 # include <stdlib.h> // thug life
 # include <vector>
 
 # define _PROTOCOL_ID 0xff423861
 
-# ifdef _WIN32 
+# ifdef _WIN32
 
 	void my_wait(float seconds)
 	{
@@ -28,14 +28,13 @@ int main(int argc, char **argv)
 		std::cout << "Usage: " << argv[0] << " [address] [port] [mode_cli]" << std::endl;
 		return (1);
 	}
-	Connection::initConnection();
+	UDPConnection::initConnection();
 	if (argc == 2)
 	{
 		// server
-		Connection server(_PROTOCOL_ID);
+		UDPConnection server(_PROTOCOL_ID);
 		if (!server.listen(atoi(argv[1])))
 			return 1;
-		std::vector<Connection *> clients;
 		while (true)
 		{
 			char ret[100] = {0};
@@ -50,7 +49,7 @@ int main(int argc, char **argv)
 	if (argc == 3)
 	{
 		// client
-		Connection client(_PROTOCOL_ID);
+		UDPConnection client(_PROTOCOL_ID);
 		std::string addr(std::string(argv[1]) + ':' + std::string(argv[2]));
 		if (!client.connect(addr))
 			return 1;
@@ -61,12 +60,12 @@ int main(int argc, char **argv)
 				std::cout << ret << std::endl;
 			if (std::string(ret) == "quit")
 				break;
-			my_wait(0.1);	
+			my_wait(0.1);
 		}
 	}
 	if (argc == 4)
 	{
-		Connection client(_PROTOCOL_ID);
+		UDPConnection client(_PROTOCOL_ID);
 		std::string addr(std::string(argv[1]) + ':' + std::string(argv[2]));
 		if (!client.connect(addr))
 			return 1;
@@ -81,6 +80,6 @@ int main(int argc, char **argv)
 		}
 	}
 	std::cout << "Turning off..." << std::endl;
-	Connection::stopConnection();
+	UDPConnection::stopConnection();
 	return 0;
 }

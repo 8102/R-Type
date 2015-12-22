@@ -5,7 +5,7 @@
 ACharacter::ACharacter(std::string const& filename, Animation const& animation, Ammunition const& weapon, sf::Color const& colorMask)
 	: AnimatedSprite(filename, animation, colorMask), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7), _deathFX("", "") {
 
-	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
+//	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
 	_weapons.push_back(Ammunition(_weapon));
 	_gName.setColor(sf::Color(255, 200, 0));
 }
@@ -13,7 +13,7 @@ ACharacter::ACharacter(std::string const& filename, Animation const& animation, 
 ACharacter::ACharacter(sf::Texture const& texture, Animation const& animation, Ammunition const& weapon, sf::Color const& colorMask)
 	: AnimatedSprite(texture, animation, colorMask), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7), _deathFX("", "") {
 
-	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
+//	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
 	_weapons.push_back(Ammunition(_weapon));
 	_gName.setColor(sf::Color(255, 200, 0));
 }
@@ -21,7 +21,7 @@ ACharacter::ACharacter(sf::Texture const& texture, Animation const& animation, A
 ACharacter::ACharacter(AnimatedSprite const& baseModel, Ammunition const& weapon)
 	: AnimatedSprite(baseModel), _speed(1), _health(sf::Vector2i(100, 100)), _name(""), _weapon(weapon), _index(0), _gName("", *requestAssetManager.getFont("nullShock.ttf"), 7), _deathFX("", "") {
 
-	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
+//	_shotVertexes.push_back(sf::Vector2f(getGlobalBounds().width, getGlobalBounds().height / 2));
 	_weapons.push_back(Ammunition(_weapon));
 	_gName.setColor(sf::Color(255, 200, 0));
 }

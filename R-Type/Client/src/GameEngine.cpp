@@ -10,7 +10,7 @@ GameEngine&             GameEngine::instanciate() {
 }
 
 GameEngine::GameEngine()
-	: _isRunning(false), _isPaused(true), _win(nullptr), _controlerIndex(AGameController::MainMenu), _player(nullptr) {
+	: _isRunning(false), _isPaused(true), _win(nullptr), _collisionChecker(), _clock(), _controlerIndex(AGameController::MainMenu), _player(nullptr) {
 
 }
 
@@ -26,16 +26,22 @@ void                    GameEngine::start() {
 	_ammoF.loadAmmoConfigFromFile();
 	_playF.loadConfigs();
 	_bonusF.loadConfig();
-	//_ennemyF.loadEnnemyConfigFromFile();
 	// sf::Image		winIcon;
 	// if (winIcon.loadFromFile(std::string(ICON_FOLDER) + std::string("gameIcon.gif")) == true)
 	// _win->setIcon(150, 150, winIcon.getPixelsPtr());
 }
 
-void                    GameEngine::run() {
+void							GameEngine::run() {
 
+	GameRythmer		rythmer(*this, "C:\\Users\\Jamais\\Documents\\GitHubVisualStudio\\R-Type\\R-Type\\Client\\x64\\Release\\configuration.txt");
+
+	if (!rythmer.start())
+		std::cout << "Error opening file" << std::endl;
+	rythmer.getNextActionBlock();
+	_clock.start();
 	while (isRunning() == true) {
 
+		rythmer.update();
 		_win->clear();
 
 		while (_win->pollEvent(_eventCatcher)) {
@@ -55,6 +61,16 @@ void                    GameEngine::run() {
 	exit();
 }
 
+void GameEngine::launchGame()
+{
+	_GUI = make_unique< GUI >(*_player.get(), *_win.get());
+}
+
+void GameEngine::pause()
+{
+	_isPaused = true;
+}
+
 void                    GameEngine::stop() {
 
 	_isRunning = false;
@@ -66,98 +82,125 @@ void                    GameEngine::exit() {
 	_win.get()->close();
 }
 
-void                    GameEngine::update() {
+void GameEngine::updateDecors()
+{
 
-	for (auto it = _gameObjects.begin(); it != _gameObjects.end(); it++) {
+	for (auto it = _gameObjects.begin(); it < _gameObjects.end(); /* (void) */) {
 		(*it)->update();
-		if ((*it)->hasPassed() == true) {
-			(*it)->setPosition(PLAY_WIDTH * (rand() % 3 + 1), (*it)->getPosition().y);
-		}
+		if ((*it)->hasPassed() == true) it = _gameObjects.erase(it);
+		else ++it;
 	}
 
-	for (auto it = _bonus.begin(); it != _bonus.end();) {
+}
+
+void GameEngine::updateBonus()
+{
+
+	for (auto it = _bonus.begin(); it < _bonus.end(); /* (void) */) {
+
+		(*it)->move(sf::Vector2f(-0.3f, 0.0f));
 		(*it)->update();
-		if ((*it)->collide(*_player.get()) == true)
-		{
+		//for (auto playeriT = _players.begin(); playerIt < _players.end(); playerIt++) {
+		//	
+		//	if ((*playerIt)->collides((*it), false) == true) {
+		//		(*it)->trigger(*(*_playerIt)->get());
+		//		it = _bonus.erase(it);
+		//		goto end_of_main_loop;
+		//	}
+		if ((*it)->collide(*_player.get())) {
 			(*it)->trigger(*_player.get());
 			it = _bonus.erase(it);
 		}
 		else if ((*it)->hasPassed() == true)
 			it = _bonus.erase(it);
 		else ++it;
+//		end_of_main_loop: {}
 	}
-	for (auto it = _ammos.begin(); it != _ammos.end();) {
+}
 
-		bool deleted = false;
+void GameEngine::updateAmmos()
+{
 
+	for (auto it = _ammos.begin(); it != _ammos.end(); /* (void) */) {
 		(*it)->update();
-			if ((*it)->isOutOfScreen() == true) {
-			it = _ammos.erase(it);
-			deleted = true;
+		if ((*it)->isOutOfScreen() == true) goto delete_and_next;
+		else if ((*it)->getType() == Ammunition::EnnemyShot) {
+			//for (auto playerIt = _players.begin(); playerIt != _players.end(); playerIt++) {
+			//	if ((*it)->collide(*(*playerIt)->get()) == true) {
+			//		(*it)->dealDamage(*(*playerIt)->get());
+			//		(*it)->trigger();
+			//		goto delete_and_next;
+			//	}
+			//}
+			if (getPlayer().collide(*(*it), true) == true) {
+			//if ((*it)->collide(getPlayer()) == true) {
+				getPlayer().receiveDamage((*(*it)));
+//				(*it)->dealDamage(getPlayer());
+				(*it)->trigger();
+				goto delete_and_next;
+			}
 		}
-		else {
-			if ((*it)->Ammunition::getType() == Ammunition::EnnemyShot)
-				{
-				if (deleted == false && ((*it)->collide(getPlayer()) == true)) {
-					if ((*it)->dealDamage(getPlayer()) == true)
-						std::cout << "Shot Down !" << std::endl;
+		else if ((*it)->getType() == Ammunition::friendlyShot) {
+			for (auto ennemyIt = _ennemies.begin(); ennemyIt != _ennemies.end(); ennemyIt++) {
+				if ((*it)->collide(*(*ennemyIt)) == true) {
+					getGUI().updateScore(5);
+					if ((*it)->dealDamage(*(*ennemyIt)) == true)
+						getGUI().updateScore(30);
 					(*it)->trigger();
-					/*			FX	 fx("explosion", "r-typesheet44.gif", "", sf::Color::Black);
-					sf::IntRect ir((*it)->getGlobalBounds());
-					sf::Vector2f p(ir.left + ir.width / 2 - getAnimation("explosion").getFrameDimensions().x / 2, ir.top + ir.height / 2 - getAnimation("explosion").getFrameDimensions().y / 2);
-					fx.trigger(p);
-		*/		it = _ammos.erase(it);
-					deleted = true;
+					goto delete_and_next;
 				}
 			}
-			else if ((*it)->Ammunition::getType() == Ammunition::friendlyShot) for (auto ennemyit = _ennemies.begin(); ennemyit != _ennemies.end(); ennemyit++)
-			{
-				if (deleted == false && ((*it)->collide(*(*ennemyit)) == true)) {
-					((*it)->dealDamage(*(*ennemyit)));
-//					FX	 fx("bigExplosion", "r-typesheet44.gif", "bigExplosion.wav");
-			//		FX	 fx("plasmaExplosion", "r-typesheet1.gif", "bigExplosion.wav", sf::Color::White);
-			//		sf::IntRect ir((*it)->getGlobalBounds());
-			////		sf::Vector2f p(ir.left + ir.width / 2 - getAnimation("bigExplosion").getFrameDimensions().x / 2, ir.top + ir.height / 2 - getAnimation("bigExplosion").getFrameDimensions().y / 2);
-			//		sf::Vector2f p(ir.left + ir.width / 2 - getAnimation("plasmaExplosion").getFrameDimensions().x / 2, ir.top + ir.height / 2 - getAnimation("plasmaExplosion").getFrameDimensions().y / 2);
-			//		fx.trigger(p);
-					(*it)->trigger();
+		}
 
-					it = _ammos.erase(it);
-					deleted = true;
-				}
-			}
-			else if (deleted == false) for (auto objit = _gameObjects.begin(); objit != _gameObjects.end(); objit++)
-			{
-				if ((*it)->collide(*(*objit)) == true && deleted == false) {
-					it = _ammos.erase(it);
-					deleted = true;
-				}
-			}
-		}
-		if (deleted == false)
-			it++;
+		++it;
+		goto end_of_for_loop;
+		delete_and_next: { it = _ammos.erase(it); }
+		end_of_for_loop: {}
 	}
+}
 
-	for (auto it = _FX.begin(); it != _FX.end();)
+void GameEngine::updateFXs()
+{
+
+	for (auto it = _FX.begin(); it != _FX.end(); /* (void) */)
 	{
 		(*it)->update();
-		if ((*it)->getState() == Animation::end) {
+		if ((*it)->getState() == Animation::end)
 			it = _FX.erase(it);
-		}	else it++;
+		else ++it;
 	}
+}
 
-	for (auto it = _ennemies.begin(); it != _ennemies.end(); ) {
+void GameEngine::updateEnnemies()
+{
+
+	for (auto it = _ennemies.begin(); it != _ennemies.end(); /* (void) */) {
 		(*it)->move(-0.5); /* to be replaced by server updates */
 		(*it)->update();
 		if ((*it)->collide(*_player.get()))
 			_player->setLife(sf::Vector2i(0, _player->getLife().y));
-
 		if ((*it)->hasPassed() == true || (*it)->getLife().x <= 0) /* order to die from server */ {
 			(*it)->die();
 			it = _ennemies.erase(it);
-		}	else ++it;
+		}
+		else ++it;
 	}
+}
+
+void GameEngine::updatePlayers()
+{
 	_player->update();
+}
+
+void                    GameEngine::update() {
+
+	updateDecors();
+	updateBonus();
+	updateAmmos();
+	updateFXs();
+	updateEnnemies();
+	updatePlayers();
+	getGUI().update();
 	requestAudioEngine.update();
 }
 
@@ -166,111 +209,26 @@ void                    GameEngine::draw() {
 	_win->clear();
 	for (auto it = _gameObjects.begin(); it != _gameObjects.end(); it++)
 		_win->draw(*(*it));
-	for (auto it = _ennemies.begin(); it != _ennemies.end(); it++) {
+	for (auto it = _ennemies.begin(); it != _ennemies.end(); it++)
+	{
 		_win->draw(*(*it));
-		(*it)->drawLife(*_win.get());
+		getGUI().drawEnnemyInfo(*(*it));
+//		(*it)->drawLife(*_win.get());
 	}
-
 	for (auto it = _bonus.begin(); it != _bonus.end(); it++)
 		_win->draw(*(*it));
-
 	for (auto it = _ammos.begin(); it != _ammos.end(); it++)
 		_win->draw(*(*it));
-	_win->draw(*_player);
+
+	_player->getDrawn(*_win);
+//	_win->draw(*_player);
 	for (auto it = _FX.begin(); it != _FX.end(); it++)
 		_win->draw(*(*it));
 
 //	_player->drawInformation(*_win.get());
 	_player->indicateCurrentPlayer(*_win.get());
-	sf::CircleShape	s(120.0f);
 
-	s.setTexture(requestAssetManager.getTexture("weaponIconContainer.png"));
-	s.setPosition(sf::Vector2f(101.0f, PLAY_HEIGHT - 100));
-
-	static unsigned int score = 0;
-	s.setOrigin(sf::Vector2f(s.getGlobalBounds().width / 2, s.getGlobalBounds().height / 2));
-	s.setRotation((score / 5) % 360);
-
-	++score;
-	std::stringstream ss;
-	ss << score / 10;
-	sf::Text t(ss.str(), *requestAssetManager.getFont("nullShock.ttf"), 50);
-	t.setColor(sf::Color::Yellow);
-	_win->draw(t);
-
-//	sf::RectangleShape s2(sf::Vector2f(160, 40));
-	sf::CircleShape s2(100.0f);
-	auto v = _player->getAllWeapons();
-
-	//std::cout << "[" << _player->getWeapon().getCurrentAnimation().getAnimationName() << "]" << std::endl;
-	//for (auto o = v.begin(); o != v.end(); o++) {
-	//	std::cout << (*o).getCurrentAnimation().getAnimationName() << std::endl;
-	//}
-
-	sf::Texture			  t2;
-	std::string ws = _player->getWeapon().getCurrentAnimation().getAnimationName();
-	if (ws == std::string("rocket"))
-		t2 = *requestAssetManager.getTexture("iconMissile.png");
-	else if (ws == "plasmaBullet")
-		t2 = *requestAssetManager.getTexture("iconPlasmaCannon.png");
-	else
-		t2 = *requestAssetManager.getTexture("iconMinigun.png");
-	s2.setTexture(&t2);
-//	s2.setFillColor(sf::Color::Red);
-	s2.setPosition(sf::Vector2f(00.0f, PLAY_HEIGHT - 200.0f));
-	_win->draw(s);
-	_win->draw(s2);
-
-
-	/*s.setScale(sf::Vector2f(0.5f, 0.5f));
-	s.setPosition(sf::Vector2f(250.0f, PLAY_HEIGHT - 150.0f));
-	s.setRotation(-2 * s.getRotation());
-	_win->draw(s);
-*/
-	/*sf::Sprite					s3;
-	sf::RectangleShape	r2;
-	float							lifeRatio;
-
-	s3.setTexture(*requestAssetManager.getTexture("lifebar.png"));
-	s3.setScale(sf::Vector2f(2.0f, 2.0f));
-	s3.setPosition(sf::Vector2f(200.0f, PLAY_HEIGHT - 100.0f));
-	lifeRatio = static_cast<float>(_player->getLife().x) / static_cast<float>(_player->getLife().y);
-	r2.setSize(sf::Vector2f((s3.getGlobalBounds().width / 20) * 19  * lifeRatio + 5, s3.getGlobalBounds().height / 10 * 8));
-	r2.setFillColor(lifeRatio < 0.3 ? sf::Color(160, 0, 0) : (lifeRatio < 0.6 ? sf::Color(200, 150, 0) : sf::Color(0, 255, 0)));
-	r2.setPosition(sf::Vector2f(s3.getPosition().x, s3.getPosition().y + 5));
-	ss.str("");
-	ss << _player->getLife().x;
-	ss << " / " << _player->getLife().y;
-	t.setString(ss.str());
-	t.setCharacterSize(15);
-	t.setPosition(sf::Vector2f(s3.getPosition().x + s3.getGlobalBounds().width / 2, s3.getPosition().y + s3.getGlobalBounds().height / 2));
-	_win->draw(r2);
-	_win->draw(t);
-	_win->draw(s3);
-
-	sf::Sprite					s4;
-	sf::RectangleShape	r5;
-	sf::Texture				ener= *requestAssetManager.getTexture("energy.jpg");
-	ener.setRepeated(false);
-
-	s4.setTexture(*requestAssetManager.getTexture("energybar.png"));
-	s4.setScale(sf::Vector2f(2.0f, 2.0f));
-	s4.setPosition(sf::Vector2f(s3.getPosition().x, s3.getPosition().y - s4.getGlobalBounds().height));
-	r5.setSize(sf::Vector2f(r2.getSize().x, s4.getGlobalBounds().height / 10 * 6));
-	r5.setFillColor(sf::Color::Cyan);
-	r5.setPosition(sf::Vector2f(s4.getPosition().x, s4.getPosition().y + 5));
-	_win->draw(r5);
-	_win->draw(s4);
-
-	sf::RectangleShape		dead;
-
-	dead.setSize(sf::Vector2f(_win->getSize().x, _win->getSize().y));
-	dead.setTexture(requestAssetManager.getTexture("deadvision.png"));
-	_win->draw(dead);*/
-
-	GUI gui(*_player.get(), *_win.get());
-
-	gui.drawUserInfo();
+	getGUI().drawUserInfo();
 }
 
 void                    GameEngine::draw(sf::Drawable const& target) {
@@ -351,6 +309,17 @@ sf::RenderWindow&       GameEngine::getWindow() const {
 	return *_win.get();
 }
 
+void GameEngine::startClock()
+{
+	_clock.restart();
+}
+
+float GameEngine::getTime()
+{
+	return _clock.getElapsedTimeAsSeconds();
+}
+
+
 Player&                 GameEngine::getPlayer() {
 
 	return *_player;
@@ -359,4 +328,9 @@ Player&                 GameEngine::getPlayer() {
 CollisionManager&       GameEngine::getCollisionManager() {
 
 	return _collisionChecker;
+}
+
+GUI & GameEngine::getGUI()
+{
+	return	*_GUI.get();
 }

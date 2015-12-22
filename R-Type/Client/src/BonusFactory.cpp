@@ -20,6 +20,14 @@ void BonusFactory::loadConfig()
 		sf::Color::White
 	};
 
+	_BonusFunctions["energy"] = &Bonus::giveEnergy;
+	_config["energy"] = {
+		"shieldBonus.png",
+		"shieldBonus",
+		"energy",
+		sf::Color::Black
+	};
+
 	_BonusFunctions["minigun"] = &Bonus::giveSpeed;
 	_config["minigunBonus"] = {
 		"bonusMinigun.png",

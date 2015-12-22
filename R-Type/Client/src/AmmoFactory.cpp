@@ -14,7 +14,7 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 	_ammoConfigs["simpleBullet"] = {
 		std::string("r-typesheet43.gif"),
 		std::string("bullet"),
-		350,
+		3,
 		10,
 		sf::Color::White,
 		sf::Vector2f(1.0f, 1.0f),
@@ -24,7 +24,7 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 	_ammoConfigs["plasmaBullet"] = {
 		std::string("r-typesheet1.gif"),
 		std::string("plasmaBullet"),
-		200,
+		4,
 		20,
 		sf::Color::Black,
 		sf::Vector2f(1.0f, 1.0f),
@@ -36,7 +36,7 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 	_ammoConfigs["rocket"] = {
 		std::string("rocket.png"),
 		std::string("rocket"),
-		700,
+		2,
 		50,
 		sf::Color::White,
 		sf::Vector2f(0.25f, 0.25f),
@@ -46,7 +46,7 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 	_ammoConfigs["spaceBomb"] = {
 		std::string("r-typesheet3.gif"),
 		std::string("spaceBomb"),
-		500,
+		4,
 		75,
 		sf::Color::Black,
 		sf::Vector2f(2.0f, 2.0f),
@@ -56,7 +56,7 @@ bool                        AmmoFactory::loadAmmoConfigFromFile() {
 	_ammoConfigs["HBomb"] = {
 		std::string("HBomb.png"),
 		std::string("HBomb"),
-		500,
+		2,
 		75,
 		sf::Color::Black,
 		sf::Vector2f(2.0f, 2.0f),

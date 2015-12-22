@@ -16,7 +16,10 @@ public:
 	void									drawUserInfo();
 	void									drawEnnemyInfo(ACharacter const& character);
 	void									drawPlayerInfo(ACharacter const& character);
-	void									drawScore(unsigned int const& currentScore);
+
+	void									update();
+	void									updateScore(unsigned int const& currentScore);
+	void									updateTime();
 
 	void									messageBox(sf::Vector2f const& position, std::string const& message, unsigned int const& fontSize);
 
@@ -27,11 +30,15 @@ private:
 
 private:
 
-	sf::Text								_score;
+	sf::Text								_scoreTxt;
+	unsigned int					_score;
+	sf::Text								_timeTxt;
 	sf::Sprite							_lifebar;
 	sf::Sprite							_energyBar;
 
 	sf::RectangleShape			_deadMask;
+	sf::CircleShape					_weaponIconContainer;
+	sf::CircleShape					_weaponIcon;
 };
 
 #endif								   /* !___GUI_HH___*/

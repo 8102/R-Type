@@ -49,7 +49,7 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 		std::string("bountyHunter"),
 		std::string("simpleBullet"),
 		sf::Color(0, 0, 173, 255),
-		std::vector<sf::Vector2f> {},
+		std::vector<sf::Vector2f> {Vf(e.getAnimation("bountyHunter").getFrameDimensions().x / 2.0f, e.getAnimation("bountyHunter").getFrameDimensions().y / 2.0f)},
 		{ "mediumExplosion", "mediumExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
@@ -59,7 +59,7 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 		std::string("alienJet"),
 		std::string("simpleBullet"),
 		sf::Color::Black,
-		std::vector<sf::Vector2f> {},
+		std::vector<sf::Vector2f> {Vf(e.getAnimation("alienJet").getFrameDimensions().x / 2.0f, e.getAnimation("alienJet").getFrameDimensions().y / 2.0f)},
 		{ "smallExplosion", "smallExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
@@ -69,7 +69,7 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 		std::string("ufo"),
 		std::string("simpleBullet"),
 		sf::Color(255, 0, 255),
-		std::vector<sf::Vector2f> {},
+		std::vector<sf::Vector2f> {Vf(e.getAnimation("ufo").getFrameDimensions().x / 2.0f, e.getAnimation("ufo").getFrameDimensions().y / 2.0f)},
 		{ "mediumExplosion", "mediumExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
@@ -79,7 +79,7 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 		std::string("bubbleShield"),
 		std::string("simpleBullet"),
 		sf::Color::Black,
-		std::vector<sf::Vector2f> {},
+		std::vector<sf::Vector2f> { sf::Vector2f(0.0f, 0.0f) },
 		{ "plasmaBoom", "plasmaBoom.png", "", sf::Color::White }
 	};
 
@@ -89,7 +89,7 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 		std::string("spaceFighter"),
 		std::string("simpleBullet"),
 		sf::Color(255, 0, 255),
-		std::vector<sf::Vector2f> {},
+		std::vector<sf::Vector2f> { sf::Vector2f(0.0f, 0.0f) },
 		{ "mediumExplosion", "mediumExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
@@ -99,7 +99,7 @@ bool                          EnnemyFactory::loadEnnemyConfigFromFile() {
 		"flyingMinion",
 		"simpleBullet",
 		sf::Color::Black,
-		std::vector<sf::Vector2f> {},
+		std::vector<sf::Vector2f> { sf::Vector2f(0.0f, 0.0f) },
 		{ "mediumExplosion", "mediumExplosion.png", "bigExplosion.wav", sf::Color::White }
 	};
 
@@ -116,7 +116,7 @@ std::string                   EnnemyFactory::getConfigurationFile() const {
 	return _configurationFile;
 }
 
-Ennemy*                       EnnemyFactory::createEnnemy(std::string const& ennemyName, /* _unused */ sf::Vector2f const& ennemyPosition, bool const& relativePos)
+Ennemy*                       EnnemyFactory::createEnnemy(std::string const& ennemyName, _unused sf::Vector2f const& ennemyPosition, bool const& relativePos)
 {
 	Ennemy*                     clone = nullptr;
 	struct s_ennemyParams       config;

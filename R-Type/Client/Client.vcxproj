@@ -19,9 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\Network\UDP\includes\Address.hh" />
+    <ClInclude Include="..\Network\UDP\includes\Connection.hh" />
+    <ClInclude Include="..\Network\UDP\includes\UDPSocket.hh" />
     <ClInclude Include="AnimationFactory.hh">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
     </ClInclude>
+    <ClInclude Include="include\GameRythmer.hh" />
     <ClInclude Include="include\GUI.hh">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClInclude>
@@ -53,9 +57,11 @@
     <ClInclude Include="include\RessourceManager.hpp" />
     <ClInclude Include="include\SoundSystem.hh" />
     <ClInclude Include="include\SoundTrack.hh" />
+    <ClInclude Include="include\Timer.hh" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameRythmer.cpp" />
     <ClCompile Include="src\GUI.cpp">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
     </ClCompile>
@@ -89,6 +95,7 @@
     <ClCompile Include="src\PlayerFactory.cpp" />
     <ClCompile Include="src\SoundSystem.cpp" />
     <ClCompile Include="src\SoundTrack.cpp" />
+    <ClCompile Include="src\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Client.rc" />

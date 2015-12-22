@@ -42,6 +42,9 @@ public:
 	void					setArgument(int const& argument);
 	void                  setMidground(sf::Sprite* elem);
 
+	void					applyStyle(bool const& style);
+	bool					applyStyle() const;
+
 public:
 
 	void					readjustAudioGaugeToMouseClick(std::string const& gaugeText, void (SoundSystem::*audioTarget)(float const&));
@@ -81,6 +84,7 @@ private:
 	void                  (MenuElement::*_function)(sf::Event const& event);
 
 	bool                  _hasBeenToggled;
+	bool					_applyStyle;
 
 private:
 

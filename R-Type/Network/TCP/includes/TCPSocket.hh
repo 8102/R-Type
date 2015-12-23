@@ -15,7 +15,7 @@ public:
 	bool	isOpen() const;
 	void	close();
 	bool	send(void const *data, size_t size);
-	size_t	receive(void *data, size_t size);
+	int		receive(void *data, size_t size);
 
 };
 

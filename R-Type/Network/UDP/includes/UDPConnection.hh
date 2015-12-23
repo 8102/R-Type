@@ -13,8 +13,8 @@
 # define AUTH_TOKEN	0x03dc018c
 
 /*
-** The connections you get by the methode getNewConnection are deleting when the "Connection"
-** instance is destroy, so you don't have to worry about deleting these pointers.
+** All UDPConnection pointers you can get from these methodes are auto memory managed.
+** So you don't have to worry about deleting these pointers.
 */
 class UDPConnection : public HFConnection
 {
@@ -27,8 +27,8 @@ public:
 	bool			connect(std::string const &address);
 	bool			connect(unsigned int address, unsigned short port);
 	bool			sendPacket(void const *data, size_t size);
-	size_t			receivePacket(void *data, size_t size);
-	size_t			receivePacket(void *data, size_t size, UDPConnection * &client);
+	int				receivePacket(void *data, size_t size);
+	int				receivePacket(void *data, size_t size, UDPConnection * &client);
 	UDPConnection 	*getNewConnection();
 	void			broadcast(void *data, size_t size, UDPConnection const *except = nullptr);
 

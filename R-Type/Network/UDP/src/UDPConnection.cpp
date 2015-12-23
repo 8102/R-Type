@@ -7,6 +7,19 @@
 #endif // DEBUG
 
 /*
+** 	       Header :
+** =========================
+**   uint32_t Protocol ID
+** =========================
+**   uint32_t Sequence ID
+** =========================
+**       uint32_t Ack
+** =========================
+** 	 uint32_t AckBitField
+** =========================
+*/
+
+/*
 ** Constructors / Destructors
 */
 UDPConnection::UDPConnection(uint32_t protocolID) :
@@ -114,13 +127,15 @@ bool		UDPConnection::sendPacket(void const *data, size_t size)
 	return _socket.send(_address, packet.get(), size + _header_size);
 }
 
-size_t		UDPConnection::receivePacket(void *data, size_t size, UDPConnection * &client)
+int		UDPConnection::receivePacket(void *data, size_t size, UDPConnection * &client)
 {
 	if (_state == Disconnected)
 		return 0;
 	std::unique_ptr<char[]> packet(new char[size + _header_size]());
 	Address from;
-	size_t recv_bytes = _socket.receive(from, packet.get(), size + _header_size);
+	int recv_bytes = _socket.receive(from, packet.get(), size + _header_size);
+	if (recv_bytes == -1)
+		return -1;
 	if (recv_bytes <= 4 || packet[0] != static_cast<char>(_protocolID >> 24) ||
 	    packet[1] != static_cast<char>((_protocolID >> 16) & 0xFF) || packet[2] != static_cast<char>((_protocolID >> 8) & 0xFF) ||
 	    packet[3] != static_cast<char>(_protocolID & 0xFF))
@@ -165,7 +180,7 @@ size_t		UDPConnection::receivePacket(void *data, size_t size, UDPConnection * &c
 	return 0;
 }
 
-size_t			UDPConnection::receivePacket(void *data, size_t size)
+int			UDPConnection::receivePacket(void *data, size_t size)
 {
 	UDPConnection *useless = nullptr;
 	return this->receivePacket(data, size, useless);

@@ -106,16 +106,16 @@ bool	UDPSocket::send(Address const &to, void const *data, size_t size)
 	return true;
 }
 
-size_t		UDPSocket::receive(Address &from, void *data, size_t size)
+int		UDPSocket::receive(Address &from, void *data, size_t size)
 {
 	if (!this->isOpen() || !data || !size)
 		return 0;
 	sockaddr_in addr;
 	std::memset(&addr, 0, sizeof(addr));
 	socklen_t addrlen = sizeof(sockaddr_in);
-	size_t recv_bytes = recvfrom(_fd, static_cast<char *>(data), size, 0, reinterpret_cast<sockaddr *>(&addr), &addrlen);
-	if (recv_bytes <= 0)
-		return 0;
+	int recv_bytes = recvfrom(_fd, static_cast<char *>(data), size, 0, reinterpret_cast<sockaddr *>(&addr), &addrlen);
+	if (recv_bytes == -1)
+		return -1;
 	from = Address(ntohl(addr.sin_addr.s_addr), ntohs(addr.sin_port));
 	return recv_bytes;
 }

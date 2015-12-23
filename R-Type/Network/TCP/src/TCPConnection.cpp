@@ -1,10 +1,10 @@
 #include "TCPConnection.hh"
 
-//# ifdef DEBUG
+# ifdef DEBUG
 	bool TCPConnection::_debug = true;
-//# else
-//	bool TCPConnection::_debug = false;
-//#endif // DEBUG
+# else
+	bool TCPConnection::_debug = false;
+#endif // DEBUG
 
 /*
 ** Constructor / Destructor
@@ -114,7 +114,7 @@ bool	TCPConnection::sendPacket(void const *data, size_t size)
 	return dynamic_cast<TCPSocket *>(_socket)->send(data, size);
 }
 
-size_t	TCPConnection::receivePacket(void *data, size_t size)
+int		TCPConnection::receivePacket(void *data, size_t size)
 {
 	if (_state == Disconnected)
 	{

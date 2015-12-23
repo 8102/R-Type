@@ -50,31 +50,38 @@ private:
 public:
 
 	~GameEngine();
+	void									clear();
 
 public:
 
+	/*
+	** Engine behavior methods */
 	void					start();
 	void					run();
 	void					launchGame();
 	void					pause();
+	void					resume();
 	void					stop();
 	void					exit();
 
 public:
 
+	/*
+	** Game - modifier methods */
 	void					updateDecors();
 	void					updateBonus();
 	void					updateAmmos();
 	void					updateFXs();
 	void					updateEnnemies();
 	void					updatePlayers();
+	void					update();
 
 public:
 
-	void					update();
+	/*
+	** rendering functions */
 	void					draw();
 	void					draw(sf::Drawable const& target);
-
 
 public:
 
@@ -171,6 +178,7 @@ private:
 	std::vector< std::unique_ptr< Ammunition >>				_ammos;
 	std::vector< std::unique_ptr< Ennemy >>						_ennemies;
 	std::vector< std::unique_ptr< Bonus >>						_bonus;
+	std::vector< std::unique_ptr< Player >>						_players;
 	/*
 	** Player on this client */
 	std::unique_ptr< Player >												 _player;

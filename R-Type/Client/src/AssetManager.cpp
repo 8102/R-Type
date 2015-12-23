@@ -14,6 +14,14 @@ AssetManager::AssetManager() : _audioEffects(EFFECT_FOLDER), _textures(TEXTURE_F
 AssetManager::~AssetManager() {
 }
 
+void AssetManager::clear()
+{
+	_audioEffects.clear();
+	_textures.clear();
+	_musics.clear();
+	_fonts.clear();
+}
+
 sf::SoundBuffer*          AssetManager::getSoundBuffer(std::string const& filename) {
 
 	return  _audioEffects.getRessource(filename);

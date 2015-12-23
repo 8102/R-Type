@@ -12,12 +12,15 @@ public:
 		std::string		texture;
 		std::string		anim;
 		std::string		fonction;
-		sf::Color		colorMask;
+		sf::Color			colorMask;
 	};
 
 public:
+
 	BonusFactory();
 	~BonusFactory();
+
+	void					clear();
 
 public:
 
@@ -26,9 +29,9 @@ public:
 
 private:
 
-	std::map<std::string, Bonus::bonusFct>		_BonusFunctions;
-	std::map<std::string, bonusParams>			_config;
-	std::map<std::string, std::unique_ptr<Bonus>> _models;
+	std::map<std::string, Bonus::bonusFct>					_BonusFunctions;
+	std::map<std::string, bonusParams>						_config;
+	std::map<std::string, std::unique_ptr<Bonus>>	_models;
 };
 
 #endif										/* ___BONUS_FACTORY_HH___  */

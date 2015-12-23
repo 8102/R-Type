@@ -10,6 +10,11 @@ BonusFactory::~BonusFactory()
 {
 }
 
+void BonusFactory::clear()
+{
+	_models.clear();
+}
+
 void BonusFactory::loadConfig()
 {
 	_BonusFunctions["speed"] = &Bonus::giveSpeed;

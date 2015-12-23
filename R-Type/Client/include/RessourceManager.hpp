@@ -39,9 +39,16 @@ public:
 
 	~RessourceManager() {
 
+		clear();
 		// for (auto it = _ressources.begin(); it != _ressources.end(); it++)
 		//   if (it->second != nullptr)
 		//     delete it->second;
+	}
+
+	void				clear() {
+
+		for (auto it = _ressources.begin(); it != _ressources.end(); it++)
+			it->second.reset();
 	}
 
 public:

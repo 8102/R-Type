@@ -88,7 +88,7 @@ bool                      AGameElement::isOutOfScreen() const {
 
 bool AGameElement::hasPassed() const
 {
-	if (getPosition().x + getGlobalBounds().width < 0)
+	if (getGlobalBounds().left + getGlobalBounds().width < 0)
 		return true;
 	return false;
 }

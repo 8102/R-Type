@@ -51,9 +51,6 @@
     <ClInclude Include="include\AnimationFactory.hh">
       <Filter>Header Files\graphic_includes</Filter>
     </ClInclude>
-    <ClInclude Include="AnimationFactory.hh">
-      <Filter>Header Files\graphic_includes</Filter>
-    </ClInclude>
     <ClInclude Include="include\AssetManager.hh">
       <Filter>Header Files\graphic_includes</Filter>
     </ClInclude>
@@ -76,9 +73,6 @@
       <Filter>Header Files\graphic_includes</Filter>
     </ClInclude>
     <ClInclude Include="include\FX.hh">
-      <Filter>Header Files\graphic_includes</Filter>
-    </ClInclude>
-    <ClInclude Include="FXFactory.hh">
       <Filter>Header Files\graphic_includes</Filter>
     </ClInclude>
     <ClInclude Include="include\GameDecor.hh">
@@ -108,9 +102,6 @@
     <ClInclude Include="include\PlayerFactory.hh">
       <Filter>Header Files\graphic_includes</Filter>
     </ClInclude>
-    <ClInclude Include="resource.h">
-      <Filter>Header Files\graphic_includes</Filter>
-    </ClInclude>
     <ClInclude Include="include\RessourceManager.hpp">
       <Filter>Header Files\graphic_includes</Filter>
     </ClInclude>
@@ -120,19 +111,13 @@
     <ClInclude Include="include\SoundTrack.hh">
       <Filter>Header Files\graphic_includes</Filter>
     </ClInclude>
-    <ClInclude Include="..\Network\UDP\includes\UDPSocket.hh">
-      <Filter>Header Files\network_includes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Network\UDP\includes\Address.hh">
-      <Filter>Header Files\network_includes</Filter>
-    </ClInclude>
-    <ClInclude Include="..\Network\UDP\includes\Connection.hh">
-      <Filter>Header Files\network_includes</Filter>
-    </ClInclude>
     <ClInclude Include="include\GameRythmer.hh">
       <Filter>Header Files\graphic_includes</Filter>
     </ClInclude>
     <ClInclude Include="include\Timer.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\FXFactory.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -182,9 +167,6 @@
     <ClCompile Include="src\FX.cpp">
       <Filter>Source Files\graphic_srcs</Filter>
     </ClCompile>
-    <ClCompile Include="FXFactory.cpp">
-      <Filter>Source Files\graphic_srcs</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameDecor.cpp">
       <Filter>Source Files\graphic_srcs</Filter>
     </ClCompile>
@@ -229,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="src\Timer.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\FXFactory.cpp">
+      <Filter>Source Files\graphic_srcs</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -653,5 +638,6 @@
   <ItemGroup>
     <None Include="assets\audio\effects\BigExplosion.zip" />
     <None Include="Makefile" />
+    <None Include="..\Network\compile" />
   </ItemGroup>
 </Project>

@@ -23,20 +23,21 @@ private:
 public:
 
 	~AssetManager();
+	void											clear();
 
 public:
 
-	sf::SoundBuffer*        getSoundBuffer(std::string const& filename);
-	sf::Music*              getMusic(std::string const& filename);
-	sf::Texture*            getTexture(std::string const& filename);
-	sf::Font*               getFont(std::string const& filename);
+	sf::SoundBuffer*				getSoundBuffer(std::string const& filename);
+	sf::Music*							getMusic(std::string const& filename);
+	sf::Texture*						getTexture(std::string const& filename);
+	sf::Font*							getFont(std::string const& filename);
 
 private:
 
-	RessourceManager< sf::SoundBuffer >                _audioEffects;
-	RessourceManager< sf::Texture >                    _textures;
-	RessourceManager< SoundTrack >                     _musics;
-	RessourceManager< sf::Font >                       _fonts;
+	RessourceManager< sf::SoundBuffer >					_audioEffects;
+	RessourceManager< sf::Texture >							_textures;
+	RessourceManager< SoundTrack >						_musics;
+	RessourceManager< sf::Font >								_fonts;
 
 };
 

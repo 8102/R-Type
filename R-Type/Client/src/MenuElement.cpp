@@ -3,9 +3,11 @@
 #include              "SoundSystem.hh"
 
 MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf::Font const& textFont, GameMenu* container, sf::Vector2f const& position, sf::Color const& color, _unused int const& argument)
-	: AGameElement(texture, 1), _text(text), _container(container), _texture(texture), _midground(nullptr), _font(textFont), _baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false), _applyStyle(true), _argument(0), _angle(0.0f) {
+	:	AGameElement(texture, 1), _text(text), _container(container), _texture(texture), _midground(nullptr), _font(textFont),
+		_baseColor(color), _function(&MenuElement::defaultFunction), _hasBeenToggled(false), _scrolling(false), _applyStyle(true),
+		_argument(0), _angle(0.0f)
+{
 	setPosition(position);
-
 	setOrigin(sf::Vector2f(getGlobalBounds().width / 2, getGlobalBounds().height / 2));
 	_screenText.setFont(_font);
 	_screenText.setString(_text);
@@ -44,6 +46,15 @@ void                  MenuElement::getDrawn() {
 	if (_midground != nullptr)
 		engine.draw(*_midground);
 	engine.draw(_screenText);
+}
+
+void MenuElement::adjustScreenScale()
+{
+	_screenText.setScale(getScale());
+	_screenText.setPosition(sf::Vector2f(getGlobalBounds().left + getGlobalBounds().width / 2.0f - _screenText.getGlobalBounds().width / 2.0f,
+		getGlobalBounds().top + getGlobalBounds().height / 2.0f - _screenText.getGlobalBounds().height / 2.0f));
+	while ( _screenText.getGlobalBounds().width >= (getGlobalBounds().width) * 0.5f)
+		_screenText.setCharacterSize(_screenText.getCharacterSize() - 1);
 }
 
 void                  MenuElement::adjustScreenTextPosition(bool const& up) {
@@ -301,4 +312,30 @@ void					MenuElement::selectPlayer(_unused sf::Event const& event) {
 	requestGameEngine.setPlayer(&requestGameEngine._playF.getPlayer(_argument));
 	requestGameEngine.getPlayer().setPosition(sf::Vector2f(400.0f, _argument * 100.0f));
 	requestGameEngine.setController<PlayerController >(AGameController::GameControls, new PlayerController(requestGameEngine.getPlayer()));
+}
+
+void MenuElement::scroll(sf::Event const & event)
+{
+	if (_scrolling == true && _midground !=nullptr) {
+		float targetPosition = static_cast<float>(sf::Mouse::getPosition(requestGameEngine.getWindow()).y);
+		float initialPosition = _midground->getGlobalBounds().top + _midground->getGlobalBounds().height / 2.0f;
+
+		if (_container != nullptr) {
+			if (targetPosition < getGlobalBounds().top + _midground->getGlobalBounds().height / 2.0f) return;
+			if (targetPosition > getGlobalBounds().top + getGlobalBounds().height - _midground->getGlobalBounds().height / 2.0f) return;
+			_midground->setPosition(sf::Vector2f(_midground->getPosition().x, targetPosition));
+			float ratio = (std::abs(targetPosition - initialPosition) * 100 / getGlobalBounds().height) / 100.0f * _container->getTotalSize().y;
+			_container->moveElements(sf::Vector2f(0.0f, initialPosition < targetPosition ? ratio * -1.5f : ratio * 1.5f));
+		}
+	}
+}
+
+void MenuElement::toggleScrolling(sf::Event const & event)
+{
+	_scrolling = true;
+}
+
+void MenuElement::untoggleScrolling(sf::Event const & event)
+{
+	_scrolling = false;
 }

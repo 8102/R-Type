@@ -15,6 +15,21 @@ GameEngine::GameEngine()
 }
 
 GameEngine::~GameEngine() {
+
+	clear();
+}
+
+void GameEngine::clear()
+{
+	_ammos.clear();
+	_bonus.clear();
+	_bonusF.clear();
+	_collisionChecker.clear();
+	_ennemies.clear();
+	_gameObjects.clear();
+	_gameControllers.clear();
+	_players.clear();
+	requestAssetManager.clear();
 }
 
 void                    GameEngine::start() {
@@ -68,7 +83,14 @@ void GameEngine::launchGame()
 
 void GameEngine::pause()
 {
+	_clock.pause();
 	_isPaused = true;
+}
+
+void GameEngine::resume()
+{
+	_isPaused = false;
+	_clock.start();
 }
 
 void                    GameEngine::stop() {
@@ -87,7 +109,8 @@ void GameEngine::updateDecors()
 
 	for (auto it = _gameObjects.begin(); it < _gameObjects.end(); /* (void) */) {
 		(*it)->update();
-		if ((*it)->hasPassed() == true) it = _gameObjects.erase(it);
+		if ((*it)->hasPassed() == true) {
+			it = _gameObjects.erase(it); std::cout << "Erasing Decor ! " << std::endl; }
 		else ++it;
 	}
 
@@ -125,13 +148,15 @@ void GameEngine::updateAmmos()
 		(*it)->update();
 		if ((*it)->isOutOfScreen() == true) goto delete_and_next;
 		else if ((*it)->getType() == Ammunition::EnnemyShot) {
-			//for (auto playerIt = _players.begin(); playerIt != _players.end(); playerIt++) {
-			//	if ((*it)->collide(*(*playerIt)->get()) == true) {
-			//		(*it)->dealDamage(*(*playerIt)->get());
-			//		(*it)->trigger();
-			//		goto delete_and_next;
-			//	}
-			//}
+			for (auto playerIt = _players.begin(); playerIt != _players.end(); playerIt++) {
+				if ( (*(*playerIt)).collide(*(*it), true) == true) {
+//				if ((*it)->collide(*(*playerIt)->get()) == true) {
+					(*playerIt)->receiveDamage((*(*it)));
+//					(*it)->dealDamage(*(*playerIt)->get());
+					(*it)->trigger();
+					goto delete_and_next;
+				}
+			}
 			if (getPlayer().collide(*(*it), true) == true) {
 			//if ((*it)->collide(getPlayer()) == true) {
 				getPlayer().receiveDamage((*(*it)));

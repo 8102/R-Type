@@ -59,9 +59,13 @@ void									GameRythmer::generateGameAsset(std::string const & s)
 		{
 			if (v.size() >= 3)
 				requestGameEngine.addBonus(*requestGameEngine._bonusF.createBonus(v[1], fillVector<float>(v[3]), extractValue<int>(v[2])));
-			//GameDecor*			g = new GameDecor(std::string("./assets/sprites/") + std::string(v[1]), 1, sf::Color::Black, false);
-			//g->setVectors(Vi(0, 0), Vf(-0.1f, 0.0f));
-			//requestGameEngine.addGameObject<GameDecor>(g);
+		}
+		else if (v[0] == "Decor")
+		{
+			GameDecor*			g = new GameDecor(std::string("./assets/sprites/") + std::string(v[1]), 1, sf::Color::Black, false);
+			g->setPosition(fillVector< float >(v[2]));
+			g->setVectors(fillVector<int>(v[3]), fillVector<float>(v[4]));
+			requestGameEngine.addGameObject<GameDecor>(g);
 		}
 	}
 	catch (std::exception e) { std::cerr << "# - " << e.what() << std::endl; }

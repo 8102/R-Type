@@ -34,7 +34,7 @@ float Timer::getElapsedTime()
 	if (_running == false)
 		return 0.0f;
 	_end = std::clock() - _end;
-	return (_end - _begin);
+	return static_cast<float>(_end - _begin);
 }
 
 float Timer::getElapsedTimeAsSeconds()
@@ -42,6 +42,6 @@ float Timer::getElapsedTimeAsSeconds()
 	if (_running == false)
 		return 0.0f;
 	_end += std::clock() - _end;
-	return (_end - _begin) / CLOCKS_PER_SEC;
+	return static_cast<float>((_end - _begin) / CLOCKS_PER_SEC);
 }
 

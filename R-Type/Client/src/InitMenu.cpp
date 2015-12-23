@@ -182,30 +182,42 @@ void			initMapSelectionMenu()
 {
 	AssetManager&		a = requestAssetManager;
 
-	GameMenu*			selectionMenu = new GameMenu("Character Selection", GameMenu::InNarrowGrid);
+	GameMenu*			selectionMenu = new GameMenu("MapSelection", GameMenu::InRound);
 	MenuElement*		playButton = new MenuElement(*a.getTexture("half.png"), "NEXT", *a.getFont("nullShock.ttf"));
-	MenuElement*		name = new MenuElement(*a.getTexture("mapName.png"), "Endor", *a.getFont("nullShock.ttf"));
+//	MenuElement*		name = new MenuElement(*a.getTexture("mapName.png"), "Endor", *a.getFont("nullShock.ttf"));
+	
+	MenuElement*		scrollingBar = new MenuElement(*a.getTexture("scrollingBar.png"), "", *a.getFont("nullShock.ttf"), selectionMenu);
+	MenuElement*		scrollingBubble = new MenuElement(*a.getTexture("scrollingBubble.png"), "", *a.getFont("nullShock.ttf"));
 
-	selectionMenu->setBackground(new MenuElement(*a.getTexture("mapSelection.jpg")));
+	selectionMenu->setBackground(new MenuElement(*a.getTexture("desert_world.jpg")));
+	scrollingBar->setMidground(scrollingBubble);
+	scrollingBar->applyStyle(false);
+	selectionMenu->addItem(scrollingBar);
+	scrollingBar->setPosition(sf::Vector2f(1200.0f, 450.0f));
+	scrollingBubble->setPosition(sf::Vector2f(scrollingBubble->getPosition().x, scrollingBar->getGlobalBounds().top + scrollingBubble->getGlobalBounds().height / 2.0f));
 	playButton->setOrigin(sf::Vector2f(playButton->getGlobalBounds().width / 2, playButton->getGlobalBounds().height / 2));
-	playButton->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2, 800));
+	playButton->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2.0f, 800.0f));
 	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::changeMenu, AGameController::CharacterSelectionMenu);
 	playButton->setAction(sf::Event::MouseMoved, &MenuElement::startingFunction);
 
 	playButton->applyStyle(false);
 	selectionMenu->setStyledElementsCadre(sf::FloatRect(sf::Vector2f(494.0f, 267.0f), sf::Vector2f(641.0f, 408.0f)));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Endor", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("nbPlayer.png"), "3/4", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("void.png"), "", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Manhattan", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("nbPlayer.png"), "0/4", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("void.png"), "", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Sin City", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("nbPlayer.png"), "2/4", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("void.png"), "", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Tamanoir II", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("nbPlayer.png"), "4/4", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("void.png"), "", *a.getFont("nullShock.ttf")));
+	scrollingBar->setAction(sf::Event::MouseButtonPressed, &MenuElement::toggleScrolling);
+	scrollingBar->setAction(sf::Event::MouseMoved, &MenuElement::scroll);
+	scrollingBar->setAction(sf::Event::MouseButtonReleased, &MenuElement::untoggleScrolling);
+	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "wonderland", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Some Bad Neighbourhood\nroom 3 / 4", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
 	selectionMenu->applyStyle();
 	selectionMenu->addItem(playButton);
 	requestGameEngine.setController< GameMenu >(AGameController::MapSelectionMenu, selectionMenu);

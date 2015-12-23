@@ -27,7 +27,6 @@ int	main(int ac, char **av)
       Server			server(port);
 
 	  std::cout << std::boolalpha << "TCPConnection : " << TCPConnection::initConnection() << std::endl;
-	  std::cout << WSAGetLastError() << std::endl;
 	  std::cout << "[Main] --- Running Server " << std::endl;
 	  server.run();
 	  std::cout << "[Main] --- Stopping Server " << std::endl;

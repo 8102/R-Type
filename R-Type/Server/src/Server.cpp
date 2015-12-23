@@ -30,7 +30,7 @@ Server::~Server()
 
 void			Server::acceptClients()
 {
-	std::cout << "[Server::acceptClients() ] -- entering " << std::endl;
+  std::cout << "[Server::acceptClients() ] -- entering " << std::endl;
   std::shared_ptr<TCPSocket>	newClient(_server->accept());
   _clients.push_back(newClient);
 }
@@ -41,17 +41,25 @@ void			Server::readClients(std::map<int, commandTreat> &sendFct)
     acceptClients();
   else
     {
-      for (auto it = _clients.begin() ; it != _clients.end() ; it++)
-	{
-	  if (FD_ISSET((*it).get()->getSocket(), &_select.readfds))
+  for (auto it = _clients.begin() ; it != _clients.end() ; )
+    {
+      if (FD_ISSET((*it).get()->getSocket(), &_select.readfds))
+        {
+	  _actualClient = (*it).get();
+	  if (_actualClient && !readHeader(sendFct))
 	    {
-	      _actualClient = (*it).get();
-	      readHeader(sendFct);
 	      FD_CLR((*it).get()->getSocket(), &_select.readfds);
+	      it = _clients.erase(it);
 	    }
-	  _actualClient = NULL;
-	}
+	  else
+	    {
+	      FD_CLR((*it).get()->getSocket(), &_select.readfds);
+	      it++;
+	    }
+      }
+      _actualClient = NULL;
     }
+  }
 }
 
 void			Server::run()
@@ -65,25 +73,24 @@ void			Server::run()
       sendFct[4] = &Server::gameRead;
       if (_server->listen(_port))
 	{
-		std::cout << "[Server::run ] - Listening" << std::endl;
+	  std::cout << "[Server::run ] - Listening" << std::endl;
+	  acceptClients();
  	  while (_running)
 	    {
-			std::cout << "[Server::run ] -- while _running " << std::endl;
-			if ((selectStatus = setServerSelect()) < 0) {
-				_running = false;
-				std::cout << "[Server::run ] -- fail on Server::setServerSelect()" << std::endl;
-			}
+	      std::cout << "[Server::run ] -- while _running " << std::endl;
+	      if ((selectStatus = setServerSelect()) < 0) {
+	      	_running = false;
+	      	std::cout << "[Server::run ] -- fail on Server::setServerSelect()" << std::endl;
+	      }
 	      else if (selectStatus == 0)
-		{
-		  std::cout << "Server Waiting.." << std::endl;
-		}
-		  else {
-			  std::cout << "[Server::run ] -- reading client " << std::endl;
-			  readClients(sendFct);
-		  }
+	      	std::cout << "Server Waiting.." << std::endl;
+	      else {
+	      	std::cout << "[Server::run ] -- reading client " << std::endl;
+	      readClients(sendFct);
+	      }
 	    }
-	  }
-	  else { std::cout << "[Server::run ] --- failed on listen()" << std::endl;  }
+	}
+      else { std::cout << "[Server::run ] --- failed on listen()" << std::endl;  }
     }
   catch (std::exception  &e)
     {
@@ -171,8 +178,8 @@ void		Server::setSelectIds()
 int		Server::setServerSelect()
 {
   setSelectIds();
+  std::cout << "_server socket" << _server->getSocketfd() << std::endl;
   _select.timeout.tv_sec = 5;
-//  _select.timeout.tv_sec = 680;
   _select.timeout.tv_usec = 0;
   return (select(getMaxSocketId() + 1, &_select.readfds, NULL, NULL, &_select.timeout));
 }
@@ -181,21 +188,20 @@ int		Server::setServerSelect()
 // Client messages management
 //
 
-void		Server::authRead(unsigned int size)
+void			Server::authRead(unsigned int size)
 {
-//  unsigned char		authRead[4] = {0, 0, 0, 0};
-	unsigned	char*			authRead = new unsigned char[size];
-
+  unsigned char*	authRead = new unsigned char[size + 1];
   unsigned short int	gameId = 0;
 
+  std::memset(authRead, 0, size + 1);
   _actualClient->receive(authRead, size);
   if (size != 4)
-	  authResponse(Server::UNKNOWN, gameId, 0);
+    authResponse(Server::UNKNOWN, gameId, 0);
   else
     {
-		gameId = (authRead[1] << 8) | authRead[2];
+      gameId = (authRead[1] << 8) | authRead[2];
       (authRead[0] != 1) ? authResponse(Server::UNKNOWN, gameId, authRead[3]) :
-		authResponse(Server::NO_ERR, gameId, authRead[3]);
+	authResponse(Server::NO_ERR, gameId, authRead[3]);
     }
   delete[] authRead;
 }
@@ -292,12 +298,12 @@ void					Server::infoResponse()
 
 void			Server::gameRead(unsigned int size)
 {
-	unsigned char*		gameRead = new unsigned char[size];
-//  unsigned char		gameRead[size] = {0};
+  unsigned char*	gameRead = new unsigned char[size + 1];
   char			*gamename = NULL;
   char			*mapname = NULL;
   unsigned short int	gameId = 0;
 
+  std::memset(gameRead, 0, size + 1);
   _actualClient->receive(gameRead, size);
   if (size > 2 && size > gameRead[1] && gameRead[0] == 1)
     {
@@ -343,17 +349,35 @@ unsigned char		*Server::buildHeader(unsigned char commandCode, unsigned int leng
   return newHeader;
 }
 
-void			Server::readHeader(std::map<int, commandTreat> &sendFct)
+bool			Server::readHeader(std::map<int, commandTreat> &sendFct)
 {
-  unsigned char		headerServ[4] = {0};
+  unsigned char		headerServ[5] = {0};
   unsigned int		length = 0;
+  int			error;
 
   std::cout << "[Server : ReadHeader ] --- > Entering" << std::endl;
-  _actualClient->receive(headerServ, 4);
-  length = (headerServ[2] << 8) | headerServ[3];
-  if (length - 4 > 0 && (headerServ[0] == 0 || headerServ[0] == 1 || headerServ[0] == 4))
-    (this->*sendFct[headerServ[0]])(length - 4);
+  if ((error = _actualClient->receive(headerServ, 4)) > 0)
+    {
+      length = (headerServ[2] << 8) | headerServ[3];
+      std::cout << "Message Read : [" << headerServ << "]" << std::endl;
+      if (length - 4 > 0 && (headerServ[0] == 0 || headerServ[0] == 1 || headerServ[0] == 4))
+	(this->*sendFct[headerServ[0]])(length - 4);
+    }
+  else if (error == 0)
+    {
+      for (auto it = _clients.begin() ; it != _clients.end() ; it++)
+	{
+	  if ((*it).get()->getSocket() == _actualClient->getSocket())
+	    {
+	      std::cout << "Client " << _actualClient->getSocket() << ": disconnecting from Server" << std::endl;
+	      return (false);
+	    }
+	}
+    }
+  else
+    std::cout << "Client " << _actualClient->getSocket() << ": Error while reading" << std::endl;
   std::cout << "Quitting readHeader" << std::endl;
+  return (true);
 }
 
 void		Server::stop()

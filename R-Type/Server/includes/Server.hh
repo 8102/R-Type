@@ -16,6 +16,7 @@
 # include <vector>
 # include <map>
 # include <sys/types.h>
+# include <cstring>
 #ifdef _WIN32
 # include <WinSock2.h>
 #else
@@ -61,7 +62,7 @@ public:
   void					infoResponse();
   void					gameRead(unsigned int size);
   void					gameResponse(unsigned short int);
-  void					readHeader(std::map<int, commandTreat> &);
+  bool					readHeader(std::map<int, commandTreat> &);
   unsigned char				*buildHeader(unsigned char commandCode, unsigned int length);
 public:
   size_t				calcResponseLength() const;

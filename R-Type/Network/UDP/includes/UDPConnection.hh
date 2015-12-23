@@ -23,16 +23,17 @@ public:
 	~UDPConnection();
 
 public:
-	bool		listen(unsigned short port);
-	bool		connect(std::string const &address);
-	bool		connect(unsigned int address, unsigned short port);
-	bool		sendPacket(void const *data, size_t size);
-	size_t		receivePacket(void *data, size_t size);
+	bool			listen(unsigned short port);
+	bool			connect(std::string const &address);
+	bool			connect(unsigned int address, unsigned short port);
+	bool			sendPacket(void const *data, size_t size);
+	size_t			receivePacket(void *data, size_t size);
+	size_t			receivePacket(void *data, size_t size, UDPConnection * &client);
 	UDPConnection 	*getNewConnection();
-	void		broadcast(void *data, size_t size, UDPConnection const *except = nullptr);
+	void			broadcast(void *data, size_t size, UDPConnection const *except = nullptr);
 
 public:
-	Address const &getAddress() const;
+	Address const 	&getAddress() const;
 
 private:
 	UDPConnection(UDPConnection const &other, Address address);
@@ -47,16 +48,16 @@ private:
 	};
 
 private:
-	uint32_t					_protocolID;
-	UDPSocket					_socket;
-	Address 					_address;
-	State						_state;
-	unsigned short				_header_size;
+	uint32_t						_protocolID;
+	UDPSocket						_socket;
+	Address 						_address;
+	State							_state;
+	unsigned short					_header_size;
 	std::list<UDPConnection *>		_new_connections;
 	std::vector<UDPConnection *>	_known_connections;
 
 private:
-	static bool		_debug;
+	static bool						_debug;
 };
 
 #endif // _UDPCONNECTION_HH_

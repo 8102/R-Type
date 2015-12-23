@@ -38,7 +38,7 @@ bool	UDPSocket::open(unsigned short port, bool client)
 	{
 		std::cerr << "UDPSocket : open -> Can't set re-use address flag !" << std::endl;
 		this->close();
-		return false;			
+		return false;
 	}
 	if (!client)
 	{
@@ -51,7 +51,7 @@ bool	UDPSocket::open(unsigned short port, bool client)
 			std::cerr << "UDPSocket : open -> Can't bind the socket !" << std::endl;
 			this->close();
 			return false;
-		}		
+		}
 	}
 	# ifdef _WIN32
 		unsigned long iMode = 1;

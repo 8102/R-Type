@@ -8,7 +8,9 @@
 // Last update Fri Dec 11 05:27:53 2015 tran_0
 //
 
+#ifndef _WIN32
 #include <unistd.h>
+#endif
 #include "Game.hh"
 
 Game::Game(size_t id, size_t port, char const *name, char const *mapName) :

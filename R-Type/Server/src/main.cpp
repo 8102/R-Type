@@ -8,6 +8,7 @@
 // Last update Wed Dec  9 16:42:05 2015 tran_0
 //
 
+#define DEBUG
 #include "Server.hh"
 
 int	main(int ac, char **av)
@@ -25,8 +26,13 @@ int	main(int ac, char **av)
     {
       Server			server(port);
 
-      server.run();
-    }
+	  std::cout << std::boolalpha << "TCPConnection : " << TCPConnection::initConnection() << std::endl;
+	  std::cout << WSAGetLastError() << std::endl;
+	  std::cout << "[Main] --- Running Server " << std::endl;
+	  server.run();
+	  std::cout << "[Main] --- Stopping Server " << std::endl;
+	  TCPConnection::stopConnection();
+  }
   catch (std::exception& e)
     {
       std::cerr << e.what() << std::endl;

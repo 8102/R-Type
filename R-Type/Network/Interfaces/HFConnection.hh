@@ -23,7 +23,9 @@ public:
 	{
 		#ifdef _WIN32
 			WSADATA Wsadata;
-			return WSAStartup(MAKEWORD(2, 2), &Wsadata) != NO_ERROR;
+			int result = WSAStartup(MAKEWORD(2, 2), &Wsadata);
+			std::cout << "HFConnection  :  " << result << std::endl;
+			return result != NO_ERROR;
 		#else
 			return true;
 		#endif // defined(_WIN32)

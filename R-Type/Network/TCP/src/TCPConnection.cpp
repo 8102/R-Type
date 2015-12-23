@@ -1,10 +1,10 @@
 #include "TCPConnection.hh"
 
-# ifdef DEBUG
+//# ifdef DEBUG
 	bool TCPConnection::_debug = true;
-# else
-	bool TCPConnection::_debug = false;
-#endif // DEBUG
+//# else
+//	bool TCPConnection::_debug = false;
+//#endif // DEBUG
 
 /*
 ** Constructor / Destructor

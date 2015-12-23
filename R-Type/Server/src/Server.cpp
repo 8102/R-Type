@@ -30,6 +30,7 @@ Server::~Server()
 
 void			Server::acceptClients()
 {
+	std::cout << "[Server::acceptClients() ] -- entering " << std::endl;
   std::shared_ptr<TCPSocket>	newClient(_server->accept());
   _clients.push_back(newClient);
 }
@@ -64,18 +65,25 @@ void			Server::run()
       sendFct[4] = &Server::gameRead;
       if (_server->listen(_port))
 	{
-	  while (_running)
+		std::cout << "[Server::run ] - Listening" << std::endl;
+ 	  while (_running)
 	    {
-	      if ((selectStatus = setServerSelect()) < 0)
-		_running = false;
+			std::cout << "[Server::run ] -- while _running " << std::endl;
+			if ((selectStatus = setServerSelect()) < 0) {
+				_running = false;
+				std::cout << "[Server::run ] -- fail on Server::setServerSelect()" << std::endl;
+			}
 	      else if (selectStatus == 0)
 		{
 		  std::cout << "Server Waiting.." << std::endl;
 		}
-	      else
-		readClients(sendFct);
+		  else {
+			  std::cout << "[Server::run ] -- reading client " << std::endl;
+			  readClients(sendFct);
+		  }
 	    }
-	}
+	  }
+	  else { std::cout << "[Server::run ] --- failed on listen()" << std::endl;  }
     }
   catch (std::exception  &e)
     {
@@ -163,7 +171,8 @@ void		Server::setSelectIds()
 int		Server::setServerSelect()
 {
   setSelectIds();
-  _select.timeout.tv_sec = 680;
+  _select.timeout.tv_sec = 5;
+//  _select.timeout.tv_sec = 680;
   _select.timeout.tv_usec = 0;
   return (select(getMaxSocketId() + 1, &_select.readfds, NULL, NULL, &_select.timeout));
 }
@@ -174,18 +183,21 @@ int		Server::setServerSelect()
 
 void		Server::authRead(unsigned int size)
 {
-  unsigned char		authRead[size] = {0};
+//  unsigned char		authRead[4] = {0, 0, 0, 0};
+	unsigned	char*			authRead = new unsigned char[size];
+
   unsigned short int	gameId = 0;
 
   _actualClient->receive(authRead, size);
   if (size != 4)
-    authResponse(Server::UNKNOWN, gameId, 0);
+	  authResponse(Server::UNKNOWN, gameId, 0);
   else
     {
-      gameId = (authRead[1] << 8) | authRead[2];
+		gameId = (authRead[1] << 8) | authRead[2];
       (authRead[0] != 1) ? authResponse(Server::UNKNOWN, gameId, authRead[3]) :
-	authResponse(Server::NO_ERR, gameId, authRead[3]);
+		authResponse(Server::NO_ERR, gameId, authRead[3]);
     }
+  delete[] authRead;
 }
 
 void		Server::authResponse(authErr response, unsigned short int gameId, char playerType)
@@ -280,7 +292,8 @@ void					Server::infoResponse()
 
 void			Server::gameRead(unsigned int size)
 {
-  unsigned char		gameRead[size] = {0};
+	unsigned char*		gameRead = new unsigned char[size];
+//  unsigned char		gameRead[size] = {0};
   char			*gamename = NULL;
   char			*mapname = NULL;
   unsigned short int	gameId = 0;
@@ -301,6 +314,7 @@ void			Server::gameRead(unsigned int size)
       delete gamename;
       delete mapname;
     }
+  delete[] gameRead;
 }
 
 void			Server::gameResponse(unsigned short int id)
@@ -334,10 +348,12 @@ void			Server::readHeader(std::map<int, commandTreat> &sendFct)
   unsigned char		headerServ[4] = {0};
   unsigned int		length = 0;
 
+  std::cout << "[Server : ReadHeader ] --- > Entering" << std::endl;
   _actualClient->receive(headerServ, 4);
   length = (headerServ[2] << 8) | headerServ[3];
   if (length - 4 > 0 && (headerServ[0] == 0 || headerServ[0] == 1 || headerServ[0] == 4))
     (this->*sendFct[headerServ[0]])(length - 4);
+  std::cout << "Quitting readHeader" << std::endl;
 }
 
 void		Server::stop()
@@ -350,3 +366,9 @@ void	*gameReady(Game *g)
   g->playing();
   return (NULL);
 }
+
+//
+//template < class T, class ... Args >
+//std::unique_ptr< T > make_unique(Args&& ... args) {
+//	return std::unique_ptr< T >(new T(std::forward< Args >(args)...));
+//}

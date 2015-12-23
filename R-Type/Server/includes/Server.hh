@@ -16,7 +16,11 @@
 # include <vector>
 # include <map>
 # include <sys/types.h>
+#ifdef _WIN32
+# include <WinSock2.h>
+#else
 # include <sys/select.h>
+#endif
 # include "Game.hh"
 # include "ThreadPool.hh"
 # include "Client.hh"
@@ -74,7 +78,9 @@ private:
     fd_set		writefds;
     fd_set		exceptfds;
     struct timeval	timeout;
+#ifndef _WIN32
     sigset_t		*sigmask;
+#endif
   }			GameSelect;
 private:
   bool						_running;

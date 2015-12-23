@@ -56,7 +56,10 @@ void			Server::readClients(std::map<int, commandTreat> &sendFct, fd_set *readfds
         {
 	  _actualClient = (*it).get();
 	  if (_actualClient && !readHeader(sendFct))
-	    it = _clients.erase(it);
+    {
+      FD_CLR(_actualClient->getSocket(), &(_select.readfds));
+      it = _clients.erase(it);
+    }
 	  else
 	    it++;
 	}

@@ -353,7 +353,7 @@ void			Server::readHeader(std::map<int, commandTreat> &sendFct)
   length = (headerServ[2] << 8) | headerServ[3];
   if (length - 4 > 0 && (headerServ[0] == 0 || headerServ[0] == 1 || headerServ[0] == 4))
     (this->*sendFct[headerServ[0]])(length - 4);
-  std::cout << "Quitting readHeader" << std::endl;
+   std::cout << "Quitting readHeader" << std::endl;
 }
 
 void		Server::stop()

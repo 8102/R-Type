@@ -326,6 +326,7 @@ void MenuElement::scroll(sf::Event const & event)
 			_midground->setPosition(sf::Vector2f(_midground->getPosition().x, targetPosition));
 			float ratio = (std::abs(targetPosition - initialPosition) * 100 / getGlobalBounds().height) / 100.0f * _container->getTotalSize().y;
 			_container->moveElements(sf::Vector2f(0.0f, initialPosition < targetPosition ? ratio * -1.5f : ratio * 1.5f));
+
 		}
 	}
 }

@@ -22,7 +22,7 @@
 # include "Client.hh"
 # include "IEntity.hh"
 # include "Address.hh"
-# include "Connection.hh"
+# include "UDPConnection.hh"
 # include "UDPSocket.hh"
 
 # define PROTOCOL_ID	0x1a9f0496
@@ -30,7 +30,7 @@
 class		Game
 {
 public:
-  Game(size_t id, size_t port, std::string const &name, std::string const &mapName);
+  Game(size_t id, size_t port, char const *name, char const *mapName);
   ~Game();
 
 public:
@@ -65,7 +65,7 @@ private:
   void						newWave();
   void						Pause();
 private:
-  Connection					*_server;
+  UDPConnection					*_server;
   std::vector<std::shared_ptr<Client> >		_clients;
   std::vector<std::shared_ptr<IEntity> >	_entities;
   long						_score;
@@ -82,6 +82,7 @@ private:
   bool						_beginGame;
 };
 
+void		*gameReady(Game *);
 void		game_timing(Game *);
 
 #endif // GAME_HH__

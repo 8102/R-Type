@@ -15,10 +15,8 @@
 # include <iostream>
 # include <vector>
 # include <map>
-# include <sys/time.h>
 # include <sys/types.h>
 # include <sys/select.h>
-# include <unistd.h>
 # include "Game.hh"
 # include "ThreadPool.hh"
 # include "Client.hh"
@@ -47,10 +45,11 @@ public:
   ~Server();
 public:
   void					run();
-  short int				addNewGame(std::string const &name, std::string const & map);
+  short int				addNewGame(char *name, char *map);
   bool					addNewPlayer(unsigned short int idGame, char player);
   void					stop();
   void					acceptClients();
+  void					readClients(std::map<int, commandTreat> &);
 public:
   void					authRead(unsigned int size);
   void					authResponse(authErr, unsigned short int, char);
@@ -65,15 +64,29 @@ public:
 public:
   void					addClientToGame();
 private:
+  int					getMaxSocketId();
+  void					setSelectIds();
+  int					setServerSelect();
+private:
+  typedef	struct s_select
+  {
+    fd_set		readfds;
+    fd_set		writefds;
+    fd_set		exceptfds;
+    struct timeval	timeout;
+    sigset_t		*sigmask;
+  }			GameSelect;
+private:
   bool						_running;
   int						_port;
   ThreadPool					*_pool;
   std::vector<std::shared_ptr<Game> >		_games;
   TCPConnection					*_server;
   std::vector<std::shared_ptr<TCPSocket> >	_clients;
+  TCPSocket					*_actualClient;
+  GameSelect					_select;
 };
 
-void		*gameReady(Game *);
 void		*acceptClient(Server *);
 
 #endif // !SERVER_HH__

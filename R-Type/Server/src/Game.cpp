@@ -11,20 +11,20 @@
 #include <unistd.h>
 #include "Game.hh"
 
-Game::Game(size_t id, size_t port, std::string const &name, std::string const &mapName) :
+Game::Game(size_t id, size_t port, char const *name, char const *mapName) :
   _id(id), _isOver(false), _port(port), _name(name), _mapName(mapName)
 {
   _mu = new std::mutex();
   _originTime = std::chrono::steady_clock::now();
   _pause = false;
   _beginGame = false;
-  Connection::initConnection();
-  _server = new Connection(PROTOCOL_ID);
+  UDPConnection::initConnection();
+  _server = new UDPConnection(PROTOCOL_ID);
 }
 
 Game::~Game()
 {
-  Connection::stopConnection();
+  UDPConnection::stopConnection();
   delete _server;
   delete _mu;
   std::cout << "Stopping Game n°" << _id << std::endl;

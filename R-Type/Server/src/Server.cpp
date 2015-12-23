@@ -8,7 +8,6 @@
 // Last update Fri Dec 11 04:15:41 2015 tran_0
 //
 
-#include <unistd.h>
 #include "Server.hh"
 
 Server::Server(int port) : _running(true), _port(port)
@@ -16,6 +15,7 @@ Server::Server(int port) : _running(true), _port(port)
   std::cout << "The server is running on port: " << _port << std::endl;
   _pool = new ThreadPool(10);
   _server = new TCPConnection;
+  _actualClient = NULL;
 }
 
 Server::~Server()
@@ -30,10 +30,26 @@ Server::~Server()
 
 void			Server::acceptClients()
 {
-  while (_running)
+  std::shared_ptr<TCPSocket>	newClient(_server->accept());
+  _clients.push_back(newClient);
+}
+
+void			Server::readClients(std::map<int, commandTreat> &sendFct)
+{
+  if (FD_ISSET(_server->getSocketfd(), &_select.readfds))
+    acceptClients();
+  else
     {
-      std::shared_ptr<TCPSocket>	newClient(_server->accept());
-      _clients.push_back(newClient);
+      for (auto it = _clients.begin() ; it != _clients.end() ; it++)
+	{
+	  if (FD_ISSET((*it).get()->getSocket(), &_select.readfds))
+	    {
+	      _actualClient = (*it).get();
+	      readHeader(sendFct);
+	      FD_CLR((*it).get()->getSocket(), &_select.readfds);
+	    }
+	  _actualClient = NULL;
+	}
     }
 }
 
@@ -42,14 +58,23 @@ void			Server::run()
   try
     {
       std::map<int, commandTreat>	sendFct;
+      int				selectStatus;
       sendFct[1] = &Server::authRead;
       sendFct[2] = &Server::infoRead;
       sendFct[4] = &Server::gameRead;
       if (_server->listen(_port))
 	{
-	  std::thread	acceptThread(acceptClient, this);
 	  while (_running)
-	    readHeader(sendFct);
+	    {
+	      if ((selectStatus = setServerSelect()) < 0)
+		_running = false;
+	      else if (selectStatus == 0)
+		{
+		  std::cout << "Server Waiting.." << std::endl;
+		}
+	      else
+		readClients(sendFct);
+	    }
 	}
     }
   catch (std::exception  &e)
@@ -59,7 +84,7 @@ void			Server::run()
   stop();
 }
 
-short int		Server::addNewGame(std::string const &name, std::string const &map)
+short int		Server::addNewGame(char *name, char *map)
 {
   unsigned short int	idGame = 1;
 
@@ -115,22 +140,52 @@ size_t		Server::calcResponseLength() const
 // Getters && Setters
 //
 
+int		Server::getMaxSocketId()
+{
+  int		fd = 1;
+
+  for(auto it = _clients.begin() ; it != _clients.end() ; it++)
+    {
+      if (fd < (*it).get()->getSocket())
+	fd = (*it).get()->getSocket();
+    }
+  return fd;
+}
+
+void		Server::setSelectIds()
+{
+  FD_ZERO(&_select.readfds);
+  FD_SET(_server->getSocketfd(), &_select.readfds);
+  for(auto it = _clients.begin() ; it != _clients.end() ; it++)
+    FD_SET((*it).get()->getSocket(), &_select.readfds);
+}
+
+int		Server::setServerSelect()
+{
+  setSelectIds();
+  _select.timeout.tv_sec = 680;
+  _select.timeout.tv_usec = 0;
+  return (select(getMaxSocketId() + 1, &_select.readfds, NULL, NULL, &_select.timeout));
+}
+
 //
 // Client messages management
 //
 
 void		Server::authRead(unsigned int size)
 {
-  unsigned char		authType = 0;
-  unsigned char		mapread[2] = {0, 0};
-  unsigned short int	gameId;
-  char			playerType;
-  // read authType if ok or not // check size
-  // read gameId
-  size -= 3;
-  gameId = (mapread[0] << 8) | mapread[1];
-  (authType != 1) ? authResponse(Server::UNKNOWN, gameId, playerType) :
-    authResponse(Server::NO_ERR, gameId, playerType);
+  unsigned char		authRead[size] = {0};
+  unsigned short int	gameId = 0;
+
+  _actualClient->receive(authRead, size);
+  if (size != 4)
+    authResponse(Server::UNKNOWN, gameId, 0);
+  else
+    {
+      gameId = (authRead[1] << 8) | authRead[2];
+      (authRead[0] != 1) ? authResponse(Server::UNKNOWN, gameId, authRead[3]) :
+	authResponse(Server::NO_ERR, gameId, authRead[3]);
+    }
 }
 
 void		Server::authResponse(authErr response, unsigned short int gameId, char playerType)
@@ -144,14 +199,12 @@ void		Server::authResponse(authErr response, unsigned short int gameId, char pla
   send[5] = 0;
   if (response == Server::UNKNOWN || response == Server::GAME_FULL)
     {
-      // 01 00 00 07 03 00 (03 || 01)
       send[4] = AUTH_ERROR;
       send[6] = response;
-      //send
+      _actualClient->send(send, 7);
     }
   else
     {
-      // 01 00 00 07 02 8C A0
       for (auto it = _games.begin() ; it != _games.end() ; it++)
 	{
 	  if ((*it)->getId() == gameId)
@@ -176,7 +229,7 @@ void		Server::authResponse(authErr response, unsigned short int gameId, char pla
 		  send[4] = AUTH_SUCCESS;
 		  send[5] = port >> 8;
 		  send[6] = port & 0xFF;
-		  //send
+		  _actualClient->send(send, 7);
 		}
 	    }
 	}
@@ -188,19 +241,21 @@ void		Server::infoRead(unsigned int size)
 {
   unsigned char	request = 0;
 
-  //read game info request if size == 0k
-  if (request == GAME_INFO)
+  _actualClient->receive(&request, 1);
+  if (request == GAME_INFO && size >= 1)
     infoResponse();
 }
 
-void			Server::infoResponse()
+void					Server::infoResponse()
 {
-  unsigned char		*send = buildHeader(INFO, calcResponseLength() + 1);
-  int			pos = 4;
-  std::string		gameName;
-  std::string		mapName;
+  unsigned char				*send = NULL;
+  int					pos = 4;
+  std::string				gameName;
+  std::string				mapName;
   std::vector<std::shared_ptr<Client> >	clients;
+  int					length = calcResponseLength();
 
+  send = buildHeader(INFO, calcResponseLength() + 1);
   send[pos++] = 2;
   for (auto it = _games.begin() ; it != _games.end() ; it++)
     {
@@ -219,24 +274,32 @@ void			Server::infoResponse()
       for (unsigned int i = 0 ; i < mapName.length() ; i++)
 	send[pos++] = mapName[i];
     }
-  send[pos] = 0;
-  // send
+  _actualClient->send(send, length);
   delete send;
 }
 
 void			Server::gameRead(unsigned int size)
 {
-  char			messType = 0; // check if good message
-  char			gamelen = 0; // game name length
-  char			maplen = 0; // maplen
-  char			*gamename = 0; // game name
-  char			*mapname = 0; // map name
-  unsigned short int	gameId;
+  unsigned char		gameRead[size] = {0};
+  char			*gamename = NULL;
+  char			*mapname = NULL;
+  unsigned short int	gameId = 0;
 
-  if (messType == 1)
+  _actualClient->receive(gameRead, size);
+  if (size > 2 && size > gameRead[1] && gameRead[0] == 1)
     {
+      gamename = new char[gameRead[1] + 1];
+      for (int i = 0 ; i < static_cast<int>(gamename[1]) ; i++)
+	gamename[i] = gameRead[2 + i];
+      gamename[gameRead[1]] = 0;
+      gamename = new char[gameRead[2 + gameRead[1]] + 1];
+      for (int i = 0 ; i < static_cast<int>(gameRead[2 + gameRead[1]]) ; i++)
+	gamename[i] = gameRead[2 + i];
+      gamename[gameRead[2 + gameRead[1]]] = 0;
       gameId = addNewGame(gamename, mapname);
       gameResponse(gameId);
+      delete gamename;
+      delete mapname;
     }
 }
 
@@ -248,7 +311,7 @@ void			Server::gameResponse(unsigned short int id)
   send[pos++] = 2;
   send[pos++] = (id >> 8) & 0xFF;
   send[pos] = id & 0xFF;
-  // send create new game reply
+  _actualClient->send(send, 7);
 }
 
 unsigned char		*Server::buildHeader(unsigned char commandCode, unsigned int length)
@@ -268,14 +331,13 @@ unsigned char		*Server::buildHeader(unsigned char commandCode, unsigned int leng
 
 void			Server::readHeader(std::map<int, commandTreat> &sendFct)
 {
-  unsigned char		identity[2] = {0, 0};
-  unsigned char		get_length[2] = {0, 0};
-  unsigned int		length = 1;
+  unsigned char		headerServ[4] = {0};
+  unsigned int		length = 0;
 
-  // Read TCP function, adding words to just add some additions ! Hope Hugo and JBoise won't see it in the commit !!!!!!!!!!!!!! HAHA lol EXPLOSION ON THE FLOOR
-  length = (get_length[0] << 8) | get_length[1];
-  if (length - 4 > 0 && (identity[0] == 0 || identity[0] == 1 || identity[0] == 4))
-    (this->*sendFct[identity[0]])(length - 4);
+  _actualClient->receive(headerServ, 4);
+  length = (headerServ[2] << 8) | headerServ[3];
+  if (length - 4 > 0 && (headerServ[0] == 0 || headerServ[0] == 1 || headerServ[0] == 4))
+    (this->*sendFct[headerServ[0]])(length - 4);
 }
 
 void		Server::stop()
@@ -287,9 +349,4 @@ void	*gameReady(Game *g)
 {
   g->playing();
   return (NULL);
-}
-
-void	*acceptClient(Server *s)
-{
-  s->acceptClients();
 }

@@ -8,7 +8,6 @@
 // Last update Thu Dec 10 02:56:32 2015 tran_0
 //
 
-#include <unistd.h>
 #include "ThreadPool.hh"
 
 ThreadPool::ThreadPool(size_t games) :  _working(true), _nbGames(games)

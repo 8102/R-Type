@@ -35,12 +35,13 @@ int main(int argc, char **argv)
 		UDPConnection server(_PROTOCOL_ID);
 		if (!server.listen(atoi(argv[1])))
 			return 1;
+		UDPConnection *from = nullptr;
 		while (true)
 		{
 			char ret[100] = {0};
 			size_t len = server.receivePacket(ret, 99);
 			if (len > 0)
-				server.broadcast(ret, len);
+				server.broadcast(ret, len, from);
 			if (std::string(ret) == "quit")
 				break;
 			my_wait(0.1);
@@ -71,6 +72,9 @@ int main(int argc, char **argv)
 			return 1;
 		while (true)
 		{
+			char msg[100] = {0};
+			if (client.receivePacket(msg, 99))
+				std::cout << "=> " << msg << std::endl;
 			std::string ret;
 			std::getline(std::cin, ret);
 			std::cout << "jenvois: [" << ret << "]" << std::endl;

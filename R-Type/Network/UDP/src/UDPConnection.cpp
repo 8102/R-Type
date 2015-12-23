@@ -51,7 +51,7 @@ Address const &UDPConnection::getAddress() const
 /*
 ** Public methodes
 */
-bool	UDPConnection::listen(unsigned short port)
+bool		UDPConnection::listen(unsigned short port)
 {
 	if (!_socket.open(port))
 	{
@@ -65,7 +65,7 @@ bool	UDPConnection::listen(unsigned short port)
 	return true;
 }
 
-bool	UDPConnection::connect(std::string const &address)
+bool		UDPConnection::connect(std::string const &address)
 {
 	_address = Address(address);
 	if (!_socket.open(_address.getPort(), true))
@@ -83,7 +83,7 @@ bool	UDPConnection::connect(std::string const &address)
 	return true;
 }
 
-bool	UDPConnection::connect(unsigned int address, unsigned short port)
+bool		UDPConnection::connect(unsigned int address, unsigned short port)
 {
 	_address = Address(address, port);
 	if (!_socket.open(port, true))
@@ -101,7 +101,7 @@ bool	UDPConnection::connect(unsigned int address, unsigned short port)
 	return true;
 }
 
-bool	UDPConnection::sendPacket(void const *data, size_t size)
+bool		UDPConnection::sendPacket(void const *data, size_t size)
 {
 	if (_state == Disconnected || _state == Listening)
 		return false;
@@ -114,7 +114,7 @@ bool	UDPConnection::sendPacket(void const *data, size_t size)
 	return _socket.send(_address, packet.get(), size + _header_size);
 }
 
-size_t	UDPConnection::receivePacket(void *data, size_t size)
+size_t		UDPConnection::receivePacket(void *data, size_t size, UDPConnection * &client)
 {
 	if (_state == Disconnected)
 		return 0;
@@ -153,6 +153,7 @@ size_t	UDPConnection::receivePacket(void *data, size_t size)
 		if ((*it)->getAddress() == from)
 		{
 			std::memcpy(data, &packet[4], recv_bytes - _header_size);
+			client = *it;
 			return recv_bytes;
 		}
 	}
@@ -162,6 +163,12 @@ size_t	UDPConnection::receivePacket(void *data, size_t size)
 		return recv_bytes;
 	}
 	return 0;
+}
+
+size_t			UDPConnection::receivePacket(void *data, size_t size)
+{
+	UDPConnection *useless = nullptr;
+	return this->receivePacket(data, size, useless);
 }
 
 UDPConnection 	*UDPConnection::getNewConnection()

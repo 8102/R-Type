@@ -1,9 +1,9 @@
 //
 // Server.hh for rtype in /home/Opcoz/rendu/rtype/R-Type/Server/src
-// 
+//
 // Made by tran_0
 // Login   <Opcoz@epitech.net>
-// 
+//
 // Started on  Wed Dec  9 16:49:12 2015 tran_0
 // Last update Wed Dec  9 16:49:12 2015 tran_0
 //
@@ -32,6 +32,10 @@
 # define GAME_INFO	1
 # define INFO		2
 # define GAME		4
+# define TIMEOUT_SEC  120
+# define TIMEOUT_USEC 0
+
+# define MAX(a, b)  ((a) > (b) ? (a) : (b))
 
 class		Server
 {
@@ -53,7 +57,7 @@ public:
   bool					addNewPlayer(unsigned short int idGame, char player);
   void					stop();
   void					acceptClients();
-  void					readClients(std::map<int, commandTreat> &);
+  void					readClients(std::map<int, commandTreat> &sendFct, fd_set *readfds);
 public:
   void					authRead(unsigned int size);
   void					authResponse(authErr, unsigned short int, char);
@@ -68,9 +72,7 @@ public:
 public:
   void					addClientToGame();
 private:
-  int					getMaxSocketId();
-  void					setSelectIds();
-  int					setServerSelect();
+  int					setServerSelect(fd_set *readfds);
 private:
   typedef	struct s_select
   {
@@ -78,6 +80,7 @@ private:
     fd_set		writefds;
     fd_set		exceptfds;
     struct timeval	timeout;
+    int       bfd;
 #ifndef _WIN32
     sigset_t		*sigmask;
 #endif

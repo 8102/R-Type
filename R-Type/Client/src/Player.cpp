@@ -2,26 +2,26 @@
 #include                     "GameEngine.hh"
 //#include                     "UnitTest.hh"
 Player::Player(std::string const& filename, Animation const& animation, Ammunition const& ammo, sf::Color const& colorMask)
-	: ACharacter(filename, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(100, 100) {
+	: ACharacter(filename, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200) {
 
 	setType(AGameElement::Friendly);
 }
 
 Player::Player(sf::Texture const& texture, Animation const& animation, Ammunition const& ammo, sf::Color const& colorMask)
-	: ACharacter(texture, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(true), _energy(1000, 1000) {
+	: ACharacter(texture, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200) {
 
 	setType(AGameElement::Friendly);
 }
 
 Player::Player(AnimatedSprite const& baseModel, Ammunition const& ammo)
-	: ACharacter(baseModel, ammo), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(true), _energy(3000, 100) {
+	: ACharacter(baseModel, ammo), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200) {
 
 	setType(AGameElement::Friendly);
 }
 
 
 Player::Player(ACharacter const& baseModel)
-	: ACharacter(baseModel), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(true), _energy(3000, 100) {
+	: ACharacter(baseModel), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200) {
 
 	setType(AGameElement::Friendly);
 }
@@ -135,11 +135,8 @@ void                         Player::move(int xAxis, int yAxis) {
 		nextPosition.y > 10 &&
 		nextPosition.y < (WIN_H - getGlobalBounds().height - 10))
 		setPosition(nextPosition);
-	if (isShielded() == true)
-	{
 		_shield.setPosition(sf::Vector2f(getGlobalBounds().left + getGlobalBounds().width / 2.0f - _shield.getGlobalBounds().width / 2.0f,
 			getGlobalBounds().top + getGlobalBounds().height / 2.0f - _shield.getGlobalBounds().height / 2.0f));
-	}
 }
 
 void                         Player::switchWeapon() {
@@ -153,7 +150,8 @@ void                         Player::switchWeapon() {
 
 void Player::activateShield(bool const & shieldState)
 {
-	_isShielded = shieldState;
+	if (shieldState == true && _energy.x <= 0) _isShielded = false;
+	else	_isShielded = shieldState;
 }
 
 void Player::receiveDamage(Ammunition const & shot)
@@ -175,6 +173,11 @@ bool Player::collide(AGameElement const & collider, bool const &shieldCollision)
 	if (isShielded() == true && shieldCollision == true)
 		return collider.collide(_shield);
 	return collider.collide(*this);
+}
+
+bool Player::isAlive() const
+{
+	return _health.x <= 0.0f;
 }
 
 

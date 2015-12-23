@@ -4,8 +4,13 @@ CollisionManager::CollisionManager() {}
 
 CollisionManager::~CollisionManager() {
 
+}
+
+void CollisionManager::clear()
+{
 	for (auto it = _bitmaskLibrary.begin(); it != _bitmaskLibrary.end(); it++)
 		delete[] it->second;
+	_bitmaskLibrary.clear();
 }
 
 sf::Uint8           CollisionManager::getPixel(sf::Uint8 const* mask, sf::Texture const* texture, sf::Vector2u const& position) {

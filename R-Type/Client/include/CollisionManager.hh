@@ -14,13 +14,17 @@ public:
 
 public:
 
-	sf::Uint8                 getPixel(sf::Uint8 const* mask, sf::Texture const* texture, sf::Vector2u const& position);
-	sf::Uint8*                getTextureMask(sf::Texture const* texture);
-	sf::Uint8*                createMaskFromTexture(sf::Texture const* texture, sf::Image const& image);
+	void							clear();
 
 public:
 
-	bool                      CheckCollision(sf::Sprite const& objectA, sf::Sprite const& objectB, sf::Uint8 const& alphaLimit = 0);
+	sf::Uint8					getPixel(sf::Uint8 const* mask, sf::Texture const* texture, sf::Vector2u const& position);
+	sf::Uint8*					getTextureMask(sf::Texture const* texture);
+	sf::Uint8*					createMaskFromTexture(sf::Texture const* texture, sf::Image const& image);
+
+public:
+
+	bool							CheckCollision(sf::Sprite const& objectA, sf::Sprite const& objectB, sf::Uint8 const& alphaLimit = 0);
 
 private:
 

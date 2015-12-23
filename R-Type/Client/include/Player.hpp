@@ -25,6 +25,7 @@ public:
 	void						activateShield(bool const& shieldState);
 	void						receiveDamage(Ammunition const& it);
 	bool						collide(AGameElement const& collider, bool const& shieldCollision = true) const;
+	bool						isAlive() const;
 
 public:
 

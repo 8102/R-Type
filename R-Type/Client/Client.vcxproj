@@ -19,12 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\Network\UDP\includes\Address.hh" />
-    <ClInclude Include="..\Network\UDP\includes\Connection.hh" />
-    <ClInclude Include="..\Network\UDP\includes\UDPSocket.hh" />
-    <ClInclude Include="AnimationFactory.hh">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</ExcludedFromBuild>
-    </ClInclude>
+    <ClInclude Include="include\FXFactory.hh" />
     <ClInclude Include="include\GameRythmer.hh" />
     <ClInclude Include="include\GUI.hh">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -32,7 +27,6 @@
     <ClInclude Include="include\AnimationFactory.hh" />
     <ClInclude Include="include\BonusFactory.hh" />
     <ClInclude Include="include\Bonus.hh" />
-    <ClInclude Include="FXFactory.hh" />
     <ClInclude Include="include\ACharacter.hh" />
     <ClInclude Include="include\AGameController.hh" />
     <ClInclude Include="include\AGameElement.hh" />
@@ -58,7 +52,6 @@
     <ClInclude Include="include\SoundSystem.hh" />
     <ClInclude Include="include\SoundTrack.hh" />
     <ClInclude Include="include\Timer.hh" />
-    <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameRythmer.cpp" />
@@ -70,7 +63,7 @@
     </ClCompile>
     <ClCompile Include="src\BonusFactory.cpp" />
     <ClCompile Include="src\Bonus.cpp" />
-    <ClCompile Include="FXFactory.cpp" />
+    <ClCompile Include="src\FXFactory.cpp" />
     <ClCompile Include="src\ACharacter.cpp" />
     <ClCompile Include="src\AGameController.cpp" />
     <ClCompile Include="src\AGameElement.cpp" />
@@ -247,6 +240,7 @@
     <Media Include="assets\audio\music\unity.wav" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\Network\compile" />
     <None Include="assets\audio\effects\BigExplosion.zip" />
     <None Include="Makefile" />
   </ItemGroup>

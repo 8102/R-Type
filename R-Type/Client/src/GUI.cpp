@@ -16,6 +16,7 @@ GUI::GUI(Player const& player, sf::RenderWindow & window)
 	_weaponIconContainer.setOrigin(sf::Vector2f(_weaponIconContainer.getGlobalBounds().width / 2.0f, _weaponIconContainer.getGlobalBounds().height / 2.0f));
 	_weaponIcon.setPosition(sf::Vector2f(0.0f, PLAY_HEIGHT / 9.0f * 7.0f));
 	_weaponIcon.setTexture(requestAssetManager.getTexture("iconPlasmaCannon.png")); /**************/
+	_weaponIcon.setTexture(requestAssetManager.getTexture("iconMap.jpg")); /**************/
 }
 
 GUI::~GUI()

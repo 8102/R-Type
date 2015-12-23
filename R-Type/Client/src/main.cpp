@@ -94,7 +94,8 @@ void               setupAnimatedSprites() {
   GameEngine&      e = GameEngine::instanciate();
   AssetManager&    a = AssetManager::instanciate();
 
-  GameDecor*       background = new GameDecor("./assets/sprites/starybackgrnd.jpg");
+ // GameDecor*       background = new GameDecor("./assets/sprites/starybackgrnd.jpg");
+  GameDecor*       background = new GameDecor("./assets/sprites/nebula.jpg");
   GameDecor*       DecorShip = new GameDecor("./assets/sprites/r-typesheet37.gif", 1, sf::Color::Black, false);
   GameDecor*       planet = new GameDecor("./assets/sprites/planet.png", 1, sf::Color::Black, false);
   GameDecor*       littlePlanet = new GameDecor("./assets/sprites/littlePlanet.png", 1, sf::Color::Black, false);
@@ -209,9 +210,10 @@ int main() {
   AssetManager::instanciate();
 #ifdef _WIN32
   AllocConsole();
-  freopen("conin$", "r", stdin);
-  freopen("conout$", "w", stdout);
-  freopen("conout$", "w", stderr);
+  FILE*		stream;
+  freopen_s(&stream, "conin$", "r", stdin);
+  freopen_s(&stream, "conout$", "w", stdout);
+  freopen_s(&stream, "conout$", "w", stderr);
 #endif
   engine.start();
 

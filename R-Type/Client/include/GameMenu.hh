@@ -15,7 +15,7 @@ public:
 	{
 		InLine = 0,
 		InGrid,
-		InCircle,
+		InRound,
 		InBlock,
 		InBlock_straight,
 		InLine_Bottom,
@@ -57,12 +57,14 @@ public:
 
 	void					setElementScale(MenuElement *element);
 	void					setElementPosition(MenuElement *element);
+	void					moveElements(sf::Vector2f const& v);
 	void					setFocused(int const& index);
 	void					changeFocused(int const& indexMove, bool const& limited = true);
 
 public:
 
 	void					applyInLineStyle();
+	void					applyInRoundStyle();
 	void					applyInLineBottomStyle();
 	void					applyInNarrowGridStyle();
 	void					applyStyle();

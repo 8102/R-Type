@@ -52,21 +52,10 @@ bool                                PlayerController::onKeyPressed(_unused sf::E
 	case sf::Keyboard::LShift:
 		_player.switchWeapon();
 		break;
-		// case sf::Keyboard::Z :
-		//   _player.move(0, -1);
-		//   break;
-		//
-		// case sf::Keyboard::S :
-		//   _player.move(0, 1);
-		//   break;
-		//
-		// case sf::Keyboard::Q :
-		//   _player.move(-1, 0);
-		//   break;
-		//
-		// case sf::Keyboard::D :
-		//   _player.move(1, 0);
-		//   break;
+
+	case sf::Keyboard::LAlt:
+		_player.activateShield(!_player.isShielded());
+		break;
 
 	default:
 		return false;

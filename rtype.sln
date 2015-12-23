@@ -1,0 +1,103 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Client", "R-Type\Client\Client.vcxproj", "{AA18793A-4819-402B-AB2A-D37B56F2CE6F}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Server", "R-Type\Server\Server.vcxproj", "{640F86FA-E167-4EFE-A9D2-CAE3E33F21AB}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NetworkCommon", "NetworkCommon", "{BEE56F49-3E4D-40AC-92A0-2AAA48BC3CAD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Common", "Common", "{C3D79EEC-B6A9-4802-958E-20303D272EBD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "includes", "includes", "{ADB3CD5B-90A5-4728-80AD-96A0A4B0C906}"
+	ProjectSection(SolutionItems) = preProject
+		R-Type\Network\Common\includes\Address.hh = R-Type\Network\Common\includes\Address.hh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{36C1C56F-807F-449C-9352-2ECF8F2FAD85}"
+	ProjectSection(SolutionItems) = preProject
+		R-Type\Network\Common\src\Address.cpp = R-Type\Network\Common\src\Address.cpp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "UDP", "UDP", "{33FBF7E0-E204-4774-9C3F-E0E3F0DA51F3}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TCP", "TCP", "{B4B17487-A926-4F93-8D6D-02E4E3362B60}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interfaces", "Interfaces", "{ECBA75BE-1CF0-43DE-AF18-519DB3019560}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "includes", "includes", "{D0D8E633-AB2D-4C26-B66F-983E249754D5}"
+	ProjectSection(SolutionItems) = preProject
+		R-Type\Network\Interfaces\HFConnection.hh = R-Type\Network\Interfaces\HFConnection.hh
+		R-Type\Network\Interfaces\HFSocket.hh = R-Type\Network\Interfaces\HFSocket.hh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "includes", "includes", "{F095D983-7F16-4D39-9C62-4103124FDAD5}"
+	ProjectSection(SolutionItems) = preProject
+		R-Type\Network\TCP\includes\TCPConnection.hh = R-Type\Network\TCP\includes\TCPConnection.hh
+		R-Type\Network\TCP\includes\TCPSocket.hh = R-Type\Network\TCP\includes\TCPSocket.hh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{9DF6439A-1EB7-4634-BC45-87E41265D0A7}"
+	ProjectSection(SolutionItems) = preProject
+		R-Type\Network\TCP\src\main_TCP.cpp = R-Type\Network\TCP\src\main_TCP.cpp
+		R-Type\Network\TCP\src\TCPConnection.cpp = R-Type\Network\TCP\src\TCPConnection.cpp
+		R-Type\Network\TCP\src\TCPSocket.cpp = R-Type\Network\TCP\src\TCPSocket.cpp
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "includes", "includes", "{A87F23A3-410D-4FFD-8475-572A5E0D19F1}"
+	ProjectSection(SolutionItems) = preProject
+		R-Type\Network\UDP\includes\UDPConnection.hh = R-Type\Network\UDP\includes\UDPConnection.hh
+		R-Type\Network\UDP\includes\UDPSocket.hh = R-Type\Network\UDP\includes\UDPSocket.hh
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{6879961A-A369-4A4A-97E2-E70C9181B3C8}"
+	ProjectSection(SolutionItems) = preProject
+		R-Type\Network\UDP\src\main_udp.cpp = R-Type\Network\UDP\src\main_udp.cpp
+		R-Type\Network\UDP\src\UDPConnection.cpp = R-Type\Network\UDP\src\UDPConnection.cpp
+		R-Type\Network\UDP\src\UDPSocket.cpp = R-Type\Network\UDP\src\UDPSocket.cpp
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{AA18793A-4819-402B-AB2A-D37B56F2CE6F}.Debug|x64.ActiveCfg = Debug|x64
+		{AA18793A-4819-402B-AB2A-D37B56F2CE6F}.Debug|x64.Build.0 = Debug|x64
+		{AA18793A-4819-402B-AB2A-D37B56F2CE6F}.Debug|x86.ActiveCfg = Debug|Win32
+		{AA18793A-4819-402B-AB2A-D37B56F2CE6F}.Debug|x86.Build.0 = Debug|Win32
+		{AA18793A-4819-402B-AB2A-D37B56F2CE6F}.Release|x64.ActiveCfg = Release|x64
+		{AA18793A-4819-402B-AB2A-D37B56F2CE6F}.Release|x64.Build.0 = Release|x64
+		{AA18793A-4819-402B-AB2A-D37B56F2CE6F}.Release|x86.ActiveCfg = Release|Win32
+		{AA18793A-4819-402B-AB2A-D37B56F2CE6F}.Release|x86.Build.0 = Release|Win32
+		{640F86FA-E167-4EFE-A9D2-CAE3E33F21AB}.Debug|x64.ActiveCfg = Debug|x64
+		{640F86FA-E167-4EFE-A9D2-CAE3E33F21AB}.Debug|x64.Build.0 = Debug|x64
+		{640F86FA-E167-4EFE-A9D2-CAE3E33F21AB}.Debug|x86.ActiveCfg = Debug|Win32
+		{640F86FA-E167-4EFE-A9D2-CAE3E33F21AB}.Debug|x86.Build.0 = Debug|Win32
+		{640F86FA-E167-4EFE-A9D2-CAE3E33F21AB}.Release|x64.ActiveCfg = Release|x64
+		{640F86FA-E167-4EFE-A9D2-CAE3E33F21AB}.Release|x64.Build.0 = Release|x64
+		{640F86FA-E167-4EFE-A9D2-CAE3E33F21AB}.Release|x86.ActiveCfg = Release|Win32
+		{640F86FA-E167-4EFE-A9D2-CAE3E33F21AB}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{C3D79EEC-B6A9-4802-958E-20303D272EBD} = {BEE56F49-3E4D-40AC-92A0-2AAA48BC3CAD}
+		{ADB3CD5B-90A5-4728-80AD-96A0A4B0C906} = {C3D79EEC-B6A9-4802-958E-20303D272EBD}
+		{36C1C56F-807F-449C-9352-2ECF8F2FAD85} = {C3D79EEC-B6A9-4802-958E-20303D272EBD}
+		{33FBF7E0-E204-4774-9C3F-E0E3F0DA51F3} = {BEE56F49-3E4D-40AC-92A0-2AAA48BC3CAD}
+		{B4B17487-A926-4F93-8D6D-02E4E3362B60} = {BEE56F49-3E4D-40AC-92A0-2AAA48BC3CAD}
+		{ECBA75BE-1CF0-43DE-AF18-519DB3019560} = {BEE56F49-3E4D-40AC-92A0-2AAA48BC3CAD}
+		{D0D8E633-AB2D-4C26-B66F-983E249754D5} = {ECBA75BE-1CF0-43DE-AF18-519DB3019560}
+		{F095D983-7F16-4D39-9C62-4103124FDAD5} = {B4B17487-A926-4F93-8D6D-02E4E3362B60}
+		{9DF6439A-1EB7-4634-BC45-87E41265D0A7} = {B4B17487-A926-4F93-8D6D-02E4E3362B60}
+		{A87F23A3-410D-4FFD-8475-572A5E0D19F1} = {33FBF7E0-E204-4774-9C3F-E0E3F0DA51F3}
+		{6879961A-A369-4A4A-97E2-E70C9181B3C8} = {33FBF7E0-E204-4774-9C3F-E0E3F0DA51F3}
+	EndGlobalSection
+EndGlobal

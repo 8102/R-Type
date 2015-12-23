@@ -1,9 +1,9 @@
 //
 // main.cpp for rtype-server in /home/Opcoz/rendu/rtype/R-Type/Server/src
-// 
+//
 // Made by tran_0
 // Login   <Opcoz@epitech.net>
-// 
+//
 // Started on  Wed Dec  9 16:42:05 2015 tran_0
 // Last update Wed Dec  9 16:42:05 2015 tran_0
 //
@@ -26,8 +26,7 @@ int	main(int ac, char **av)
     {
       Server			server(port);
 
-	  std::cout << std::boolalpha << "TCPConnection : " << TCPConnection::initConnection() << std::endl;
-	  std::cout << WSAGetLastError() << std::endl;
+	  TCPConnection::initConnection();
 	  std::cout << "[Main] --- Running Server " << std::endl;
 	  server.run();
 	  std::cout << "[Main] --- Stopping Server " << std::endl;

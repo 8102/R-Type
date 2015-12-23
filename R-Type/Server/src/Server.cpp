@@ -16,6 +16,12 @@ Server::Server(int port) : _running(true), _port(port)
   _pool = new ThreadPool(10);
   _server = new TCPConnection;
   _actualClient = NULL;
+  FD_ZERO(&(_select.readfds));
+  FD_ZERO(&(_select.writefds));
+  FD_ZERO(&(_select.exceptfds));
+  _select.timeout.tv_sec = TIMEOUT_SEC;
+  _select.timeout.tv_usec = TIMEOUT_USEC;
+  _select.bfd = 0;
 }
 
 Server::~Server()
@@ -32,26 +38,33 @@ void			Server::acceptClients()
 {
 	std::cout << "[Server::acceptClients() ] -- entering " << std::endl;
   std::shared_ptr<TCPSocket>	newClient(_server->accept());
+  FD_SET(newClient.get()->getSocket(), &(_select.readfds));
+  _select.bfd = MAX(_select.bfd, newClient.get()->getSocket());
   _clients.push_back(newClient);
 }
 
-void			Server::readClients(std::map<int, commandTreat> &sendFct)
+void			Server::readClients(std::map<int, commandTreat> &sendFct, fd_set *readfds)
 {
-  if (FD_ISSET(_server->getSocketfd(), &_select.readfds))
+  if (FD_ISSET(_server->getSocketfd(), readfds))
     acceptClients();
   else
     {
-      for (auto it = _clients.begin() ; it != _clients.end() ; it++)
+  for (auto it = _clients.begin() ; it != _clients.end() ; )
 	{
-	  if (FD_ISSET((*it).get()->getSocket(), &_select.readfds))
+      _actualClient = NULL;
+      if (FD_ISSET((*it).get()->getSocket(), readfds))
 	    {
 	      _actualClient = (*it).get();
-	      readHeader(sendFct);
-	      FD_CLR((*it).get()->getSocket(), &_select.readfds);
+	  if (_actualClient && !readHeader(sendFct))
+    {
+      FD_CLR(_actualClient->getSocket(), &(_select.readfds));
+      it = _clients.erase(it);
 	    }
-	  _actualClient = NULL;
+	  else
+	    it++;
 	}
     }
+}
 }
 
 void			Server::run()
@@ -65,25 +78,27 @@ void			Server::run()
       sendFct[4] = &Server::gameRead;
       if (_server->listen(_port))
 	{
-		std::cout << "[Server::run ] - Listening" << std::endl;
+      fd_set  readfds;
+
+      _select.bfd = _server->getSocketfd();
+      FD_SET(_server->getSocketfd(), &(_select.readfds));
+      FD_ZERO(&readfds);
  	  while (_running)
 	    {
-			std::cout << "[Server::run ] -- while _running " << std::endl;
-			if ((selectStatus = setServerSelect()) < 0) {
+	  readfds = _select.readfds;
+	  if ((selectStatus = setServerSelect(&readfds)) < 0)
 				_running = false;
-				std::cout << "[Server::run ] -- fail on Server::setServerSelect()" << std::endl;
-			}
 	      else if (selectStatus == 0)
+	    std::cout << "Already up to date. Server still waiting.." << std::endl;
+	  else
 		{
-		  std::cout << "Server Waiting.." << std::endl;
-		}
-		  else {
 			  std::cout << "[Server::run ] -- reading client " << std::endl;
-			  readClients(sendFct);
+	      readClients(sendFct, &readfds);
 		  }
 	    }
 	  }
-	  else { std::cout << "[Server::run ] --- failed on listen()" << std::endl;  }
+    else
+      std::cout << "[Server::run ] --- failed on listen()" << std::endl;
     }
   catch (std::exception  &e)
     {
@@ -148,46 +163,23 @@ size_t		Server::calcResponseLength() const
 // Getters && Setters
 //
 
-int		Server::getMaxSocketId()
+int		Server::setServerSelect(fd_set *readfds)
 {
-  int		fd = 1;
-
-  for(auto it = _clients.begin() ; it != _clients.end() ; it++)
-    {
-      if (fd < (*it).get()->getSocket())
-	fd = (*it).get()->getSocket();
-    }
-  return fd;
-}
-
-void		Server::setSelectIds()
-{
-  FD_ZERO(&_select.readfds);
-  FD_SET(_server->getSocketfd(), &_select.readfds);
-  for(auto it = _clients.begin() ; it != _clients.end() ; it++)
-    FD_SET((*it).get()->getSocket(), &_select.readfds);
-}
-
-int		Server::setServerSelect()
-{
-  setSelectIds();
-  _select.timeout.tv_sec = 5;
-//  _select.timeout.tv_sec = 680;
-  _select.timeout.tv_usec = 0;
-  return (select(getMaxSocketId() + 1, &_select.readfds, NULL, NULL, &_select.timeout));
+  _select.timeout.tv_sec = TIMEOUT_SEC;
+  _select.timeout.tv_usec = TIMEOUT_USEC;
+  return ::select(_select.bfd + 1, readfds, nullptr, nullptr, &(_select.timeout));
 }
 
 //
 // Client messages management
 //
 
-void		Server::authRead(unsigned int size)
+void			Server::authRead(unsigned int size)
 {
-//  unsigned char		authRead[4] = {0, 0, 0, 0};
-	unsigned	char*			authRead = new unsigned char[size];
-
+  unsigned char*	authRead = new unsigned char[size + 1];
   unsigned short int	gameId = 0;
 
+  std::memset(authRead, 0, size + 1);
   _actualClient->receive(authRead, size);
   if (size != 4)
 	  authResponse(Server::UNKNOWN, gameId, 0);
@@ -292,12 +284,12 @@ void					Server::infoResponse()
 
 void			Server::gameRead(unsigned int size)
 {
-	unsigned char*		gameRead = new unsigned char[size];
-//  unsigned char		gameRead[size] = {0};
+  unsigned char*	gameRead = new unsigned char[size + 1];
   char			*gamename = NULL;
   char			*mapname = NULL;
   unsigned short int	gameId = 0;
 
+  std::memset(gameRead, 0, size + 1);
   _actualClient->receive(gameRead, size);
   if (size > 2 && size > gameRead[1] && gameRead[0] == 1)
     {
@@ -343,17 +335,35 @@ unsigned char		*Server::buildHeader(unsigned char commandCode, unsigned int leng
   return newHeader;
 }
 
-void			Server::readHeader(std::map<int, commandTreat> &sendFct)
+bool			Server::readHeader(std::map<int, commandTreat> &sendFct)
 {
-  unsigned char		headerServ[4] = {0};
+  unsigned char		headerServ[5] = {0};
   unsigned int		length = 0;
+  int			error;
 
   std::cout << "[Server : ReadHeader ] --- > Entering" << std::endl;
-  _actualClient->receive(headerServ, 4);
+  if ((error = _actualClient->receive(headerServ, 4)) > 0)
+    {
   length = (headerServ[2] << 8) | headerServ[3];
+      std::cout << "Message Read : [" << headerServ << "]" << std::endl;
   if (length - 4 > 0 && (headerServ[0] == 0 || headerServ[0] == 1 || headerServ[0] == 4))
     (this->*sendFct[headerServ[0]])(length - 4);
-   std::cout << "Quitting readHeader" << std::endl;
+    }
+  else if (error == 0)
+    {
+      for (auto it = _clients.begin() ; it != _clients.end() ; it++)
+	{
+	  if ((*it).get()->getSocket() == _actualClient->getSocket())
+	    {
+	      std::cout << "Client " << _actualClient->getSocket() << ": disconnecting from Server" << std::endl;
+	      return (false);
+	    }
+	}
+    }
+  else
+    std::cout << "Client " << _actualClient->getSocket() << ": Error while reading" << std::endl;
+  std::cout << "Quitting readHeader" << std::endl;
+  return (true);
 }
 
 void		Server::stop()

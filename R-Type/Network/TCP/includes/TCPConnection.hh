@@ -18,7 +18,7 @@ public:
 	bool		connect(std::string const &address);
 	bool		connect(unsigned int address, unsigned short port);
 	bool		sendPacket(void const *data, size_t size);
-	size_t		receivePacket(void *data, size_t size);
+	int			receivePacket(void *data, size_t size);
 
 private:
 	static bool		_debug;

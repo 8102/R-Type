@@ -1,6 +1,7 @@
 # include "UDPConnection.hh"
 # include <stdlib.h> // thug life
 # include <vector>
+# include <time.h>
 
 # define _PROTOCOL_ID 0xff423861
 
@@ -54,15 +55,24 @@ int main(int argc, char **argv)
 		std::string addr(std::string(argv[1]) + ':' + std::string(argv[2]));
 		if (!client.connect(addr))
 			return 1;
-		while (true)
+		time_t start = time(NULL);
+		// while (true)
+		// {
+		// 	char ret[100] = {0};
+		// 	if (client.receivePacket(ret, 99))
+		// 		std::cout << ret << std::endl;
+		// 	if (std::string(ret) == "quit")
+		// 		break;
+		// 	my_wait(0.1);
+		// }
+		size_t nbPackets = 0;
+		std::string msg("coucou");
+		while ((time(NULL) - start) < 5)
 		{
-			char ret[100] = {0};
-			if (client.receivePacket(ret, 99))
-				std::cout << ret << std::endl;
-			if (std::string(ret) == "quit")
-				break;
-			my_wait(0.1);
+			client.sendPacket(msg.c_str(), msg.length());
+			nbPackets += 1;
 		}
+		std::cout << "Packet envoyé par second: " << nbPackets / 5 << std::endl;
 	}
 	if (argc == 4)
 	{

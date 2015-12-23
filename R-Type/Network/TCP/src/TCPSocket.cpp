@@ -86,12 +86,12 @@ bool	TCPSocket::send(void const *data, size_t size)
 	return true;
 }
 
-size_t	TCPSocket::receive(void *data, size_t size)
+int		TCPSocket::receive(void *data, size_t size)
 {
 	if (!this->isOpen() || !data || !size)
 		return 0;
-	size_t recv_bytes = ::recv(_fd, static_cast<char *>(data), size, 0);
-	if (recv_bytes <= 0)
-		return 0;
+	int recv_bytes = ::recv(_fd, static_cast<char *>(data), size, 0);
+	if (recv_bytes == -1)
+		return -1;
 	return recv_bytes;
 }

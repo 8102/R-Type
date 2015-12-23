@@ -39,7 +39,7 @@ public:
 	bool	isOpen() const;
 	void	close();
 	bool	send(Address const &to, void const *data, size_t size);
-	size_t	receive(Address &from, void *data, size_t size);
+	int		receive(Address &from, void *data, size_t size);
 
 public:
 	decltype(_fd)	getSocket() const;

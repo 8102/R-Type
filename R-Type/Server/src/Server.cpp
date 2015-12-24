@@ -243,11 +243,11 @@ void		Server::authResponse(authErr response, unsigned short int gameId, char pla
 
 void		Server::infoRead(unsigned int size)
 {
-  unsigned char	request = 0;
+  unsigned char	*request = new unsigned char[size + 1];
 
-  _actualClient->receive(&request, 1);
-  if (request == GAME_INFO && size >= 1)
-  infoResponse();
+  _actualClient->receive(request, 1);
+  if (request[0] == GAME_INFO)
+    infoResponse();
 }
 
 void					Server::infoResponse()
@@ -259,7 +259,7 @@ void					Server::infoResponse()
   std::vector<std::shared_ptr<Client> >	clients;
   int					length = calcResponseLength();
 
-  send = buildHeader(INFO, calcResponseLength() + 1);
+  send = buildHeader(INFO, calcResponseLength() + 6);
   send[pos++] = 2;
   for (auto it = _games.begin() ; it != _games.end() ; it++)
   {

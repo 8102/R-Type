@@ -245,10 +245,10 @@ void		Server::infoRead(unsigned int size)
 {
   unsigned char	*request = new unsigned char[size + 1];
 
-  _actualClient->receive(request, 1);
+  _actualClient->receive(request, size);
   if (request[0] == GAME_INFO)
     infoResponse();
-  delete request;
+  delete[] request;
 }
 
 void					Server::infoResponse()
@@ -258,7 +258,6 @@ void					Server::infoResponse()
   std::string				gameName;
   std::string				mapName;
   std::vector<std::shared_ptr<Client> >	clients;
-  int					length = calcResponseLength();
 
   send = buildHeader(INFO, calcResponseLength() + 6);
   send[pos++] = 2;
@@ -271,15 +270,15 @@ void					Server::infoResponse()
     send[pos++] = (*it)->getId() & 0xFF;
     send[pos++] = gameName.length();
     for (unsigned int i = 0 ; i < gameName.length() ; i++)
-    send[pos++] = gameName[i];
+      send[pos++] = gameName[i];
     send[pos++] = clients.size();
     for (auto itc = clients.begin() ; itc != clients.end() ; itc++)
-    send[pos++] = (*itc)->getType();
+      send[pos++] = (*itc)->getType();
     send[pos++] = mapName.length();
     for (unsigned int i = 0 ; i < mapName.length() ; i++)
-    send[pos++] = mapName[i];
+      send[pos++] = mapName[i];
   }
-  _actualClient->send(send, length);
+  _actualClient->send(send, pos);
   delete send;
 }
 

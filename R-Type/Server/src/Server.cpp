@@ -297,7 +297,7 @@ void			Server::gameRead(unsigned int size)
     for (int i = 0 ; i < static_cast<int>(gamename[1]) ; i++)
     gamename[i] = gameRead[2 + i];
     gamename[gameRead[1]] = 0;
-    gamename = new char[gameRead[2 + gameRead[1]] + 1];
+    mapname = new char[gameRead[2 + gameRead[1]] + 1];
     for (int i = 0 ; i < static_cast<int>(gameRead[2 + gameRead[1]]) ; i++)
       mapname[i] = gameRead[3 + gameRead[1] + i];
     mapname[gameRead[2 + gameRead[1]]] = 0;

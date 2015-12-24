@@ -10,7 +10,9 @@ GameEngine&             GameEngine::instanciate() {
 }
 
 GameEngine::GameEngine()
-	: _isRunning(false), _isPaused(true), _win(nullptr), _collisionChecker(), _clock(), _controlerIndex(AGameController::MainMenu), _player(nullptr) {
+	: _isRunning(false), _isPaused(true), _win(nullptr), _collisionChecker(), _clock(), _controlerIndex(AGameController::MainMenu), _player(nullptr),
+	_network()
+{
 
 }
 

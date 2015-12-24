@@ -52,6 +52,7 @@ public:
 
 public:
 
+	void						connect(sf::Event const& event);
 	void						defaultFunction(sf::Event const& event);
 	void						movingFunction(sf::Event const& event);
 	void						startingFunction(sf::Event const& event);

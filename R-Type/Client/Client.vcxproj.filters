@@ -120,6 +120,12 @@
     <ClInclude Include="include\FXFactory.hh">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="include\NetworkModule.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\Client.hh">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ACharacter.cpp">
@@ -214,6 +220,24 @@
     </ClCompile>
     <ClCompile Include="src\FXFactory.cpp">
       <Filter>Source Files\graphic_srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Network\UDP\src\UDPConnection.cpp">
+      <Filter>Source Files\network_srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Network\UDP\src\UDPSocket.cpp">
+      <Filter>Source Files\network_srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Network\Common\src\Address.cpp">
+      <Filter>Source Files\network_srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Network\TCP\src\TCPConnection.cpp">
+      <Filter>Source Files\network_srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Network\TCP\src\TCPSocket.cpp">
+      <Filter>Source Files\network_srcs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Client.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -602,26 +626,18 @@
     </Image>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="assets\fonts\freedom.ttf" />
-    <Font Include="assets\fonts\font.ttf" />
-    <Font Include="assets\fonts\nullShock.ttf" />
-    <Font Include="assets\fonts\zian.ttf" />
-  </ItemGroup>
-  <ItemGroup>
     <Media Include="assets\audio\effects\bigExplosion.wav">
       <Filter>Resource Files</Filter>
     </Media>
     <Media Include="assets\audio\effects\blop.wav">
       <Filter>Resource Files</Filter>
     </Media>
-    <Media Include="assets\audio\effects\Missle_Launch-Kibblesbob-2118796725.mp3" />
     <Media Include="assets\audio\effects\pulseShot.wav">
       <Filter>Resource Files</Filter>
     </Media>
     <Media Include="assets\audio\effects\rocket.wav">
       <Filter>Resource Files</Filter>
     </Media>
-    <Media Include="assets\audio\music\menuMusic.mp3" />
     <Media Include="assets\audio\music\menuMusic.wav">
       <Filter>Resource Files</Filter>
     </Media>
@@ -636,8 +652,6 @@
     </Media>
   </ItemGroup>
   <ItemGroup>
-    <None Include="assets\audio\effects\BigExplosion.zip" />
     <None Include="Makefile" />
-    <None Include="..\Network\compile" />
   </ItemGroup>
 </Project>

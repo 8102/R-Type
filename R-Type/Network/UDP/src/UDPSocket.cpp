@@ -98,7 +98,7 @@ bool	UDPSocket::send(Address const &to, void const *data, size_t size)
 	addr.sin_family = AF_INET;
 	inet_pton(AF_INET, to.getAddressStr().c_str(), &(addr.sin_addr));
 	addr.sin_port = htons(to.getPort());
-	if (::sendto(_fd, static_cast<char const *>(data), size, 0, reinterpret_cast<const sockaddr *>(&addr), sizeof(sockaddr_in)) == -1)
+	if (::sendto(_fd, static_cast<char const *>(data), static_cast<int>(size), 0, reinterpret_cast<const sockaddr *>(&addr), sizeof(sockaddr_in)) == -1)
 	{
 		std::cerr << "UDPSocket : send -> Can't send your packet !" << std::endl;
 		return false;
@@ -113,7 +113,7 @@ int		UDPSocket::receive(Address &from, void *data, size_t size)
 	sockaddr_in addr;
 	std::memset(&addr, 0, sizeof(addr));
 	socklen_t addrlen = sizeof(sockaddr_in);
-	int recv_bytes = recvfrom(_fd, static_cast<char *>(data), size, 0, reinterpret_cast<sockaddr *>(&addr), &addrlen);
+	int recv_bytes = recvfrom(_fd, static_cast<char *>(data), static_cast<int>(size), 0, reinterpret_cast<sockaddr *>(&addr), &addrlen);
 	if (recv_bytes == -1)
 		return -1;
 	from = Address(ntohl(addr.sin_addr.s_addr), ntohs(addr.sin_port));

@@ -149,6 +149,33 @@ bool MenuElement::applyStyle() const
 	return _applyStyle;
 }
 
+void MenuElement::connect(_unused sf::Event const & event)
+{
+	if (requestNetwork.connect() == false)
+	{
+		setColor(sf::Color::Red);
+	}
+	else
+	{
+//		requestNetwork.send(requestNetwork.getLogin().c_str(), requestNetwork.getLogin().size());
+		char b[] = { 4, 0, 0, 15, 1, 4, 't', 'o', 't', 'o', 4, 't', 'i', 't', 'i' };
+		b[3] = (int)sizeof(b);
+		requestNetwork.send(b, sizeof(b));
+		//char a[5] = { 2, 0, 0, 5, 1 };
+		//char d[5] = { 2, 0, 0, 5, 2 };
+//		char c[5] = { 2, 0, 0, 5, 3 };
+		char g[100];
+		//requestNetwork.send(a, sizeof(a));
+		//requestNetwork.send(d, sizeof(d));
+//		requestNetwork.send(c, sizeof(c));
+		memset(g, 0, 100);
+		requestNetwork.receive(g, 100);
+			for (int i = 0; i < 7; i++)
+				std::cout << "[" << (int)g[i] << "]";
+		changeMenu(event);
+	}
+}
+
 void                  MenuElement::defaultFunction(_unused sf::Event const& event) {
 
 	SoundSystem&        soundEngine = SoundSystem::instanciate();
@@ -233,6 +260,7 @@ void                  MenuElement::getIPAddrInput(_unused sf::Event const& event
 				if (_text.size() < 16) { _text += static_cast< char >(event.text.unicode); }
 			break;
 		}
+	requestNetwork.setAddr(_text);
 	_screenText.setString(_text);
 	adjustScreenTextPosition(false);
 }
@@ -252,7 +280,10 @@ void                  MenuElement::getLoginInput(_unused sf::Event const& event)
 			break;
 	}
 	if (std::regex_match(_text, model))
+	{
 		_screenText.setString(_text);
+		requestNetwork.setLogin(_text);
+	}
 	else
 		_text.pop_back();
 	adjustScreenTextPosition(false);

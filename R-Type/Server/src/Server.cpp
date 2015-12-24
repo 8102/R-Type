@@ -89,17 +89,17 @@ void			Server::run()
 	  if ((selectStatus = setServerSelect(&readfds)) < 0)
 				_running = false;
 	      else if (selectStatus == 0)
-	    std::cout << "Already up to date. Server still waiting.." << std::endl;
+		    std::cout << "Already up to date. Server still waiting.." << std::endl;
 	  else
 		{
-			  std::cout << "[Server::run ] -- reading client " << std::endl;
-	      readClients(sendFct, &readfds);
+	/*		  std::cout << "[Server::run ] -- reading client " << std::endl;
+	*/      readClients(sendFct, &readfds);
 		  }
 	    }
 	  }
-    else
+   /* else
       std::cout << "[Server::run ] --- failed on listen()" << std::endl;
-    }
+   */ }
   catch (std::exception  &e)
     {
       std::cerr << "Exception thrown :" << e.what() << std::endl;
@@ -341,13 +341,14 @@ bool			Server::readHeader(std::map<int, commandTreat> &sendFct)
   unsigned int		length = 0;
   int			error;
 
-  std::cout << "[Server : ReadHeader ] --- > Entering" << std::endl;
+  //std::cout << "[Server : ReadHeader ] --- > Entering" << std::endl;
   if ((error = _actualClient->receive(headerServ, 4)) > 0)
     {
-  length = (headerServ[2] << 8) | headerServ[3];
-      std::cout << "Message Read : [" << headerServ << "]" << std::endl;
-  if (length - 4 > 0 && (headerServ[0] == 0 || headerServ[0] == 1 || headerServ[0] == 4))
-    (this->*sendFct[headerServ[0]])(length - 4);
+		length = (headerServ[2] << 8) | headerServ[3];
+		 std::cout << "Message Read : [" << headerServ << "]" << std::endl;
+//		 _actualClient->send((void *)("cicada3301"), 10);
+		if (length - 4 > 0 && (headerServ[0] == 0 || headerServ[0] == 1 || headerServ[0] == 4))
+		(this->*sendFct[headerServ[0]])(length - 4);
     }
   else if (error == 0)
     {
@@ -360,9 +361,9 @@ bool			Server::readHeader(std::map<int, commandTreat> &sendFct)
 	    }
 	}
     }
-  else
-    std::cout << "Client " << _actualClient->getSocket() << ": Error while reading" << std::endl;
-  std::cout << "Quitting readHeader" << std::endl;
+  //else
+  //  std::cout << "Client " << _actualClient->getSocket() << ": Error while reading" << std::endl;
+  //std::cout << "Quitting readHeader" << std::endl;
   return (true);
 }
 

@@ -248,6 +248,7 @@ void		Server::infoRead(unsigned int size)
   _actualClient->receive(request, 1);
   if (request[0] == GAME_INFO)
     infoResponse();
+  delete request;
 }
 
 void					Server::infoResponse()

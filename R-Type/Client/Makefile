@@ -82,6 +82,7 @@ GRAPHICS_SRC		?=	ACharacter.cpp				\
 										GUI.cpp								\
 										Timer.cpp							\
 										GameRythmer.cpp				\
+										Client.cpp						\
 
 GRAPHICS_SRC+=			InitMenu.cpp					\
 

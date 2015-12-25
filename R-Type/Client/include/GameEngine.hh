@@ -133,6 +133,7 @@ public:
 	sf::RenderWindow&			getWindow() const;
 	CollisionManager&				getCollisionManager();
 	GUI&									getGUI();
+	AGameController*				getController(AGameController::eController const& index);
 
 public:
 

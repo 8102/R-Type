@@ -205,10 +205,10 @@ void			initMapSelectionMenu()
 	scrollingBar->setAction(sf::Event::MouseButtonPressed, &MenuElement::toggleScrolling);
 	scrollingBar->setAction(sf::Event::MouseMoved, &MenuElement::scroll);
 	scrollingBar->setAction(sf::Event::MouseButtonReleased, &MenuElement::untoggleScrolling);
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "wonderland", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Some Bad Neighbourhood\nroom 3 / 4", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "wonderland", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Some Bad Neighbourhood\nroom 3 / 4", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
 	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
 	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
 	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));

@@ -329,7 +329,7 @@ void			Server::gameResponse(unsigned short int id)
 
 unsigned char		*Server::buildHeader(unsigned char commandCode, unsigned int length)
 {
-  unsigned char		*newHeader = new unsigned char[length + 1]();
+  unsigned char		*newHeader = new unsigned char[length]();
 
   newHeader[0] = commandCode;
   newHeader[1] = 0;

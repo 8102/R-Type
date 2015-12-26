@@ -92,14 +92,14 @@ void			Server::run()
 	    std::cout << "Already up to date. Server still waiting.." << std::endl;
 	  else
 	    {
-	      std::cout << "[Server::run ] -- reading client " << std::endl;
-	      readClients(sendFct, &readfds);
+	/*		  std::cout << "[Server::run ] -- reading client " << std::endl;
+	*/      readClients(sendFct, &readfds);
 	    }
 	}
     }
-    else
+   /* else
       std::cout << "[Server::run ] --- failed on listen()" << std::endl;
-  }
+   */ }
   catch (std::exception  &e)
   {
     std::cerr << "Exception thrown :" << e.what() << std::endl;
@@ -341,7 +341,7 @@ bool			Server::readHeader(std::map<int, commandTreat> &sendFct)
   unsigned int		length = 0;
   int			error;
 
-  std::cout << "[Server : ReadHeader ] --- > Entering" << std::endl;
+  //std::cout << "[Server : ReadHeader ] --- > Entering" << std::endl;
   if ((error = _actualClient->receive(headerServ, 4)) > 0)
     {
       if (error < 4)
@@ -364,9 +364,9 @@ bool			Server::readHeader(std::map<int, commandTreat> &sendFct)
 	          }
 	      }
     }
-  else
-    std::cout << "Client " << _actualClient->getSocket() << ": Error while reading" << std::endl;
-  std::cout << "Quitting readHeader" << std::endl;
+  //else
+  //  std::cout << "Client " << _actualClient->getSocket() << ": Error while reading" << std::endl;
+  //std::cout << "Quitting readHeader" << std::endl;
   return (true);
 }
 

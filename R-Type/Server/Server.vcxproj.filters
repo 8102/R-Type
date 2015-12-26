@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\network">
+      <UniqueIdentifier>{e6d0b531-cbcd-49a1-bfa7-780a65ab339e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="includes\Client.hh">
@@ -47,23 +50,23 @@
     <ClCompile Include="src\Server.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\ThreadPool.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Network\UDP\src\UDPConnection.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="..\Network\UDP\src\UDPSocket.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="..\Network\TCP\src\TCPConnection.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\network</Filter>
     </ClCompile>
     <ClCompile Include="..\Network\TCP\src\TCPSocket.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ThreadPool.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Network\UDP\src\UDPConnection.cpp">
+      <Filter>Source Files\network</Filter>
+    </ClCompile>
+    <ClCompile Include="..\Network\UDP\src\UDPSocket.cpp">
+      <Filter>Source Files\network</Filter>
     </ClCompile>
     <ClCompile Include="..\Network\Common\src\Address.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\network</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

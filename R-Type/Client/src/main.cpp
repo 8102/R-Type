@@ -1,5 +1,5 @@
-#include <SFML/Graphics.hpp>
 
+#include			  <SFML/Graphics.hpp>
 #include            "Client_graphicUtils.hh"
 #include            "SoundSystem.hh"
 #include            "GameDecor.hh"
@@ -13,6 +13,7 @@
 #include            "AmmoFactory.hh"
 //#include				"AnimationFactory.hh"
 #include			"PlayerFactory.hh"
+
 
 void                setupAnimations() {
 
@@ -208,6 +209,7 @@ int main() {
   GameEngine&       engine = GameEngine::instanciate();
   SoundSystem&      audioEngine = SoundSystem::instanciate();
   AssetManager::instanciate();
+
 #ifdef _WIN32
   AllocConsole();
   FILE*		stream;
@@ -215,6 +217,16 @@ int main() {
   freopen_s(&stream, "conout$", "w", stdout);
   freopen_s(&stream, "conout$", "w", stderr);
 #endif
+	
+  //NetworkModule<TCPConnection>	n;
+
+  //n.initConnection();
+  //n.connect("127.0.0.1:3141");
+  //n.send("Bonjour", 7);
+  //Sleep(1000);
+  //n.stopConnection();
+
+  requestNetwork.setMode(Client::TCP);
   engine.start();
 
   setupAnimations();

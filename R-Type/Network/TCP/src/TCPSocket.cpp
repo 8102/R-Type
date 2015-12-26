@@ -78,7 +78,7 @@ bool	TCPSocket::send(void const *data, size_t size)
 {
 	if (!this->isOpen() || !data || !size)
 		return false;
-	if (::send(_fd, static_cast<char const *>(data), size, 0) == -1)
+	if (::send(_fd, static_cast<char const *>(data), static_cast<int>(size), 0) == -1)
 	{
 		std::cerr << "TCPSocket : send -> Can't send your packet !" << std::endl;
 		return false;
@@ -90,7 +90,7 @@ int		TCPSocket::receive(void *data, size_t size)
 {
 	if (!this->isOpen() || !data || !size)
 		return 0;
-	int recv_bytes = ::recv(_fd, static_cast<char *>(data), size, 0);
+	int recv_bytes = ::recv(_fd, static_cast<char *>(data), static_cast<int>(size), 0);
 	if (recv_bytes == -1)
 		return -1;
 	return recv_bytes;

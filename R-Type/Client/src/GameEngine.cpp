@@ -10,7 +10,9 @@ GameEngine&             GameEngine::instanciate() {
 }
 
 GameEngine::GameEngine()
-	: _isRunning(false), _isPaused(true), _win(nullptr), _collisionChecker(), _clock(), _controlerIndex(AGameController::MainMenu), _player(nullptr) {
+	: _isRunning(false), _isPaused(true), _win(nullptr), _collisionChecker(), _clock(), _controlerIndex(AGameController::MainMenu), _player(nullptr),
+	_network()
+{
 
 }
 
@@ -35,12 +37,13 @@ void GameEngine::clear()
 void                    GameEngine::start() {
 
 	_isRunning = true;
-	_win = make_unique< sf::RenderWindow >(sf::VideoMode(WIN_W, WIN_H), WINDOW_TITLE, sf::Style::None);
+	_win = make_unique< sf::RenderWindow >(sf::VideoMode(WIN_W, WIN_H), WINDOW_TITLE/*, sf::Style::None*/);
 	_win->setFramerateLimit(WINDOW_FRAME_LIMIT);
 //	_animF.loadAnimation();
 	_ammoF.loadAmmoConfigFromFile();
 	_playF.loadConfigs();
 	_bonusF.loadConfig();
+	
 	// sf::Image		winIcon;
 	// if (winIcon.loadFromFile(std::string(ICON_FOLDER) + std::string("gameIcon.gif")) == true)
 	// _win->setIcon(150, 150, winIcon.getPixelsPtr());
@@ -358,4 +361,11 @@ CollisionManager&       GameEngine::getCollisionManager() {
 GUI & GameEngine::getGUI()
 {
 	return	*_GUI.get();
+}
+
+AGameController * GameEngine::getController(AGameController::eController const & index)
+{
+	if (_gameControllers.find(index) == _gameControllers.end())
+		return nullptr;
+	return _gameControllers[index].get();
 }

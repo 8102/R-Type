@@ -79,7 +79,7 @@ void                  initConnectionMenu() {
 	MenuElement*        connectionButton2 = new MenuElement(*a.getTexture("half.png"), "Back", *a.getFont("freedom.ttf"));
 
 	connectionMenu->setBackground(connectionMenuBackground);
-	connectionButton1->setAction(sf::Event::MouseButtonPressed, &MenuElement::changeMenu, AGameController::MapSelectionMenu);
+	connectionButton1->setAction(sf::Event::MouseButtonPressed, &MenuElement::connect, AGameController::MapSelectionMenu);
 	connectionButton1->setAction(sf::Event::MouseMoved, &MenuElement::startingFunction);
 	connectionButton2->setAction(sf::Event::MouseButtonPressed, &MenuElement::changeMenu, AGameController::MainMenu);
 	connectionButton2->setAction(sf::Event::MouseMoved, &MenuElement::movingFunction);
@@ -205,10 +205,10 @@ void			initMapSelectionMenu()
 	scrollingBar->setAction(sf::Event::MouseButtonPressed, &MenuElement::toggleScrolling);
 	scrollingBar->setAction(sf::Event::MouseMoved, &MenuElement::scroll);
 	scrollingBar->setAction(sf::Event::MouseButtonReleased, &MenuElement::untoggleScrolling);
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "wonderland", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Some Bad Neighbourhood\nroom 3 / 4", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "wonderland", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Some Bad Neighbourhood\nroom 3 / 4", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
+	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
 	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
 	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
 	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));

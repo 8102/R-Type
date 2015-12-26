@@ -1,6 +1,8 @@
 #ifndef               ___GAME_ENGINE_HH___
 # define              ___GAME_ENGINE_HH___
 
+# include				"Client.hh"
+
 # include             "Ammunition.hh"
 # include             "Animation.hh"
 # include             "AnimatedSprite.hh"
@@ -22,6 +24,7 @@
 # include				"Timer.hh"
 # include				"GUI.hh"
 
+
 #define             PLAY_WIDTH    1600
 #define             PLAY_HEIGHT   900
 #define             INTERFACE_WIDTH 1200;
@@ -29,6 +32,8 @@
 # define            WIN_W PLAY_WIDTH
 # define            WIN_H PLAY_HEIGHT + INTERFACE_HEIGHT
 # define            WINDOW_FRAME_LIMIT  120
+
+# define			requestNetwork			GameEngine::instanciate()._network
 
 # define              WINDOW_TITLE        "R-{PROTO}-TYPE"
 
@@ -128,6 +133,7 @@ public:
 	sf::RenderWindow&			getWindow() const;
 	CollisionManager&				getCollisionManager();
 	GUI&									getGUI();
+	AGameController*				getController(AGameController::eController const& index);
 
 public:
 
@@ -196,6 +202,10 @@ public:
 	PlayerFactory											_playF;
 	BonusFactory											_bonusF;
 
+public:
+
+	
+	Client														_network;
 	//	AnimationFactory								_animFactory;
 
 };

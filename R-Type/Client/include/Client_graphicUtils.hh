@@ -20,17 +20,20 @@
 # ifndef				_WIN32
 #		include             <unistd.h>
 # else
+# define				_WINSOCKAPI_
 #		include				<windows.h>
-#endif			// !_WIN32
+# endif					// !_WIN32
 
 # define              Vi(x, y)                 (sf::Vector2i((x), (y)))
 # define              Vf(x, y)                 (sf::Vector2f((x), (y)))
 
-# ifdef					__GNUC__
-#	define              _unused                   __attribute__((unused))
-# else
-#	define				_unused
-# endif					// !__GNUC___
+#	ifndef					_unused
+#		ifdef					__GNUC__
+#			define			_unused                   __attribute__((unused))
+#		else
+#			define			_unused
+#		endif				// !__GNUC___
+# endif						// !_unused
 
 # define              requestGameEngine			GameEngine::instanciate()
 # define              requestAssetManager     AssetManager::instanciate()

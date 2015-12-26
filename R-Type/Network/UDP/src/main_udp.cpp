@@ -40,12 +40,13 @@ int main(int argc, char **argv)
 		while (true)
 		{
 			char ret[100] = {0};
-			size_t len = server.receivePacket(ret, 99);
+			int len = server.receivePacket(ret, 99, from);
 			if (len > 0)
-				server.broadcast(ret, len, from);
+			{
+				std::cout << "kiwi" << server.sendPacket(ret, len, from) << std::endl;
+			}
 			if (std::string(ret) == "quit")
 				break;
-			my_wait(0.1);
 		}
 	}
 	if (argc == 3)
@@ -59,7 +60,7 @@ int main(int argc, char **argv)
 		// while (true)
 		// {
 		// 	char ret[100] = {0};
-		// 	if (client.receivePacket(ret, 99))
+		// 	if (client.receivePacket(ret, 99) != -1)
 		// 		std::cout << ret << std::endl;
 		// 	if (std::string(ret) == "quit")
 		// 		break;
@@ -69,10 +70,12 @@ int main(int argc, char **argv)
 		std::string msg("coucou");
 		while ((time(NULL) - start) < 5)
 		{
+			char ret[100] = {0};
 			client.sendPacket(msg.c_str(), msg.length());
+			client.receivePacket(ret, 99);
 			nbPackets += 1;
 		}
-		std::cout << "Packet envoyé par second: " << nbPackets / 5 << std::endl;
+		std::cout << "packet loss: " << client.getPacketLoss() << std::endl;
 	}
 	if (argc == 4)
 	{
@@ -83,7 +86,7 @@ int main(int argc, char **argv)
 		while (true)
 		{
 			char msg[100] = {0};
-			if (client.receivePacket(msg, 99))
+			if (client.receivePacket(msg, 99) != -1)
 				std::cout << "=> " << msg << std::endl;
 			std::string ret;
 			std::getline(std::cin, ret);

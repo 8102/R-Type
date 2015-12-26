@@ -49,22 +49,22 @@ void			Server::readClients(std::map<int, commandTreat> &sendFct, fd_set *readfds
     acceptClients();
   else
   {
-  for (auto it = _clients.begin() ; it != _clients.end() ; )
+    for (auto it = _clients.begin() ; it != _clients.end() ; )
     {
-      _actualClient = NULL;
-      if (FD_ISSET((*it).get()->getSocket(), readfds))
+        _actualClient = NULL;
+        if (FD_ISSET((*it).get()->getSocket(), readfds))
         {
-	  _actualClient = (*it).get();
-	  if (_actualClient && !readHeader(sendFct))
-    {
-      FD_CLR(_actualClient->getSocket(), &(_select.readfds));
-      it = _clients.erase(it);
+	         _actualClient = (*it).get();
+	         if (_actualClient && !readHeader(sendFct))
+           {
+             FD_CLR(_actualClient->getSocket(), &(_select.readfds));
+             it = _clients.erase(it);
+           }
+	         else
+	           it++;
+	      }
+      }
     }
-	  else
-	    it++;
-	}
-    }
-  }
 }
 
 void			Server::run()
@@ -179,6 +179,7 @@ void			Server::authRead(unsigned int size)
   unsigned char*	authRead = new unsigned char[size + 1];
   unsigned short int	gameId = 0;
 
+  std::cout << "<Authentificiation>"<< std::endl;
   std::memset(authRead, 0, size + 1);
   _actualClient->receive(authRead, size);
   if (size != 4)
@@ -245,6 +246,7 @@ void		Server::infoRead(unsigned int size)
 {
   unsigned char	*request = new unsigned char[size + 1];
 
+  std::cout << "<Information request>" << std::endl;
   _actualClient->receive(request, size);
   if (request[0] == GAME_INFO)
     infoResponse();
@@ -253,13 +255,15 @@ void		Server::infoRead(unsigned int size)
 
 void					Server::infoResponse()
 {
+  std::cout << "Je prépare la réponse pour les info des games" << std::endl;
   unsigned char				*send = NULL;
   int					pos = 4;
   std::string				gameName;
   std::string				mapName;
   std::vector<std::shared_ptr<Client> >	clients;
 
-  send = buildHeader(INFO, calcResponseLength() + 6);
+  std::cout << "calcule de la taille de la réponse... : " << calcResponseLength() << std::endl;
+  send = buildHeader(INFO, calcResponseLength());
   send[pos++] = 2;
   for (auto it = _games.begin() ; it != _games.end() ; it++)
   {
@@ -279,23 +283,23 @@ void					Server::infoResponse()
       send[pos++] = mapName[i];
   }
   _actualClient->send(send, pos);
-  delete send;
+  delete[] send;
 }
 
 void			Server::gameRead(unsigned int size)
 {
-  unsigned char*	gameRead = new unsigned char[size + 1];
+  unsigned char*	gameRead = new unsigned char[size + 1]();
   char			*gamename = NULL;
   char			*mapname = NULL;
   unsigned short int	gameId = 0;
 
-  std::memset(gameRead, 0, size + 1);
+  std::cout << "<Game Creation>" << std::endl;
   _actualClient->receive(gameRead, size);
   if (size > 2 && size > gameRead[1] && gameRead[0] == 1)
   {
-    gamename = new char[gameRead[1] + 1];
+    gamename = new char[gameRead[1] + 1]();
     for (int i = 0 ; i < static_cast<int>(gamename[1]) ; i++)
-    gamename[i] = gameRead[2 + i];
+      gamename[i] = gameRead[2 + i];
     gamename[gameRead[1]] = 0;
     mapname = new char[gameRead[2 + gameRead[1]] + 1];
     for (int i = 0 ; i < static_cast<int>(gameRead[2 + gameRead[1]]) ; i++)
@@ -322,15 +326,11 @@ void			Server::gameResponse(unsigned short int id)
 
 unsigned char		*Server::buildHeader(unsigned char commandCode, unsigned int length)
 {
-  unsigned char		*newHeader = new unsigned char[length + 1];
+  unsigned char		*newHeader = new unsigned char[length + 1]();
 
-  for (unsigned int i = 0 ; i <= length ; i++)
-  {
-    newHeader[i] = 0;
-  }
   newHeader[0] = commandCode;
   newHeader[1] = 0;
-  newHeader[2] = length >> 8;
+  newHeader[2] = (length >> 8) & 0xFF;
   newHeader[3] = length & 0xFF;
   return newHeader;
 }
@@ -344,21 +344,25 @@ bool			Server::readHeader(std::map<int, commandTreat> &sendFct)
   std::cout << "[Server : ReadHeader ] --- > Entering" << std::endl;
   if ((error = _actualClient->receive(headerServ, 4)) > 0)
     {
+      if (error < 4)
+        return (true);
       length = (headerServ[2] << 8) | headerServ[3];
+      std::cout << "Receive packet " << length << " bytes" << std::endl;
       std::cout << "Message Read : [" << headerServ << "]" << std::endl;
-      if (length - 4 > 0 && (headerServ[0] == 0 || headerServ[0] == 1 || headerServ[0] == 4))
-	(this->*sendFct[headerServ[0]])(length - 4);
+      std::cout << (int)(headerServ[0]) << std::endl;
+      if (length - 4 > 0 && (headerServ[0] == 1 || headerServ[0] == 2 || headerServ[0] == 4))
+        (this->*sendFct[headerServ[0]])(length - 4);
     }
   else if (error == 0)
     {
       for (auto it = _clients.begin() ; it != _clients.end() ; it++)
-	{
-	  if ((*it).get()->getSocket() == _actualClient->getSocket())
-	    {
-	      std::cout << "Client " << _actualClient->getSocket() << ": disconnecting from Server" << std::endl;
-	      return (false);
-	    }
-	}
+	     {
+	        if ((*it).get()->getSocket() == _actualClient->getSocket())
+	         {
+	            std::cout << "Client " << _actualClient->getSocket() << ": disconnecting from Server" << std::endl;
+	            return (false);
+	          }
+	      }
     }
   else
     std::cout << "Client " << _actualClient->getSocket() << ": Error while reading" << std::endl;

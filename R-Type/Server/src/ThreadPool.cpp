@@ -52,27 +52,27 @@ void		ThreadPool::waitFunction()
   while (start || _working)
     {
       if (_games.empty())
-	     {
-	        std::unique_lock<std::mutex>	lk(_mutex);
-	        _cond.wait(lk);
-	        lk.unlock();
-	      }
+	{
+	  std::unique_lock<std::mutex>	lk(_mutex);
+	  _cond.wait(lk);
+	  lk.unlock();
+	}
       else
-	     {
-	        _mutex.lock();
-	        actualGame = _games.front();
-	        _games.pop();
-	        _launchedGames.push_back(actualGame->gameLaunched);
-	        _mutex.unlock();
-	        (*(actualGame->launchGame))(actualGame->gameLaunched);
-	        _mutex.lock();
-	        for (auto it = _launchedGames.begin() ; it != _launchedGames.end() ; it++)
-	        {
-	           if ((*it) == actualGame->gameLaunched)
-		           _launchedGames.erase(it);
-	        }
-	        _mutex.unlock();
-	     }
+	{
+	  _mutex.lock();
+	  actualGame = _games.front();
+	  _games.pop();
+	  _launchedGames.push_back(actualGame->gameLaunched);
+	  _mutex.unlock();
+	  (*(actualGame->launchGame))(actualGame->gameLaunched);
+	  _mutex.lock();
+	  for (auto it = _launchedGames.begin() ; it != _launchedGames.end() ; it++)
+	    {
+	      if ((*it) == actualGame->gameLaunched)
+		_launchedGames.erase(it);
+	    }
+	  _mutex.unlock();
+	}
       start = false;
     }
 }

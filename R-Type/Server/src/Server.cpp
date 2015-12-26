@@ -111,6 +111,7 @@ short int		Server::addNewGame(char *name, char *map)
 {
   unsigned short int	idGame = 1;
 
+  std::cout << "Creating new game <" << name << "> with map :" << map << " ..." << std::endl;
   if (!_games.empty())
   {
     for (auto it = _games.begin() ; it != _games.end() ; it++)
@@ -301,7 +302,7 @@ void			Server::gameRead(unsigned int size)
   if (size > 2 && size > gameRead[1] && gameRead[0] == 1)
   {
     gamename = new char[gameRead[1] + 1]();
-    for (int i = 0 ; i < static_cast<int>(gamename[1]) ; i++)
+    for (int i = 0 ; i < static_cast<int>(gameRead[1]) ; i++)
       gamename[i] = gameRead[2 + i];
     gamename[gameRead[1]] = 0;
     mapname = new char[gameRead[2 + gameRead[1]] + 1];

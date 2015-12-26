@@ -5,7 +5,7 @@
 // Login   <Opcoz@epitech.net>
 //
 // Started on  Fri Dec 11 04:15:41 2015 tran_0
-// Last update Fri Dec 11 04:15:41 2015 tran_0
+// Last update Sat Dec 26 22:36:51 2015 Jean-Baptiste Grégoire
 //
 
 #include "Server.hh"
@@ -114,12 +114,15 @@ short int		Server::addNewGame(char *name, char *map)
   if (!_games.empty())
   {
     for (auto it = _games.begin() ; it != _games.end() ; it++)
-    if ((*it)->getId() > idGame)
-    idGame = (*it)->getId();
-    idGame++;
+    {
+      if ((*it)->getId() == idGame)
+      {
+        ++idGame;
+        it = _games.begin();
+      }
+    }
   }
   std::shared_ptr<Game>		newGame(new Game(idGame, idGame + 4000, name, map));
-
   _pool->wakeUp(gameReady, newGame.get());
   _games.push_back(newGame);
   return (idGame);
@@ -307,8 +310,8 @@ void			Server::gameRead(unsigned int size)
     mapname[gameRead[2 + gameRead[1]]] = 0;
     gameId = addNewGame(gamename, mapname);
     gameResponse(gameId);
-    delete gamename;
-    delete mapname;
+    delete[] gamename;
+    delete[] mapname;
   }
   delete[] gameRead;
 }

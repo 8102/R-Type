@@ -245,7 +245,9 @@ void		Server::infoRead(unsigned int size)
 {
   unsigned char	*request = new unsigned char[size + 1];
 
+  std::cout << "Server::InfoRead" << std::endl;
   _actualClient->receive(request, size);
+  std::cout << "Server::InfoRead out of receive" << std::endl;
   if (request[0] == GAME_INFO)
     infoResponse();
   delete[] request;
@@ -259,8 +261,10 @@ void					Server::infoResponse()
   std::string				mapName;
   std::vector<std::shared_ptr<Client> >	clients;
 
+  std::cout << "server::infoResponse --- begin" << std::endl;
   send = buildHeader(INFO, calcResponseLength() + 6);
   send[pos++] = 2;
+  std::cout << "server::infoResponse --- begin 2 " << std::endl;
   for (auto it = _games.begin() ; it != _games.end() ; it++)
   {
     clients = (*it)->getClients();
@@ -278,6 +282,7 @@ void					Server::infoResponse()
     for (unsigned int i = 0 ; i < mapName.length() ; i++)
       send[pos++] = mapName[i];
   }
+  std::cout << "server::infoResponse --- begin" << std::endl;
   _actualClient->send(send, pos);
   delete send;
 }
@@ -317,6 +322,7 @@ void			Server::gameResponse(unsigned short int id)
   send[pos++] = 2;
   send[pos++] = (id >> 8) & 0xFF;
   send[pos] = id & 0xFF;
+  std::cout << "Server::gameResponse" << std::endl;
   _actualClient->send(send, 7);
 }
 
@@ -347,8 +353,11 @@ bool			Server::readHeader(std::map<int, commandTreat> &sendFct)
       length = (headerServ[2] << 8) | headerServ[3];
       std::cout << "Message Read : [" << headerServ << "]" << std::endl;
 //		 _actualClient->send((void *)("cicada3301"), 10);
-      if (length - 4 > 0 && (headerServ[0] == 0 || headerServ[0] == 1 || headerServ[0] == 4))
-	(this->*sendFct[headerServ[0]])(length - 4);
+	  if (length - 4 > 0 && (headerServ[0] == 1 || headerServ[0] == 2 || headerServ[0] == 4))
+	  {
+		  std::cout << "Server::readHeader -- answering" << std::endl;
+		  (this->*sendFct[headerServ[0]])(length - 4);
+	  }
     }
   else if (error == 0)
     {

@@ -157,26 +157,27 @@ void MenuElement::connect(_unused sf::Event const & event)
 	}
 	else
 	{
-//		requestNetwork.send(requestNetwork.getLogin().c_str(), requestNetwork.getLogin().size());
-		char b[] = { 4, 0, 0, 15, 1, 4, 't', 'o', 't', 'o', 4, 't', 'i', 't', 'i' };
-		b[3] = (int)sizeof(b);
-//		requestNetwork.send(b, sizeof(b));
-		char a[5] = { 2, 0, 0, 5, 1 };
-		char d[5] = { 2, 0, 0, 5, 2 };
-		char c[5] = { 2, 0, 0, 5, 3 };
-		char g[100];
-		requestNetwork.send(a, sizeof(a));
-		//requestNetwork.send(d, sizeof(d));
-		//requestNetwork.send(c, sizeof(c));
-		memset(g, 0, 100);
-		requestNetwork.receive(g, 100);
-		for (int i = 0; i < 100; i++)
-		{
-			std::cout << "[" << (int)g[i] << "]";
-			if ((i + 1) % 10 == 0)
-				std::cout << std::endl;
-		}
-		////if (g[7] != 0)
+		std::cout << "[" << requestNetwork.createGameRequest("toto", "titi") << "]" << std::endl;
+		//std::cout << "[" << requestNetwork.createGameRequest("toto", "titi") << "]" << std::endl;
+		//std::cout << "[" << requestNetwork.createGameRequest("bonjour", "nickel") << "]" << std::endl;
+		//std::cout << "[" << requestNetwork.createGameRequest("south", "park") << "]" << std::endl;
+		requestNetwork.requestGameInfo();
+		//requestNetwork.requestGameInfo();
+		//requestNetwork.requestGameInfo();
+		//requestNetwork.requestGameInfo();
+		requestNetwork.readHeader();
+		//requestNetwork.requestMapInfo();
+
+		//char g[100];
+		//memset(g, 0, 100);
+		//requestNetwork.receive(g, 100);
+		//for (int i = 0; i < 100; i++)
+		//{
+		//	std::cout << "[" << (int)static_cast<unsigned char>(g[i]) << "]";
+		//	if ((i + 1) % 10 == 0)
+		//		std::cout << std::endl;
+		//}
+	//if (g[7] != 0)
 		////{
 		//	GameEngine&		e = requestGameEngine;
 		//	std::stringstream		ss;
@@ -194,7 +195,6 @@ void MenuElement::connect(_unused sf::Event const & event)
 		//		mapMenu->moveElements(sf::Vector2f(0.0f, 0.0f));
 		//	}
 		////}
-		std::cout << "end of receive" << std::endl;
 		changeMenu(event);
 	}
 }

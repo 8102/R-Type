@@ -73,8 +73,8 @@ void                  initConnectionMenu() {
 
 	GameMenu*           connectionMenu = new GameMenu("Connection", GameMenu::InLine_Bottom);
 	MenuElement*        connectionMenuBackground = new MenuElement(*a.getTexture("connectionMenu.jpg"));
-	MenuElement*        connectionMenuInputField1 = new MenuElement(*a.getTexture("transparent.png"), "", *a.getFont("nullShock.ttf"));
-	MenuElement*        connectionMenuInputField2 = new MenuElement(*a.getTexture("transparent.png"), "R-Prototyper", *a.getFont("nullShock.ttf"));
+	MenuElement*        connectionMenuInputField1 = new MenuElement(*a.getTexture("transparent.png"), "127.0.0.", *a.getFont("nullShock.ttf"));
+	MenuElement*        connectionMenuInputField2 = new MenuElement(*a.getTexture("transparent.png"), "login", *a.getFont("nullShock.ttf"));
 	MenuElement*        connectionButton1 = new MenuElement(*a.getTexture("half.png"), "Connect !", *a.getFont("freedom.ttf"));
 	MenuElement*        connectionButton2 = new MenuElement(*a.getTexture("half.png"), "Back", *a.getFont("freedom.ttf"));
 
@@ -105,7 +105,7 @@ void              initSettingsMenu() {
 
 	AssetManager&   a = requestAssetManager;
 
-	GameMenu*       audioMenu = new GameMenu("audio", GameMenu::InBlock_straight);
+	GameMenu*       audioMenu = new GameMenu("audio", GameMenu::InBlock);
 	MenuElement*    audioBackground = new MenuElement(*a.getTexture("blackhole.jpg"));
 	MenuElement*    audioButton1 = new MenuElement(*a.getTexture("emptyGauge.png"), "", *a.getFont("nullShock.ttf"), nullptr, Vf(0, 0), sf::Color::Black);
 	MenuElement*    audioButton2 = new MenuElement(*a.getTexture("emptyGauge.png"), "", *a.getFont("nullShock.ttf"), nullptr, Vf(0, 0), sf::Color::Black);

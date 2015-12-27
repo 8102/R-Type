@@ -23,6 +23,7 @@ public:
 		int						nbPlayers;
 		std::vector<int>	playersInGame;
 		std::string			mapName;
+		int						__INFO_SIZE;
 	};
 
 	enum eCMode {
@@ -53,13 +54,14 @@ public:
 public:
 
 	/* authentication functions*/
-	bool																getUDPPort(unsigned char const* data, size_t const& msgSize);
-	bool																authError(unsigned char const* data, size_t const& msgSize);
+	bool																getUDPPort(void const* data, size_t const& msgSize);
+	bool																authError(void const* data, size_t const& msgSize);
 
 public:
 
 	/* infoRequest functions */
-	bool																getGameList(unsigned char const* data, size_t const& msgSize);
+	int																updateGames(void const* data, size_t const& msgSize);
+	bool																getGameList(void const* data, size_t const& msgSize);
 
 public:
 
@@ -70,22 +72,37 @@ public:
 public:
 
 	int																createGameRequest(std::string const& gameName, std::string const& mapName);
+	bool																joinGame();
+
+public:
+	/* Menu interaction functions */
+	bool																updateGameList();
 
 public:
 
 	std::string													getAddr() const;
 	std::string													getLogin() const;
 
+	int																getPlayerID() const;
+	int																getGameID() const;
+
 	void																setAddr(std::string const& addr, bool const& defaultPort = true);
 	void																setLogin(std::string const& login);
 	void																setMode(eCMode const& mode);
 
+	void																setPlayerID(int const& playerID);
+	void																setGameID(int const& gameID);
+
+public:
+
+	void																initGameInfoStruct(struct GameInfos& gameInfo);
+
 private:
 
-	std::map<size_t, bool	(Client::*)(size_t const&)>														_dispatch;
-	std::map<size_t, bool	(Client::*)(unsigned char const *data, size_t const&)>			_authentificationFcts;
-	std::map<size_t, bool	(Client::*)(unsigned char const *data, size_t const&)>			_informationFcts;
-	std::map<size_t, bool	(Client::*)(unsigned char const *data, size_t const&)>			_gameCreationFcts;
+	std::map<size_t, bool	(Client::*)(size_t const&)>										_dispatch;
+	std::map<size_t, bool	(Client::*)(void const*data, size_t const&)>			_authentificationFcts;
+	std::map<size_t, bool	(Client::*)(void const *data, size_t const&)>			_informationFcts;
+	std::map<size_t, bool	(Client::*)(void const *data, size_t const&)>			_gameCreationFcts;
 
 private:
 
@@ -95,6 +112,15 @@ private:
 private:
 
 	eCMode							_mode;
+
+	/* Game related fields*/
+private:
+
+	int									_currentGameID;
+	int									_playerID;
+
+public:
+	std::vector<struct GameInfos>					_games;
 
 private:
 

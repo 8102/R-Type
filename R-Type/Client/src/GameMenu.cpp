@@ -185,8 +185,11 @@ void GameMenu::moveElements(sf::Vector2f const & v)
 	sf::Vector2f	center(requestGameEngine.getWindow().getSize().x / 2.0f, requestGameEngine.getWindow().getSize().y / 2.0f);
 	sf::Vector2f	totalSize = getTotalSize();
 
+	std::cout << _items.size() << std::endl;
 	for (auto it = _items.begin(); it != _items.end(); it++) {
 		if ((*it)->applyStyle() == true) {
+
+			std::cout << "here" << std::endl;
 
 			float nextY = (*it)->getPosition().y + v.y + (*it)->getGlobalBounds().height + 10.0f;
 			(*it)->setPosition(sf::Vector2f((*it)->getPosition().x + v.x, (*it)->getPosition().y + v.y));
@@ -194,27 +197,6 @@ void GameMenu::moveElements(sf::Vector2f const & v)
 			(*it)->setScale(ratio, ratio);
 			(*it)->adjustScreenScale();
 			(*it)->setColor(sf::Color(255, 255, 255, static_cast<int>(255 * ratio * 0.9f)));
-
-
-			//std::cout << (*it)->getTextureRect().height << " --- " << (*it)->getGlobalBounds().height << std::endl;
-			//sf::IntRect r = (*it)->getTextureRect();
-			////sf::IntRect c(400, 300, 800, 300);
-			//sf::IntRect	m(0, 0, 512, 128);
-			////sf::IntRect m = r;
-			//sf::FloatRect	b = (*it)->getGlobalBounds();
-
-			//if (b.top < 400.0f) { m.top = 400.0f - b.top;  }
-			//else { m.top = 0.0f;  }
-			//if (b.top + b.height > 600.0f) { m.height = b.top + b.height - 600.0f;  }
-			//else { m.height = 128;  }
-			//
-			//if (b.top < c.top) { m.top = c.top - b.top + r.top; }
-			//else m.top = 0;
-			//if (b.top + b.height > c.top + c.height) { m.height = c.top + c.height - b.top; }
-			//else m.height = 128 - m.top;
-
-//			(*it)->setTextureRect(m);
-
 
 
 		}
@@ -363,6 +345,19 @@ void                 GameMenu::resetElements() {
 	}
 	if (_focused != nullptr)
 		_focused->toggle();
+}
+
+void GameMenu::clearElementsInStyle()
+{
+	for (auto it = _items.begin(); it != _items.end();)
+	{
+		if ((*it)->applyStyle() == true)
+		{
+			delete *it;
+			it = _items.erase(it);
+		}
+		else ++it;
+	}
 }
 
 MenuElement*        GameMenu::getElementNextTo(MenuElement* element, int index)

@@ -1,9 +1,8 @@
 #include "Client.hh"
-
-
+#include "GameEngine.hh"
 
 Client::Client() :
-	_mode(none)
+	_mode(none), _currentGameID(0), _addr(""), _login("")
 {
 	TCPConnection::initConnection();
 	UDPConnection::initConnection();
@@ -97,11 +96,13 @@ bool Client::readInfoMsg(size_t const & msgSize)
 	index = static_cast<size_t>(buffer.get()[0]);
 	if (_informationFcts.find(index) == _informationFcts.end())
 		return false;
-	return (this->*_informationFcts[index])((unsigned char *)&buffer.get()[1], msgSize - 1);
+	std::cout << "launching info function" << std::endl;
+	return (this->*_informationFcts[index])(&buffer.get()[1], msgSize - 1);
 }
 
-bool								Client::getUDPPort(unsigned char const * data, size_t const & msgSize)
+bool									Client::getUDPPort(void const * rawData, size_t const & msgSize)
 {
+	unsigned char const*	data = static_cast<unsigned char const*>(rawData);
 	size_t						UDPPort = 0;
 
 	for (int i = 0; i < msgSize; i++)
@@ -110,8 +111,9 @@ bool								Client::getUDPPort(unsigned char const * data, size_t const & msgSiz
 	return true;
 }
 
-bool					Client::authError(unsigned char const * data, size_t const & msgSize)
+bool									Client::authError(void const * rawData, size_t const & msgSize)
 {
+	unsigned char const*	data = static_cast<unsigned char const*>(rawData);
 	size_t			reason = 0;
 
 	for (int i = 0; i < msgSize; i++)
@@ -131,36 +133,52 @@ bool					Client::authError(unsigned char const * data, size_t const & msgSize)
 	return false;
 }
 
-bool Client::getGameList(unsigned char const * data, size_t const & msgSize)
-{
-	unsigned int offset = 0;
-	for (auto i = 0; i < msgSize; i++)
-	{
-		std::cout << "[" << (int)data[i] << "]";
-	} std::cout << std::endl;
 
-	unsigned int gameID = 0;
-	for (auto i = 0; i < offset + 2; i++)
-		gameID = gameID * 256 + data[i];
-	std::cout << "Game ID : " << gameID << std::endl;
+
+int									Client::updateGames(void const * rawData, size_t const & msgSize)
+{
+	unsigned char const*	data = static_cast<unsigned char const*>(rawData);
+	struct GameInfos				g;
+	unsigned int					offset = 0;
+	unsigned int					wLenght = 0;
+
+	initGameInfoStruct(g);
+	for (auto i = 0; i < 2; i++)
+		g.gameID = g.gameID * 256 + data[i];
+	if (g.gameID < 1)
+		return -1;
 	offset += 2;
-	unsigned int gameNameLenght = data[offset++];
-	std::string gameName("");
-	for (auto i = offset; i < offset + gameNameLenght; i++)
-		gameName.push_back(data[i]);
-	std::cout << "Game Name : " << gameName << std::endl;
-	offset += gameNameLenght;
-	unsigned int nbPlayers = data[offset++];
-	std::cout << "nb players : " << nbPlayers << std::endl;
-	for (auto i = offset; i < offset + nbPlayers; i++)
-		std::cout << "[PLAYER ALREADY IN GAME ] :" << (int)data[i] << std::endl;
-	offset += nbPlayers;
-	unsigned int mapNameLenght = data[offset++];
-	std::string mapName("");
-	for (auto i = offset; i < offset + mapNameLenght; i++)
-		mapName.push_back(data[i]);
-	std::cout << "Map Name : " << mapName << std::endl;
-	return true;
+	wLenght = data[offset++];
+	for (auto i = offset; i < offset + wLenght; i++)
+		g.gameName.push_back(data[i]);
+	offset += wLenght;
+	g.nbPlayers = data[offset++];
+	for (auto i = offset; i < offset + g.nbPlayers; i++)
+		g.playersInGame.push_back(static_cast<int>(data[i]));
+	offset += g.nbPlayers;
+	wLenght = data[offset++];
+	for (auto i = offset; i < offset + wLenght; i++)
+		g.mapName.push_back(data[i]);
+	offset += wLenght;
+	g.__INFO_SIZE = offset;
+	_games.push_back(g);
+	return g.__INFO_SIZE;
+}
+
+
+bool Client::getGameList(void const *rawData, size_t const & msgSize)
+{
+	unsigned char const*	data = static_cast<unsigned char const*>(rawData);
+	int offset = 0;
+	int result = 0;
+
+	while (offset < msgSize && result >= 0)
+	{
+		result = updateGames(&data[offset], msgSize - offset);
+		offset += result;
+	}
+	updateGameList();
+	return offset == 0 ? false : true;
 }
 
 void Client::requestGameInfo()
@@ -208,7 +226,49 @@ int Client::createGameRequest(std::string const & gameName, std::string const & 
 	request[++index] = mapName.length();
 	for (int i = 0; i < mapName.length(); i++) { request[++index] = mapName[i]; }
 	send(&request[0], msgSize);
-	return receiveGameID();
+	_currentGameID = receiveGameID();
+	return _currentGameID;
+}
+
+bool											Client::joinGame()
+{
+	char b[8] = { 0x01, 0x00, 0x00, 0x08, 0x01, 0x00, 0x00, 0x00 };
+
+	b[5] = _currentGameID & 0xff00;
+	b[6] = _currentGameID & 0xff;
+	b[7] = static_cast<char>(_playerID);
+	std::cout << "Sending : " << std::endl;
+	for (auto i = 0; i < 8; i++)
+		std::cout << "[" << (int)b[i] << "]";
+	std::cout << std::endl;
+	send(b, sizeof(b));
+	return readHeader();
+}
+
+bool								Client::updateGameList()
+{
+	GameMenu*			ms = reinterpret_cast<GameMenu*>(requestGameEngine.getController(AGameController::MapSelectionMenu));
+
+	if (ms == nullptr)
+		return false;
+	ms->clearElementsInStyle();
+	for (auto it = _games.begin(); it != _games.end(); it++)
+	{
+		std::stringstream ss;
+		ss << it->gameID;
+		std::string s = ss.str() + std::string(" ") + it->gameName + std::string(" ");
+		ss.str("");
+		ss << it->nbPlayers << "/" << 4;
+		s += ss.str();
+		MenuElement*	item = new MenuElement(*requestAssetManager.getTexture("mapName.png"), s, *requestAssetManager.getFont("nullShock.ttf"));
+		item->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
+		item->setAction(sf::Event::MouseButtonPressed, &MenuElement::chooseGame, it->gameID);
+		ms->addItem(item);
+		item->applyStyle(true);
+		std::cout << "ici" << std::endl;
+	}
+	ms->applyStyle();
+	return true;
 }
 
 std::string Client::getAddr() const
@@ -219,6 +279,16 @@ std::string Client::getAddr() const
 std::string Client::getLogin() const
 {
 	return _login;
+}
+
+int Client::getPlayerID() const
+{
+	return _playerID;
+}
+
+int Client::getGameID() const
+{
+	return _currentGameID;
 }
 
 void Client::setAddr(std::string const & addr, bool const& addDefaultPort)
@@ -237,6 +307,25 @@ void Client::setLogin(std::string const & login)
 void Client::setMode(eCMode const & mode)
 {
 	_mode = mode;
+}
+
+void Client::setPlayerID(int const & playerID)
+{
+	_playerID = playerID;
+}
+
+void Client::setGameID(int const & gameID)
+{
+	_currentGameID = gameID;
+}
+
+void Client::initGameInfoStruct(struct Client::GameInfos & gameInfo)
+{
+	gameInfo.gameID = 0;
+	gameInfo.gameName = "";
+	gameInfo.mapName = "";
+	gameInfo.nbPlayers = 0;
+	gameInfo.__INFO_SIZE = 0;
 }
 
 HFConnection& Client::current()

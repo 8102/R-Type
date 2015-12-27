@@ -1,9 +1,9 @@
 //
 // ThreadPool.cpp for RType in /home/Opcoz/rendu/rtype/R-Type/Server
-// 
+//
 // Made by tran_0
 // Login   <Opcoz@epitech.net>
-// 
+//
 // Started on  Thu Dec 10 02:56:32 2015 tran_0
 // Last update Thu Dec 10 02:56:32 2015 tran_0
 //
@@ -55,7 +55,7 @@ void		ThreadPool::waitFunction()
 	{
 	  std::unique_lock<std::mutex>	lk(_mutex);
 	  _cond.wait(lk);
-	  _mutex.unlock();
+	  lk.unlock();
 	}
       else
 	{

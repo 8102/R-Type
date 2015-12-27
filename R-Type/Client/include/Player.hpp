@@ -27,6 +27,9 @@ public:
 	bool						collide(AGameElement const& collider, bool const& shieldCollision = true) const;
 	bool						isAlive() const;
 
+	bool						isPlayed() const;
+	void						isPlayed(bool const& played);
+
 public:
 
 	bool						canShot() const;
@@ -58,6 +61,10 @@ private:
 	AnimatedSprite	_shield;
 	bool						_isShielded;
 	sf::Vector2i			_energy;
+
+private:
+
+	bool					_played;
 
 private:
 

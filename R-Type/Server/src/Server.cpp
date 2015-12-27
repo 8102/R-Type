@@ -5,7 +5,7 @@
 // Login   <Opcoz@epitech.net>
 //
 // Started on  Fri Dec 11 04:15:41 2015 tran_0
-// Last update Fri Dec 11 04:15:41 2015 tran_0
+// Last update Sat Dec 26 22:36:51 2015 Jean-Baptiste Grégoire
 //
 
 #include "Server.hh"
@@ -111,15 +111,19 @@ short int		Server::addNewGame(char *name, char *map)
 {
   unsigned short int	idGame = 1;
 
+  std::cout << "Creating new game <" << name << "> with map :" << map << " ..." << std::endl;
   if (!_games.empty())
   {
     for (auto it = _games.begin() ; it != _games.end() ; it++)
-    if ((*it)->getId() > idGame)
-    idGame = (*it)->getId();
-    idGame++;
+    {
+      if ((*it)->getId() == idGame)
+      {
+        ++idGame;
+        it = _games.begin();
+  }
+    }
   }
   std::shared_ptr<Game>		newGame(new Game(idGame, idGame + 4000, name, map));
-
   _pool->wakeUp(gameReady, newGame.get());
   _games.push_back(newGame);
   return (idGame);
@@ -179,6 +183,7 @@ void			Server::authRead(unsigned int size)
   unsigned char*	authRead = new unsigned char[size + 1];
   unsigned short int	gameId = 0;
 
+  std::cout << "<Authentificiation>"<< std::endl;
   std::memset(authRead, 0, size + 1);
   _actualClient->receive(authRead, size);
   if (size != 4)
@@ -245,9 +250,8 @@ void		Server::infoRead(unsigned int size)
 {
   unsigned char	*request = new unsigned char[size + 1];
 
-  std::cout << "Server::InfoRead" << std::endl;
+  std::cout << "<Information request>" << std::endl;
   _actualClient->receive(request, size);
-  std::cout << "Server::InfoRead out of receive" << std::endl;
   if (request[0] == GAME_INFO)
     infoResponse();
   delete[] request;
@@ -255,16 +259,16 @@ void		Server::infoRead(unsigned int size)
 
 void					Server::infoResponse()
 {
+  std::cout << "Je prépare la réponse pour les info des games" << std::endl;
   unsigned char				*send = NULL;
   int					pos = 4;
   std::string				gameName;
   std::string				mapName;
   std::vector<std::shared_ptr<Client> >	clients;
 
-  std::cout << "server::infoResponse --- begin" << std::endl;
-  send = buildHeader(INFO, calcResponseLength() + 6);
+  std::cout << "calcule de la taille de la réponse... : " << calcResponseLength() << std::endl;
+  send = buildHeader(INFO, calcResponseLength());
   send[pos++] = 2;
-  std::cout << "server::infoResponse --- begin 2 " << std::endl;
   for (auto it = _games.begin() ; it != _games.end() ; it++)
   {
     clients = (*it)->getClients();
@@ -282,24 +286,23 @@ void					Server::infoResponse()
     for (unsigned int i = 0 ; i < mapName.length() ; i++)
       send[pos++] = mapName[i];
   }
-  std::cout << "server::infoResponse --- begin" << std::endl;
   _actualClient->send(send, pos);
-  delete send;
+  delete[] send;
 }
 
 void			Server::gameRead(unsigned int size)
 {
-  unsigned char*	gameRead = new unsigned char[size + 1];
+  unsigned char*	gameRead = new unsigned char[size + 1]();
   char			*gamename = NULL;
   char			*mapname = NULL;
   unsigned short int	gameId = 0;
 
-  std::memset(gameRead, 0, size + 1);
+  std::cout << "<Game Creation>" << std::endl;
   _actualClient->receive(gameRead, size);
   if (size > 2 && size > gameRead[1] && gameRead[0] == 1)
   {
-    gamename = new char[gameRead[1] + 1];
-    for (int i = 0 ; i < static_cast<int>(gamename[1]) ; i++)
+    gamename = new char[gameRead[1] + 1]();
+    for (int i = 0 ; i < static_cast<int>(gameRead[1]) ; i++)
     gamename[i] = gameRead[2 + i];
     gamename[gameRead[1]] = 0;
     mapname = new char[gameRead[2 + gameRead[1]] + 1];
@@ -308,8 +311,8 @@ void			Server::gameRead(unsigned int size)
     mapname[gameRead[2 + gameRead[1]]] = 0;
     gameId = addNewGame(gamename, mapname);
     gameResponse(gameId);
-    delete gamename;
-    delete mapname;
+    delete[] gamename;
+    delete[] mapname;
   }
   delete[] gameRead;
 }
@@ -322,21 +325,16 @@ void			Server::gameResponse(unsigned short int id)
   send[pos++] = 2;
   send[pos++] = (id >> 8) & 0xFF;
   send[pos] = id & 0xFF;
-  std::cout << "Server::gameResponse" << std::endl;
   _actualClient->send(send, 7);
 }
 
 unsigned char		*Server::buildHeader(unsigned char commandCode, unsigned int length)
 {
-  unsigned char		*newHeader = new unsigned char[length + 1];
+  unsigned char		*newHeader = new unsigned char[length]();
 
-  for (unsigned int i = 0 ; i <= length ; i++)
-  {
-    newHeader[i] = 0;
-  }
   newHeader[0] = commandCode;
   newHeader[1] = 0;
-  newHeader[2] = length >> 8;
+  newHeader[2] = (length >> 8) & 0xFF;
   newHeader[3] = length & 0xFF;
   return newHeader;
 }
@@ -350,14 +348,14 @@ bool			Server::readHeader(std::map<int, commandTreat> &sendFct)
   //std::cout << "[Server : ReadHeader ] --- > Entering" << std::endl;
   if ((error = _actualClient->receive(headerServ, 4)) > 0)
     {
+      if (error < 4)
+        return (true);
       length = (headerServ[2] << 8) | headerServ[3];
+      std::cout << "Receive packet " << length << " bytes" << std::endl;
       std::cout << "Message Read : [" << headerServ << "]" << std::endl;
-//		 _actualClient->send((void *)("cicada3301"), 10);
-	  if (length - 4 > 0 && (headerServ[0] == 1 || headerServ[0] == 2 || headerServ[0] == 4))
-	  {
-		  std::cout << "Server::readHeader -- answering" << std::endl;
-		  (this->*sendFct[headerServ[0]])(length - 4);
-	  }
+      std::cout << (int)(headerServ[0]) << std::endl;
+      if (length - 4 > 0 && (headerServ[0] == 1 || headerServ[0] == 2 || headerServ[0] == 4))
+	(this->*sendFct[headerServ[0]])(length - 4);
     }
   else if (error == 0)
     {

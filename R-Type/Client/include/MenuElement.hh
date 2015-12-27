@@ -53,6 +53,9 @@ public:
 public:
 
 	void						connect(sf::Event const& event);
+	void						createGame(sf::Event const& event);
+	void						chooseGame(sf::Event const& event);
+	void						requestConnectionToGame(sf::Event const& event);
 	void						defaultFunction(sf::Event const& event);
 	void						movingFunction(sf::Event const& event);
 	void						startingFunction(sf::Event const& event);

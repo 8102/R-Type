@@ -2,26 +2,26 @@
 #include                     "GameEngine.hh"
 //#include                     "UnitTest.hh"
 Player::Player(std::string const& filename, Animation const& animation, Ammunition const& ammo, sf::Color const& colorMask)
-	: ACharacter(filename, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200) {
+	: ACharacter(filename, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200), _played(false) {
 
 	setType(AGameElement::Friendly);
 }
 
 Player::Player(sf::Texture const& texture, Animation const& animation, Ammunition const& ammo, sf::Color const& colorMask)
-	: ACharacter(texture, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200) {
+	: ACharacter(texture, animation, ammo, colorMask), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200), _played(false) {
 
 	setType(AGameElement::Friendly);
 }
 
 Player::Player(AnimatedSprite const& baseModel, Ammunition const& ammo)
-	: ACharacter(baseModel, ammo), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200) {
+	: ACharacter(baseModel, ammo), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200), _played(false) {
 
 	setType(AGameElement::Friendly);
 }
 
 
 Player::Player(ACharacter const& baseModel)
-	: ACharacter(baseModel), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200) {
+	: ACharacter(baseModel), _reload(50), _reloadingTime(_reload), _canShot(true), _weaponIndex(0), _shield(Player::initPlayerShield()), _isShielded(false), _energy(200, 200), _played(false) {
 
 	setType(AGameElement::Friendly);
 }
@@ -178,6 +178,16 @@ bool Player::collide(AGameElement const & collider, bool const &shieldCollision)
 bool Player::isAlive() const
 {
 	return _health.x <= 0.0f;
+}
+
+bool Player::isPlayed() const
+{
+	return _played;
+}
+
+void Player::isPlayed(bool const & played)
+{
+	_played = played;
 }
 
 

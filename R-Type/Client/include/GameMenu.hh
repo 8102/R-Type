@@ -77,6 +77,7 @@ public:
 public:
 
 	void              resetElements();
+	void				clearElementsInStyle();
 
 private:
 

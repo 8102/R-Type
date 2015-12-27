@@ -13,8 +13,11 @@ PlayerFactory::~PlayerFactory()
 
 Player&		PlayerFactory::getPlayer(int const & playerID)
 {
+	std::cout << "FACTORY" << std::endl;
+
 	if (_bluePrint[playerID].second == false)
 		loadPlayer(playerID);
+
 	return *_bluePrint[playerID].second.get();
 }
 

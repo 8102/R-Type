@@ -15,6 +15,7 @@ MenuElement::MenuElement(sf::Texture const& texture, std::string const& text, sf
 	adjustScreenTextPosition();
 }
 
+
 MenuElement::~MenuElement() {
 
 	if (_midground != nullptr)
@@ -158,45 +159,47 @@ void MenuElement::connect(_unused sf::Event const & event)
 	else
 	{
 		std::cout << "[" << requestNetwork.createGameRequest("toto", "titi") << "]" << std::endl;
-		//std::cout << "[" << requestNetwork.createGameRequest("toto", "titi") << "]" << std::endl;
-		//std::cout << "[" << requestNetwork.createGameRequest("bonjour", "nickel") << "]" << std::endl;
-		//std::cout << "[" << requestNetwork.createGameRequest("south", "park") << "]" << std::endl;
+		std::cout << "[" << requestNetwork.createGameRequest("South", "Park") << "]" << std::endl;
+		std::cout << "[" << requestNetwork.createGameRequest("toto", "titi") << "]" << std::endl;
 		requestNetwork.requestGameInfo();
-		//requestNetwork.requestGameInfo();
-		//requestNetwork.requestGameInfo();
-		//requestNetwork.requestGameInfo();
 		requestNetwork.readHeader();
-		//requestNetwork.requestMapInfo();
 
-		//char g[100];
-		//memset(g, 0, 100);
-		//requestNetwork.receive(g, 100);
-		//for (int i = 0; i < 100; i++)
-		//{
-		//	std::cout << "[" << (int)static_cast<unsigned char>(g[i]) << "]";
-		//	if ((i + 1) % 10 == 0)
-		//		std::cout << std::endl;
-		//}
-	//if (g[7] != 0)
-		////{
-		//	GameEngine&		e = requestGameEngine;
-		//	std::stringstream		ss;
-
-		//	ss << (int)g[6];
-
-		//	MenuElement*	toto = new MenuElement(*requestAssetManager.getTexture("mapName.png"), "game " + ss.str(), *requestAssetManager.getFont("nullShock.ttf"));
-		//	GameMenu*		mapMenu = reinterpret_cast<GameMenu*>(e.getController(AGameController::MapSelectionMenu));
-		//	if (mapMenu != nullptr)
-		//	{
-
-		//		toto->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
-		//		mapMenu->addItem(toto);
-		//		mapMenu->applyStyle();
-		//		mapMenu->moveElements(sf::Vector2f(0.0f, 0.0f));
-		//	}
-		////}
+		for (auto it = requestNetwork._games.begin(); it != requestNetwork._games.end(); it++)
+		{
+			std::cout << "Game ID : " << it->gameID << std::endl;
+			std::cout << "Game Name : " << it->gameName << std::endl;
+			std::cout << "Players in game : " << it->nbPlayers << std::endl;
+			for (auto pit = it->playersInGame.begin(); pit != it->playersInGame.end(); pit++)
+				std::cout << "[" << *pit << "]";
+			std::cout << std::endl;
+			std::cout << "Map Name : " << it->mapName << std::endl;
+			std::cout << "Size in network MSG : " << it->__INFO_SIZE << std::endl;
+			std::cout << "--------------------------------" << std::endl;
+		}
 		changeMenu(event);
 	}
+}
+
+void MenuElement::createGame(sf::Event const & event)
+{
+	requestNetwork.createGameRequest("defaultName", "defaultMap");
+	_argument = AGameController::CharacterSelectionMenu;
+	changeMenu(event);
+}
+
+void MenuElement::chooseGame(sf::Event const & event)
+{
+	requestNetwork.setGameID(_argument);
+	if (_container != nullptr)
+		_container->setFocused(-1);
+	GameEngine::instanciate().setControllerIndex(AGameController::CharacterSelectionMenu);
+
+}
+
+void MenuElement::requestConnectionToGame(sf::Event const & event)
+{
+	requestNetwork.setPlayerID(_argument);
+	requestNetwork.joinGame();
 }
 
 void                  MenuElement::defaultFunction(_unused sf::Event const& event) {
@@ -363,6 +366,7 @@ void                  MenuElement::untoggleGauging(_unused sf::Event const& even
 void					MenuElement::selectPlayer(_unused sf::Event const& event) {
 
 	setBaseColor(sf::Color::Green);
+//	requestGameEngine.setPlayers(_argument);
 	requestGameEngine.setPlayer(&requestGameEngine._playF.getPlayer(_argument));
 	requestGameEngine.getPlayer().setPosition(sf::Vector2f(400.0f, _argument * 100.0f));
 	requestGameEngine.setController<PlayerController >(AGameController::GameControls, new PlayerController(requestGameEngine.getPlayer()));
@@ -380,7 +384,6 @@ void MenuElement::scroll(sf::Event const & event)
 			_midground->setPosition(sf::Vector2f(_midground->getPosition().x, targetPosition));
 			float ratio = (std::abs(targetPosition - initialPosition) * 100 / getGlobalBounds().height) / 100.0f * _container->getTotalSize().y;
 			_container->moveElements(sf::Vector2f(0.0f, initialPosition < targetPosition ? ratio * -1.5f : ratio * 1.5f));
-
 		}
 	}
 }

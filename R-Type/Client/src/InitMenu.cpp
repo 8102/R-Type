@@ -160,7 +160,11 @@ void								initCharacterSelectionMenu() {
 	character2->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
 	character2->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 2);
 	character3->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
-	character3->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 3);
+
+//	character3->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 3);
+	character3->setAction(sf::Event::MouseButtonPressed, &MenuElement::requestConnectionToGame, 3);
+
+	
 	character4->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
 	character4->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 4);
 
@@ -171,10 +175,8 @@ void								initCharacterSelectionMenu() {
 
 	playButton->setPosition(sf::Vector2f(playButton->getPosition().x + playButton->getGlobalBounds().width / 2, playButton->getPosition().y + playButton->getGlobalBounds().height / 2));
 	playButton->applyStyle(false);
-	//	playButton->setPosition(sf::Vector2f(playButton->getPosition().x + playButton->getGlobalBounds().width / 2, playButton->getPosition().y + playButton->getGlobalBounds().height / 2));
 	selectionMenu->addItem(playButton);
 	selectionMenu->applyStyle();
-	//	selectionMenu->addItem(text);
 	requestGameEngine.setController< GameMenu >(AGameController::CharacterSelectionMenu, selectionMenu);
 }
 
@@ -184,19 +186,24 @@ void			initMapSelectionMenu()
 
 	GameMenu*			selectionMenu = new GameMenu("MapSelection", GameMenu::InRound);
 	MenuElement*		playButton = new MenuElement(*a.getTexture("half.png"), "NEXT", *a.getFont("nullShock.ttf"));
-//	MenuElement*		name = new MenuElement(*a.getTexture("mapName.png"), "Endor", *a.getFont("nullShock.ttf"));
-	
+	MenuElement*		createGameButton = new MenuElement(*a.getTexture("half.png"), "Create Game", *a.getFont("nullShock.ttf"));
 	MenuElement*		scrollingBar = new MenuElement(*a.getTexture("scrollingBar.png"), "", *a.getFont("nullShock.ttf"), selectionMenu);
 	MenuElement*		scrollingBubble = new MenuElement(*a.getTexture("scrollingBubble.png"), "", *a.getFont("nullShock.ttf"));
 
+	createGameButton->applyStyle(false);
+	createGameButton->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 4.0f * 1, 800.0f));
+	createGameButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::createGame);
+	createGameButton->setAction(sf::Event::MouseMoved, &MenuElement::movingFunction);
+
+	selectionMenu->addItem(createGameButton);
 	selectionMenu->setBackground(new MenuElement(*a.getTexture("desert_world.jpg")));
+	selectionMenu->addItem(scrollingBar);
 	scrollingBar->setMidground(scrollingBubble);
 	scrollingBar->applyStyle(false);
-	selectionMenu->addItem(scrollingBar);
 	scrollingBar->setPosition(sf::Vector2f(1200.0f, 450.0f));
 	scrollingBubble->setPosition(sf::Vector2f(scrollingBubble->getPosition().x, scrollingBar->getGlobalBounds().top + scrollingBubble->getGlobalBounds().height / 2.0f));
 	playButton->setOrigin(sf::Vector2f(playButton->getGlobalBounds().width / 2, playButton->getGlobalBounds().height / 2));
-	playButton->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2.0f, 800.0f));
+	playButton->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 4.0f * 3, 800.0f));
 	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::changeMenu, AGameController::CharacterSelectionMenu);
 	playButton->setAction(sf::Event::MouseMoved, &MenuElement::startingFunction);
 
@@ -204,21 +211,8 @@ void			initMapSelectionMenu()
 	selectionMenu->setStyledElementsCadre(sf::FloatRect(sf::Vector2f(494.0f, 267.0f), sf::Vector2f(641.0f, 408.0f)));
 	scrollingBar->setAction(sf::Event::MouseButtonPressed, &MenuElement::toggleScrolling);
 	scrollingBar->setAction(sf::Event::MouseMoved, &MenuElement::scroll);
-	scrollingBar->setAction(sf::Event::MouseButtonReleased, &MenuElement::untoggleScrolling);
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "wonderland", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "Some Bad Neighbourhood\nroom 3 / 4", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	//selectionMenu->addItem(new MenuElement(*a.getTexture("mapName.png"), "", *a.getFont("nullShock.ttf")));
-	selectionMenu->applyStyle();
 	selectionMenu->addItem(playButton);
+	scrollingBar->setAction(sf::Event::MouseButtonReleased, &MenuElement::untoggleScrolling);
+	selectionMenu->applyStyle();
 	requestGameEngine.setController< GameMenu >(AGameController::MapSelectionMenu, selectionMenu);
 }

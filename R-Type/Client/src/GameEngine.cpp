@@ -44,6 +44,13 @@ void                    GameEngine::start() {
 	_playF.loadConfigs();
 	_bonusF.loadConfig();
 	
+	//for (int i = 1; i < 5; i++)
+	//{
+	//	_players.push_back(make_unique<Player>(_playF.getPlayer(i)));
+	//	_players.back().get()->setPosition(sf::Vector2f(400.0f, i * 100.0f));
+	//}
+
+//	_players.push_back(make_unique<Player>(_playF.getPlayer(1)));
 	// sf::Image		winIcon;
 	// if (winIcon.loadFromFile(std::string(ICON_FOLDER) + std::string("gameIcon.gif")) == true)
 	// _win->setIcon(150, 150, winIcon.getPixelsPtr());
@@ -218,6 +225,8 @@ void GameEngine::updateEnnemies()
 void GameEngine::updatePlayers()
 {
 	_player->update();
+	for (auto it = _players.begin(); it != _players.end(); it++)
+		(*it)->update();
 }
 
 void                    GameEngine::update() {
@@ -241,14 +250,14 @@ void                    GameEngine::draw() {
 	{
 		_win->draw(*(*it));
 		getGUI().drawEnnemyInfo(*(*it));
-//		(*it)->drawLife(*_win.get());
 	}
 	for (auto it = _bonus.begin(); it != _bonus.end(); it++)
 		_win->draw(*(*it));
 	for (auto it = _ammos.begin(); it != _ammos.end(); it++)
 		_win->draw(*(*it));
-
 	_player->getDrawn(*_win);
+	for (auto it = _players.begin(); it != _players.end(); it++)
+		(*it)->getDrawn(*_win);
 //	_win->draw(*_player);
 	for (auto it = _FX.begin(); it != _FX.end(); it++)
 		_win->draw(*(*it));

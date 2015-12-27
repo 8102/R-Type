@@ -44,16 +44,11 @@ void                    GameEngine::start() {
 	_playF.loadConfigs();
 	_bonusF.loadConfig();
 	
-	//for (int i = 1; i < 5; i++)
-	//{
-	//	_players.push_back(make_unique<Player>(_playF.getPlayer(i)));
-	//	_players.back().get()->setPosition(sf::Vector2f(400.0f, i * 100.0f));
-	//}
-
-//	_players.push_back(make_unique<Player>(_playF.getPlayer(1)));
-	// sf::Image		winIcon;
-	// if (winIcon.loadFromFile(std::string(ICON_FOLDER) + std::string("gameIcon.gif")) == true)
-	// _win->setIcon(150, 150, winIcon.getPixelsPtr());
+	for (int i = 1; i < 5; i++)
+	{
+		_players.push_back(make_unique<Player>(_playF.getPlayer(i)));
+		_players.back().get()->setPosition(sf::Vector2f(400.0f, i * 100.0f));
+	}
 }
 
 void							GameEngine::run() {
@@ -64,6 +59,8 @@ void							GameEngine::run() {
 		std::cout << "Error opening file" << std::endl;
 	rythmer.getNextActionBlock();
 	_clock.start();
+
+
 	while (isRunning() == true) {
 
 		rythmer.update();
@@ -88,7 +85,7 @@ void							GameEngine::run() {
 
 void GameEngine::launchGame()
 {
-	_GUI = make_unique< GUI >(*_player.get(), *_win.get());
+	_GUI = make_unique< GUI >(*_player, *_win.get());
 }
 
 void GameEngine::pause()
@@ -133,21 +130,18 @@ void GameEngine::updateBonus()
 
 		(*it)->move(sf::Vector2f(-0.3f, 0.0f));
 		(*it)->update();
-		//for (auto playeriT = _players.begin(); playerIt < _players.end(); playerIt++) {
-		//	
-		//	if ((*playerIt)->collides((*it), false) == true) {
-		//		(*it)->trigger(*(*_playerIt)->get());
-		//		it = _bonus.erase(it);
-		//		goto end_of_main_loop;
-		//	}
-		if ((*it)->collide(*_player.get())) {
-			(*it)->trigger(*_player.get());
-			it = _bonus.erase(it);
+		for (auto playerIt = _players.begin(); playerIt < _players.end(); playerIt++) {
+			
+			if ((*playerIt)->isPlayed() && (*playerIt)->collide(*(*it), false) == true) {
+				(*it)->trigger(*(*playerIt));
+				it = _bonus.erase(it);
+				goto end_of_main_loop;
+			}
 		}
-		else if ((*it)->hasPassed() == true)
+		if ((*it)->hasPassed() == true)
 			it = _bonus.erase(it);
 		else ++it;
-//		end_of_main_loop: {}
+		end_of_main_loop: {}
 	}
 }
 
@@ -159,20 +153,11 @@ void GameEngine::updateAmmos()
 		if ((*it)->isOutOfScreen() == true) goto delete_and_next;
 		else if ((*it)->getType() == Ammunition::EnnemyShot) {
 			for (auto playerIt = _players.begin(); playerIt != _players.end(); playerIt++) {
-				if ( (*(*playerIt)).collide(*(*it), true) == true) {
-//				if ((*it)->collide(*(*playerIt)->get()) == true) {
+				if ((*playerIt)->isPlayed() == true && (*(*playerIt)).collide(*(*it), true) == true) {
 					(*playerIt)->receiveDamage((*(*it)));
-//					(*it)->dealDamage(*(*playerIt)->get());
 					(*it)->trigger();
 					goto delete_and_next;
 				}
-			}
-			if (getPlayer().collide(*(*it), true) == true) {
-			//if ((*it)->collide(getPlayer()) == true) {
-				getPlayer().receiveDamage((*(*it)));
-//				(*it)->dealDamage(getPlayer());
-				(*it)->trigger();
-				goto delete_and_next;
 			}
 		}
 		else if ((*it)->getType() == Ammunition::friendlyShot) {
@@ -212,8 +197,11 @@ void GameEngine::updateEnnemies()
 	for (auto it = _ennemies.begin(); it != _ennemies.end(); /* (void) */) {
 		(*it)->move(-0.5); /* to be replaced by server updates */
 		(*it)->update();
-		if ((*it)->collide(*_player.get()))
-			_player->setLife(sf::Vector2i(0, _player->getLife().y));
+		for (auto playerIt = _players.begin(); playerIt != _players.end(); playerIt++)
+		{
+			if ((*playerIt)->isPlayed() == true && (*it)->collide(*(*playerIt)))
+				(*playerIt)->setLife(sf::Vector2i(0, (*playerIt)->getLife().y));
+		}
 		if ((*it)->hasPassed() == true || (*it)->getLife().x <= 0) /* order to die from server */ {
 			(*it)->die();
 			it = _ennemies.erase(it);
@@ -224,7 +212,6 @@ void GameEngine::updateEnnemies()
 
 void GameEngine::updatePlayers()
 {
-	_player->update();
 	for (auto it = _players.begin(); it != _players.end(); it++)
 		(*it)->update();
 }
@@ -255,16 +242,20 @@ void                    GameEngine::draw() {
 		_win->draw(*(*it));
 	for (auto it = _ammos.begin(); it != _ammos.end(); it++)
 		_win->draw(*(*it));
-	_player->getDrawn(*_win);
+
 	for (auto it = _players.begin(); it != _players.end(); it++)
-		(*it)->getDrawn(*_win);
-//	_win->draw(*_player);
+	{
+		if ((*it)->isPlayed() == true)
+		{
+			(*it)->getDrawn(*_win);
+			if ((*it).get() != _player)
+				getGUI().drawPlayerInfo(*(*it).get());
+		}
+	}
 	for (auto it = _FX.begin(); it != _FX.end(); it++)
 		_win->draw(*(*it));
 
-//	_player->drawInformation(*_win.get());
 	_player->indicateCurrentPlayer(*_win.get());
-
 	getGUI().drawUserInfo();
 }
 
@@ -290,7 +281,9 @@ void                    GameEngine::pause(bool pauseFlag) {
 
 bool GameEngine::isReady() const
 {
-	return _player.operator bool();
+	if (_player == nullptr)
+		return false;
+	return _player->isPlayed();
 }
 
 void                    GameEngine::addAnimation(Animation* animation) {
@@ -319,17 +312,20 @@ void GameEngine::addBonus(Bonus const & b)
 	_bonus.push_back(make_unique< Bonus >(b));
 }
 
-void                    GameEngine::setPlayer(Player *player) {
-
-	_player = make_unique< Player >((*player));
+void GameEngine::setPlayer(int const & index)
+{
+	if (index < 1 || index > _players.size())
+		return;
+	if (_player != nullptr)
+		_player->isPlayed(false);
+	_player = _players[index - 1].get();
+	_player->isPlayed(true);
 }
 
 void                    GameEngine::setControllerIndex(AGameController::eController const& index) {
 
 	_controlerIndex = index;
 }
-
-//return *_animFactory.getAnimation(animationName);
 
 Animation&              GameEngine::getAnimation(std::string const& animationName) {
 

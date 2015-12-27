@@ -366,8 +366,9 @@ void                  MenuElement::untoggleGauging(_unused sf::Event const& even
 void					MenuElement::selectPlayer(_unused sf::Event const& event) {
 
 	setBaseColor(sf::Color::Green);
-//	requestGameEngine.setPlayers(_argument);
-	requestGameEngine.setPlayer(&requestGameEngine._playF.getPlayer(_argument));
+	requestGameEngine.setPlayer(_argument);
+
+//	requestGameEngine.setPlayer(&requestGameEngine._playF.getPlayer(_argument));
 	requestGameEngine.getPlayer().setPosition(sf::Vector2f(400.0f, _argument * 100.0f));
 	requestGameEngine.setController<PlayerController >(AGameController::GameControls, new PlayerController(requestGameEngine.getPlayer()));
 }

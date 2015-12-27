@@ -227,9 +227,10 @@ int main() {
   //n.stopConnection();
 
   requestNetwork.setMode(Client::TCP);
+  setupAnimations();
+  
   engine.start();
 
-  setupAnimations();
   setupAnimatedSprites();
 
   initMainMenu();

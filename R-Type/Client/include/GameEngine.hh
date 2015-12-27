@@ -120,7 +120,8 @@ public:
 	void					addEnnemy(Ennemy *ennemy);
 	void					addBonus(Bonus const& b);
 
-	void					setPlayer(Player* player);
+	//void					setPlayer(Player* player);
+	void					setPlayer(int const& index);
 
 public:
 
@@ -187,7 +188,8 @@ private:
 	std::vector< std::unique_ptr< Player >>						_players;
 	/*
 	** Player on this client */
-	std::unique_ptr< Player >												 _player;
+//	std::unique_ptr< Player >												 _player;
+	Player*																				_player;
 
 private:
 

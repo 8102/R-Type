@@ -2,7 +2,7 @@
 #include "GameEngine.hh"
 
 Client::Client() :
-	_mode(none), _currentGameID(0), _addr(""), _login("")
+	_mode(none), _currentGameID(0), _addr(""), _login(""), _UDPPort(0)
 {
 	TCPConnection::initConnection();
 	UDPConnection::initConnection();
@@ -18,7 +18,6 @@ Client::Client() :
 
 	_informationFcts[2] = &Client::getGameList;
 }
-
 
 Client::~Client()
 {
@@ -103,12 +102,18 @@ bool Client::readInfoMsg(size_t const & msgSize)
 bool									Client::getUDPPort(void const * rawData, size_t const & msgSize)
 {
 	unsigned char const*	data = static_cast<unsigned char const*>(rawData);
-	size_t						UDPPort = 0;
+	int								UDPPort = 0;
 
 	for (int i = 0; i < msgSize; i++)
 		UDPPort = (UDPPort * 256) + data[i];
-	// setUDPPort(UDPPort);
+	 setUDPPort(UDPPort);
+	 std::cout << "UDP Port : " << _UDPPort << std::endl;
 	return true;
+}
+
+void Client::setUDPPort(int const & UDPPort)
+{
+	_UDPPort = UDPPort;
 }
 
 bool									Client::authError(void const * rawData, size_t const & msgSize)
@@ -242,7 +247,9 @@ bool											Client::joinGame()
 		std::cout << "[" << (int)b[i] << "]";
 	std::cout << std::endl;
 	send(b, sizeof(b));
-	return readHeader();
+	readHeader();
+	switchConnection(Client::UDP);
+	return true;
 }
 
 bool								Client::updateGameList()
@@ -307,6 +314,24 @@ void Client::setLogin(std::string const & login)
 void Client::setMode(eCMode const & mode)
 {
 	_mode = mode;
+}
+
+void Client::switchConnection(Client::eCMode const& mode)
+{
+	if (_UDPPort > 0)
+	{
+		current().stopConnection();
+		setMode(mode);
+		if (mode == Client::UDP) {
+			std::stringstream ss;
+			ss << _UDPPort;
+			_addr = _addr.substr(0, _addr.find_first_of(':'));
+			_addr += std::string(":") + ss.str();
+			std::cout << "Addr : " << _addr << std::endl;
+			std::cout << "UDP Connection : " << current().connect(_addr) << std::endl;
+		}
+	}
+
 }
 
 void Client::setPlayerID(int const & playerID)

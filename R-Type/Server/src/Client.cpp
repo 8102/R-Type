@@ -10,13 +10,12 @@
 
 #include "Client.hh"
 
-Client::Client(bool spectate, char type, sf::Vector2f const &coords) :
-  _spectator(spectate), _score(0), _isAlive(true), _life(100), _type(type)
+Client::Client(bool spectate, char type, sf::Vector2f const &coords, sf::Vector2f const& dimensions) :
+  _spectator(spectate), _score(0), _isAlive(true), _life(100), _type(type), _coords(coords), _dimensions(dimensions)
 {
   _weapons[0] = 1;
   _weapons[1] = 5;
   _activeWeapon = 0;
-  _coords = coords;
 }
 
 Client::~Client()
@@ -69,9 +68,19 @@ sf::Vector2f	Client::getCoords() const
   return _coords;
 }
 
+sf::Vector2f Client::getDimensions() const
+{
+	return _dimensions;
+}
+
 void		Client::setCoords(sf::Vector2f const &coords)
 {
   _coords = coords;
+}
+
+void Client::setDimensions(sf::Vector2f const & dimensions)
+{
+	_dimensions = dimensions;
 }
 
 char		Client::getActiveWeapon() const

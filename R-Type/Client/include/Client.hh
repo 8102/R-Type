@@ -55,6 +55,7 @@ public:
 
 	/* authentication functions*/
 	bool																getUDPPort(void const* data, size_t const& msgSize);
+	void																setUDPPort(int const& UDPPort);
 	bool																authError(void const* data, size_t const& msgSize);
 
 public:
@@ -89,6 +90,8 @@ public:
 	void																setAddr(std::string const& addr, bool const& defaultPort = true);
 	void																setLogin(std::string const& login);
 	void																setMode(eCMode const& mode);
+
+	void																switchConnection(eCMode const& mode);
 
 	void																setPlayerID(int const& playerID);
 	void																setGameID(int const& gameID);
@@ -126,6 +129,8 @@ private:
 
 	std::string						_addr;
 	std::string						_login;
+
+	int									_UDPPort;
 };
 
 #endif							/* !__CLIENT_HH___ */

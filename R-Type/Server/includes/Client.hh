@@ -17,7 +17,7 @@
 class		Client
 {
 public:
-  Client(bool Spectate, char type, sf::Vector2f const &);
+  Client(bool Spectate, char type, sf::Vector2f const &, sf::Vector2f const& dimensions = sf::Vector2f(30.0f, 15.0f));
   ~Client();
 
 public:
@@ -30,7 +30,9 @@ public:
   void		setDeath();
   char		getType() const;
   sf::Vector2f	getCoords() const;
+  sf::Vector2f	getDimensions() const;
   void		setCoords(sf::Vector2f const &coords);
+  void		setDimensions(sf::Vector2f const& dimensions);
   char		getActiveWeapon() const;
   void		triggerWeapon();
 private:
@@ -40,6 +42,7 @@ private:
   int		_life;
   char		_type;
   sf::Vector2f	_coords;
+  sf::Vector2f	_dimensions;
   char		_weapons[2];
   int		_activeWeapon;
 };

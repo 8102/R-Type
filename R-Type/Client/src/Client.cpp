@@ -344,6 +344,22 @@ void Client::setGameID(int const & gameID)
 	_currentGameID = gameID;
 }
 
+bool Client::sendPlayerPosition()
+{
+	int	x = static_cast<int>(requestGameEngine.getPlayer().getPosition().x),
+			y = static_cast<int>(requestGameEngine.getPlayer().getPosition().y);
+
+	unsigned char msg[11] = { 0x03, 0x00, 0x00, 0x0B, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+
+	msg[5] = getPlayerID() >> 2;
+	msg[6] = getPlayerID() & 0xff;
+	msg[7] = x >> 2;
+	msg[8] = x & 0xff;
+	msg[9] = y >> 2;
+	msg[10] = y & 0xff;
+	return send(msg, sizeof(msg));
+}
+
 void Client::initGameInfoStruct(struct Client::GameInfos & gameInfo)
 {
 	gameInfo.gameID = 0;

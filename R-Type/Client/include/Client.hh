@@ -99,6 +99,10 @@ public:
 
 public:
 
+	bool																sendPlayerPosition();
+
+public:
+
 	void																initGameInfoStruct(struct GameInfos& gameInfo);
 
 private:

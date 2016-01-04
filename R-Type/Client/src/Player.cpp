@@ -134,9 +134,10 @@ void                         Player::move(int xAxis, int yAxis) {
 		nextPosition.x > 50 &&
 		nextPosition.y > 10 &&
 		nextPosition.y < (WIN_H - getGlobalBounds().height - 10))
-		setPosition(nextPosition);
-		_shield.setPosition(sf::Vector2f(getGlobalBounds().left + getGlobalBounds().width / 2.0f - _shield.getGlobalBounds().width / 2.0f,
-			getGlobalBounds().top + getGlobalBounds().height / 2.0f - _shield.getGlobalBounds().height / 2.0f));
+			setPosition(nextPosition);
+	_shield.setPosition(sf::Vector2f(getGlobalBounds().left + getGlobalBounds().width / 2.0f - _shield.getGlobalBounds().width / 2.0f, getGlobalBounds().top + getGlobalBounds().height / 2.0f - _shield.getGlobalBounds().height / 2.0f));
+	if (requestGameEngine._mode == GameEngine::online)
+		requestNetwork.sendPlayerPosition();
 }
 
 void                         Player::switchWeapon() {

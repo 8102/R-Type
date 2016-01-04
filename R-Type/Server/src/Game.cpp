@@ -110,6 +110,7 @@ void			Game::closeGame()
 
 void			Game::checkPlayersLife()
 {
+  _mu->lock();
   for (auto it = _clients.begin() ; it != _clients.end() ; it++)
     {
       if ((*it)->getLife()<= 0)
@@ -118,12 +119,15 @@ void			Game::checkPlayersLife()
 	  it = _clients.erase(it);
 	}
     }
+  _mu->unlock();
 }
 
 void			Game::onePlayerPresent()
 {
+  _mu->lock();
   if (_clients.empty())
     closeGame();
+  _mu->unlock();
 }
 
 void			Game::timedPlay()
@@ -357,8 +361,10 @@ void		Game::Score()
 
 void		Game::newWave()
 {
+  _mu->lock();
   // check time && launch wave
   //	getElapsedTime
+  _mu->unlock();
 }
 
 //

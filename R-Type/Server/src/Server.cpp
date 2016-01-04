@@ -41,30 +41,39 @@ void			Server::acceptClients()
   FD_SET(newClient.get()->getSocket(), &(_select.readfds));
   _select.bfd = MAX(_select.bfd, newClient.get()->getSocket());
   _clients.push_back(newClient);
+  std::cout << "[Server::acceptClients() ] -- exit " << std::endl;
 }
 
 void			Server::readClients(std::map<int, commandTreat> &sendFct, fd_set *readfds)
 {
+  std::cout << "Entering : <readClients> ---> fd Checking start" << std::endl;
   if (FD_ISSET(_server->getSocketfd(), readfds))
     acceptClients();
   else
   {
-  for (auto it = _clients.begin() ; it != _clients.end() ; )
-    {
-      _actualClient = NULL;
-      if (FD_ISSET((*it).get()->getSocket(), readfds))
-        {
-	  _actualClient = (*it).get();
-	  if (_actualClient && !readHeader(sendFct))
-    {
-      FD_CLR(_actualClient->getSocket(), &(_select.readfds));
-      it = _clients.erase(it);
-    }
-	  else
-	    it++;
-	}
-    }
+    std::cout << "Entering : <readClients> ---> reading start" << std::endl;
+    for (auto it = _clients.begin() ; it != _clients.end() ; )
+      {
+	_actualClient = NULL;
+	std::cout << "Entering : <readClients> ---> reading inside of Client" << std::endl;
+	if (FD_ISSET((*it).get()->getSocket(), readfds))
+	  {
+	    _actualClient = (*it).get();
+	    if (_actualClient && !readHeader(sendFct))
+	      {
+		FD_CLR(_actualClient->getSocket(), &(_select.readfds));
+		it = _clients.erase(it);
+	      }
+	    else
+	      it++;
+	  }
+	else
+	  it++;
+	std::cout << "Entering : <readClients> ---> reading outside of Client" << std::endl;
+      }
+    std::cout << "Entering : <readClients> ---> reading end" << std::endl;
   }
+  std::cout << "Entering : <readClients> ---> fd checking end" << std::endl;
 }
 
 void			Server::run()
@@ -242,7 +251,7 @@ void		Server::authResponse(authErr response, unsigned short int gameId, char pla
       }
     }
   }
-  delete send;
+  delete[] send;
 }
 
 void		Server::infoRead(unsigned int size)

@@ -193,22 +193,27 @@ void								initOnlineCharacterSelectionMenu(std::vector<int> const& players) {
 	{
 		std::stringstream			ss;
 		std::string					s;
-
+		MenuElement*				characterButton = nullptr;
 		for (auto it = players.begin(); it != players.end(); it++)
-			if (*it == i) { goto end_of_loop;  }
+		{
+			if (*it == i) {
+				goto looping_end;
+			}
+		}
 
 		ss << i;
 		s = "player" + ss.str() + "Selector.png";
-		MenuElement*			characterButton = new  MenuElement(*a.getTexture(s), "", *a.getFont("nullShock.ttf"));
+		characterButton = new  MenuElement(*a.getTexture(s), "", *a.getFont("nullShock.ttf"));
 		characterButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::requestConnectionToGame, i);
 		characterButton->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
 		selectionMenu->addItem(characterButton);
-	end_of_loop: {}
+
+		looping_end: {}
 	}
 
 	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::playOnline);
 	playButton->setAction(sf::Event::MouseMoved, &MenuElement::startingFunction);
-	
+
 	playButton->setPosition(sf::Vector2f(playButton->getPosition().x + playButton->getGlobalBounds().width / 2, playButton->getPosition().y + playButton->getGlobalBounds().height / 2));
 	playButton->applyStyle(false);
 	selectionMenu->addItem(playButton);

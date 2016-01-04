@@ -136,8 +136,6 @@ void					MenuElement::setArgument(int const& argument) {
 void                  MenuElement::setMidground(sf::Sprite *elem)
 {
 	_midground = elem;
-//	_midground->setOrigin(sf::Vector2f(_midground->getGlobalBounds().width / 2, _midground->getGlobalBounds().height / 2));
-
 }
 
 void MenuElement::applyStyle(bool const & style)
@@ -204,7 +202,7 @@ void MenuElement::createGame(sf::Event const & event)
 	changeMenu(event);
 }
 
-void MenuElement::chooseGame(sf::Event const & event)
+void MenuElement::chooseGame(_unused sf::Event const & event)
 {
 	requestNetwork.setGameID(_argument);
 	if (_container != nullptr)
@@ -212,7 +210,7 @@ void MenuElement::chooseGame(sf::Event const & event)
 
 }
 
-void MenuElement::requestConnectionToGame(sf::Event const & event)
+void MenuElement::requestConnectionToGame(_unused sf::Event const & event)
 {
 	requestNetwork.setPlayerID(_argument);
 	requestGameEngine.setPlayer(_argument);
@@ -393,7 +391,7 @@ void					MenuElement::selectPlayer(_unused sf::Event const& event) {
 	//requestGameEngine.setController<PlayerController >(AGameController::GameControls, new PlayerController(requestGameEngine.getPlayer()));
 }
 
-void MenuElement::scroll(sf::Event const & event)
+void MenuElement::scroll(_unused sf::Event const & event)
 {
 	if (_scrolling == true && _midground !=nullptr) {
 		float targetPosition = static_cast<float>(sf::Mouse::getPosition(requestGameEngine.getWindow()).y);
@@ -409,12 +407,12 @@ void MenuElement::scroll(sf::Event const & event)
 	}
 }
 
-void MenuElement::toggleScrolling(sf::Event const & event)
+void MenuElement::toggleScrolling(_unused sf::Event const & event)
 {
 	_scrolling = true;
 }
 
-void MenuElement::untoggleScrolling(sf::Event const & event)
+void MenuElement::untoggleScrolling(_unused sf::Event const & event)
 {
 	_scrolling = false;
 }

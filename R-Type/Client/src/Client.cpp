@@ -104,7 +104,7 @@ bool									Client::getUDPPort(void const * rawData, size_t const & msgSize)
 	unsigned char const*	data = static_cast<unsigned char const*>(rawData);
 	int								UDPPort = 0;
 
-	for (int i = 0; i < msgSize; i++)
+	for (auto i = 0; i < msgSize; i++)
 		UDPPort = (UDPPort * 256) + data[i];
 	 setUDPPort(UDPPort);
 	 std::cout << "UDP Port : " << _UDPPort << std::endl;
@@ -121,7 +121,7 @@ bool									Client::authError(void const * rawData, size_t const & msgSize)
 	unsigned char const*	data = static_cast<unsigned char const*>(rawData);
 	size_t			reason = 0;
 
-	for (int i = 0; i < msgSize; i++)
+	for (auto i = 0; i < msgSize; i++)
 		reason = reason * 256 + data[i];
 	switch (reason)
 	{
@@ -140,7 +140,7 @@ bool									Client::authError(void const * rawData, size_t const & msgSize)
 
 
 
-int									Client::updateGames(void const * rawData, size_t const & msgSize)
+int									Client::updateGames(void const * rawData, _unused size_t const & msgSize)
 {
 	unsigned char const*	data = static_cast<unsigned char const*>(rawData);
 	struct GameInfos				g;
@@ -174,7 +174,7 @@ int									Client::updateGames(void const * rawData, size_t const & msgSize)
 bool Client::getGameList(void const *rawData, size_t const & msgSize)
 {
 	unsigned char const*	data = static_cast<unsigned char const*>(rawData);
-	int offset = 0;
+	size_t offset = 0;
 	int result = 0;
 
 	while (offset < msgSize && result >= 0)
@@ -227,9 +227,9 @@ int Client::createGameRequest(std::string const & gameName, std::string const & 
 	request[3] = static_cast<unsigned char>(msgSize);
 	request[4] = 1;
 	request[index] = gameName.length();
-	for (int i = 0; i < gameName.length(); i++) { request[++index] = gameName[i]; }
+	for (auto i = 0; i < gameName.length(); i++) { request[++index] = gameName[i]; }
 	request[++index] = mapName.length();
-	for (int i = 0; i < mapName.length(); i++) { request[++index] = mapName[i]; }
+	for (auto i = 0; i < mapName.length(); i++) { request[++index] = mapName[i]; }
 	send(&request[0], msgSize);
 	_currentGameID = receiveGameID();
 	return _currentGameID;
@@ -363,7 +363,7 @@ HFConnection& Client::current()
 struct Client::GameInfos Client::getCurrentGameInfos() const
 {
 	//if (_currentGameID < 1 || _games.size() < 1)
-	//	throw 
+	//	throw
 	for (auto it = _games.begin(); it != _games.end(); it++)
 	{
 		if (_currentGameID == (*it).gameID)
@@ -372,4 +372,3 @@ struct Client::GameInfos Client::getCurrentGameInfos() const
 	//throw
 	return _games[0];
 }
-

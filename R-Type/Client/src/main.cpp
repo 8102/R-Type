@@ -93,7 +93,7 @@ void                setupAnimations() {
 void               setupAnimatedSprites() {
 
   GameEngine&      e = GameEngine::instanciate();
-  AssetManager&    a = AssetManager::instanciate();
+//  AssetManager&    a = AssetManager::instanciate();
 
  // GameDecor*       background = new GameDecor("./assets/sprites/starybackgrnd.jpg");
   GameDecor*       background = new GameDecor("./assets/sprites/nebula.jpg");
@@ -217,7 +217,7 @@ int main() {
   freopen_s(&stream, "conout$", "w", stdout);
   freopen_s(&stream, "conout$", "w", stderr);
 #endif
-	
+
   //NetworkModule<TCPConnection>	n;
 
   //n.initConnection();
@@ -228,7 +228,7 @@ int main() {
 
   requestNetwork.setMode(Client::TCP);
   setupAnimations();
-  
+
   engine.start();
 
   setupAnimatedSprites();

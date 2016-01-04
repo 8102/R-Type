@@ -52,6 +52,8 @@ public:
 
 public:
 
+	void						playOffline(sf::Event const& event);
+	void						playOnline(sf::Event const& event);
 	void						connect(sf::Event const& event);
 	void						createGame(sf::Event const& event);
 	void						chooseGame(sf::Event const& event);

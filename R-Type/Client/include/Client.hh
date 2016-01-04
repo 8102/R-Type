@@ -86,7 +86,8 @@ public:
 
 	int																getPlayerID() const;
 	int																getGameID() const;
-
+	struct GameInfos											getCurrentGameInfos() const;
+	
 	void																setAddr(std::string const& addr, bool const& defaultPort = true);
 	void																setLogin(std::string const& login);
 	void																setMode(eCMode const& mode);

@@ -359,3 +359,17 @@ HFConnection& Client::current()
 		std::cout << "Error : to e replaced by NetworkException throw" << std::endl;
 	return *_connections[_mode];
 }
+
+struct Client::GameInfos Client::getCurrentGameInfos() const
+{
+	//if (_currentGameID < 1 || _games.size() < 1)
+	//	throw 
+	for (auto it = _games.begin(); it != _games.end(); it++)
+	{
+		if (_currentGameID == (*it).gameID)
+			return *it;
+	}
+	//throw
+	return _games[0];
+}
+

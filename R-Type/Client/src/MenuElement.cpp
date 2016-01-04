@@ -150,6 +150,23 @@ bool MenuElement::applyStyle() const
 	return _applyStyle;
 }
 
+void MenuElement::playOffline(sf::Event const & event)
+{
+	requestGameEngine._mode = GameEngine::offline;
+	requestGameEngine.getPlayer().setPosition(sf::Vector2f(400.0f,  4.5f * 100.0f));
+	requestGameEngine.setController<PlayerController >(AGameController::GameControls, new PlayerController(requestGameEngine.getPlayer()));
+	resumeGame(event);
+}
+
+void MenuElement::playOnline(sf::Event const & event)
+{
+	requestGameEngine._mode = GameEngine::online;
+	requestGameEngine.getPlayer().setPosition(sf::Vector2f(400.0f,  requestNetwork.getPlayerID()  * 100.0f));
+	requestGameEngine.setController<PlayerController >(AGameController::GameControls, new PlayerController(requestGameEngine.getPlayer()));
+	requestNetwork.joinGame();
+	resumeGame(event);
+}
+
 void MenuElement::connect(_unused sf::Event const & event)
 {
 	if (requestNetwork.connect() == false)
@@ -192,14 +209,13 @@ void MenuElement::chooseGame(sf::Event const & event)
 	requestNetwork.setGameID(_argument);
 	if (_container != nullptr)
 		_container->setFocused(-1);
-	GameEngine::instanciate().setControllerIndex(AGameController::CharacterSelectionMenu);
 
 }
 
 void MenuElement::requestConnectionToGame(sf::Event const & event)
 {
 	requestNetwork.setPlayerID(_argument);
-	requestNetwork.joinGame();
+	requestGameEngine.setPlayer(_argument);
 }
 
 void                  MenuElement::defaultFunction(_unused sf::Event const& event) {
@@ -243,6 +259,11 @@ void MenuElement::changeMenu(_unused sf::Event const & event)
 {
 	if (_container != nullptr)
 		_container->setFocused(-1);
+	if (static_cast<AGameController::eController>(_argument) == AGameController::OnlineCharacterSelectionMenu)
+	{
+		struct Client::GameInfos gi = requestNetwork.getCurrentGameInfos();
+		initOnlineCharacterSelectionMenu(gi.playersInGame);
+	}
 	GameEngine::instanciate().setControllerIndex(static_cast<AGameController::eController>(_argument));
 }
 
@@ -368,9 +389,8 @@ void					MenuElement::selectPlayer(_unused sf::Event const& event) {
 	setBaseColor(sf::Color::Green);
 	requestGameEngine.setPlayer(_argument);
 
-//	requestGameEngine.setPlayer(&requestGameEngine._playF.getPlayer(_argument));
-	requestGameEngine.getPlayer().setPosition(sf::Vector2f(400.0f, _argument * 100.0f));
-	requestGameEngine.setController<PlayerController >(AGameController::GameControls, new PlayerController(requestGameEngine.getPlayer()));
+	//requestGameEngine.getPlayer().setPosition(sf::Vector2f(400.0f, _argument * 100.0f));
+	//requestGameEngine.setController<PlayerController >(AGameController::GameControls, new PlayerController(requestGameEngine.getPlayer()));
 }
 
 void MenuElement::scroll(sf::Event const & event)

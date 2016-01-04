@@ -166,11 +166,19 @@ void			Game::readHeader()
   unsigned char		header[5] = {0};
   unsigned int		length = 0;
 
-  _server->receivePacket(header, 4);
+  _server->receivePacket(header, 5);
   length = (header[2] << 8) | header[3];
-  if (header[0] == 3 && header[4] == 3 && length - 5 == 7)
+  if (header[0] != 0 || header[1] != 0 || header[2] != 0 || header[3] != 0 || header[4] != 0)
+    {
+      printf("%d", header[0]);
+      printf("%d", header[1]);
+      printf("%d", header[2]);
+      printf("%d", header[3]);
+      printf("%d\n", header[4]);
+    }
+  if (header[0] == 3 && header[4] == 3)
     Action();
-  else if (header[0] == 3 && header[4] == 4 && length - 5  == 6)
+  else if (header[0] == 3 && header[4] == 4)
     Player();
 }
 
@@ -211,6 +219,7 @@ void		Game::addNewEntity(sf::Vector2f const &coords,
 
 void			Game::Action()
 {
+  std::cout << "Entering Action UDP read <<Player>>" << std::endl;
   unsigned char		actionRead[7] = {0};
   Client		*tmp = NULL;
   unsigned char		broadact[12] = {3, 0, 0, 12, 3, 0, 0, 0, 0, 0, 0, 0};
@@ -248,10 +257,12 @@ void			Game::Action()
   else if (actionRead[2] == 3 && tmp && tmp->isAlive())
     Pause();
   _mu->unlock();
+  std::cout << "Exit Action UDP read <<Player>>" << std::endl;
 }
 
 void				Game::Player()
 {
+  std::cout << "Entering Player UDP read <<Player>>" << std::endl;
   unsigned char			playerRead[6] = {0};
   Client			*tmp = NULL;
   sf::Vector2f			coords;
@@ -259,7 +270,9 @@ void				Game::Player()
   _server->receivePacket(playerRead, 6);
   coords.x = (playerRead[2] << 8) | playerRead[3];
   coords.y = (playerRead[4] << 8) | playerRead[5];
+  std::cout << "x :" << coords.x << ", y:" << coords.y << std::endl;
   _mu->lock();
+  std::cout << "Entered locked Player UDP broadcast <<Player>>" << std::endl;
   for (auto it = _clients.begin() ; it != _clients.end() ; it++)
     {
       if (playerRead[1] == (*it)->getType())
@@ -267,6 +280,7 @@ void				Game::Player()
     }
   if (tmp && tmp->isAlive())
     {
+      std::cout << "Enter Send Player UDP broadcast <<Player>>" << std::endl;
       unsigned char		playerBroad[11] = {3, 0, 0, 11, 4, 0, 0, 0, 0, 0, 0};
 
       tmp->setCoords(coords);
@@ -276,8 +290,10 @@ void				Game::Player()
       playerBroad[9] = playerRead[4];
       playerBroad[10] = playerRead[5];
       _server->broadcast(playerBroad, 11); //broadcast new position
+      std::cout << "Exit Send Player UDP broadcast <<Player>>" << std::endl;
     }
-  _mu->lock();
+  _mu->unlock();
+  std::cout << "Exit Player UDP read <<Player>>" << std::endl;
 }
 
 void			Game::Pause()

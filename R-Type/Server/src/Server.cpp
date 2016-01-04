@@ -180,11 +180,10 @@ int		Server::setServerSelect(fd_set *readfds)
 
 void			Server::authRead(unsigned int size)
 {
-  unsigned char*	authRead = new unsigned char[size + 1];
+  unsigned char*	authRead = new unsigned char[size + 1]();
   unsigned short int	gameId = 0;
 
   std::cout << "<Authentificiation>"<< std::endl;
-  std::memset(authRead, 0, size + 1);
   _actualClient->receive(authRead, size);
   if (size != 4)
     authResponse(Server::UNKNOWN, gameId, 0);

@@ -14,6 +14,8 @@
 **    In-Game controls are directly linked to the Player Class GameElement
 */
 
+void					  initOnlineCharacterSelectionMenu(std::vector<int>const& players);
+
 class                   AGameController : public IInteractive
 {
 
@@ -45,6 +47,7 @@ public:
 		ConnectionMenu,
 		MapSelectionMenu,
 		CharacterSelectionMenu,
+		OnlineCharacterSelectionMenu,
 		InGameMenu,
 		OptionMenu,
 		AudioMenu,

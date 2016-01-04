@@ -32,6 +32,7 @@ LINKING		=	yes
 CXXFLAGS		=		-W -Wall -Wextra -ansi -std=c++11	\
 							-I$(INCLUDE_DIR)								\
 							-I$(GRAPHICS_INC_DIR)						\
+							$(NETWORK_INC_DIR)							\
 
 MAKEFLAGS		+=	--warn-undefined-variables		\
 								--warn-unused-variables				\
@@ -45,15 +46,28 @@ SRC_DIR			=		./src/
 OBJ_DIR			=		./obj/
 
 
-#GRAPHICS_SRC_DIR	=	$(addprefix $(SRC_DIR), client_graphic/)
 GRAPHICS_SRC_DIR	= $(SRC_DIR)
 
-#GRAPHICS_OBJ_DIR	=	$(addprefix $(OBJ_DIR), client_graphic/)
 GRAPHICS_OBJ_DIR	=	$(OBJ_DIR)
 
 GRAPHICS_INC_DIR	=	$(addprefix $(INCLUDE_DIR), client_graphic/)
 GRAPHICS_SRCS		=	$(addprefix $(GRAPHICS_SRC_DIR), $(GRAPHICS_SRC))
 GRAPHICS_OBJS		=	$(addsuffix .o, $(basename $(subst $(GRAPHICS_SRC_DIR), $(GRAPHICS_OBJ_DIR), $(GRAPHICS_SRCS))))
+
+
+NETWORK_INC_DIR	=	-I"../Network/Common/includes"			\
+									-I"../Network/Interfaces"						\
+									-I"../Network/TCP/includes"					\
+									-I"../Network/UDP/includes"					\
+
+NETWORK_OBJS		=	$(NETWORK_SRCS:.cpp=.o)
+
+NETWORK_SRCS		=	../Network/Common/src/Address.cpp				\
+									../Network/TCP/src/TCPConnection.cpp		\
+									../Network/TCP/src/TCPSocket.cpp				\
+									../Network/UDP/src/UDPConnection.cpp		\
+									../Network/UDP/src/UDPSocket.cpp				\
+
 
 GRAPHICS_SRC		?=	ACharacter.cpp				\
 										AGameController.cpp		\
@@ -90,9 +104,11 @@ UNITTEST 				?=	false
 
 PRO				=	$(addprefix $(BINARY_DIR), $(NAME))
 
-OBJS			=	$(GRAPHICS_OBJS)
+OBJS			=	$(NETWORK_OBJS)			\
+						$(GRAPHICS_OBJS)
 
-SRCS			=	$(GRAPHICS_SRCS)
+SRCS			=	$(GRAPHICS_SRCS)			\
+						$(NETWORK_SRCS)
 
 
 FIRST		:=	$(shell test -d $(BINARY_DIR)				|| mkdir $(BINARY_DIR))				\

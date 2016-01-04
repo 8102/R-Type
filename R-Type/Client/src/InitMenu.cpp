@@ -153,18 +153,14 @@ void								initCharacterSelectionMenu() {
 	text->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2 - text->getGlobalBounds().width / 2, 150));
 	selectionMenu->setBackground(new MenuElement(*a.getTexture("b9.png")));
 	playButton->setOrigin(sf::Vector2f(playButton->getGlobalBounds().width / 2, playButton->getGlobalBounds().height / 2));
-	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::resumeGame);
+	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::playOffline);
 	playButton->setAction(sf::Event::MouseMoved, &MenuElement::startingFunction);
 	character1->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
 	character1->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 1);
 	character2->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
 	character2->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 2);
 	character3->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
-
-//	character3->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 3);
-	character3->setAction(sf::Event::MouseButtonPressed, &MenuElement::requestConnectionToGame, 3);
-
-	
+	character3->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 3);
 	character4->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
 	character4->setAction(sf::Event::MouseButtonPressed, &MenuElement::selectPlayer, 4);
 
@@ -179,6 +175,52 @@ void								initCharacterSelectionMenu() {
 	selectionMenu->applyStyle();
 	requestGameEngine.setController< GameMenu >(AGameController::CharacterSelectionMenu, selectionMenu);
 }
+
+void								initOnlineCharacterSelectionMenu(std::vector<int> const& players) {
+
+	AssetManager&		a = requestAssetManager;
+
+	GameMenu*			selectionMenu = new GameMenu("Character Selection", GameMenu::InLine);
+	MenuElement*		text = new MenuElement(*a.getTexture("transparent.png"), "choose your ship", *a.getFont("nullShock.ttf"));
+	MenuElement*		playButton = new MenuElement(*a.getTexture("half.png"), "START", *a.getFont("nullShock.ttf"));
+
+	playButton->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2 - playButton->getGlobalBounds().width / 2, 640));
+	text->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 2 - text->getGlobalBounds().width / 2, 150));
+	selectionMenu->setBackground(new MenuElement(*a.getTexture("b9.png")));
+	playButton->setOrigin(sf::Vector2f(playButton->getGlobalBounds().width / 2, playButton->getGlobalBounds().height / 2));
+
+	for (auto i = 1; i < 5; i++)
+	{
+		std::stringstream			ss;
+		std::string					s;
+		MenuElement*				characterButton = nullptr;
+		for (auto it = players.begin(); it != players.end(); it++)
+		{
+			if (*it == i) {
+				goto looping_end;
+			}
+		}
+
+		ss << i;
+		s = "player" + ss.str() + "Selector.png";
+		characterButton = new  MenuElement(*a.getTexture(s), "", *a.getFont("nullShock.ttf"));
+		characterButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::requestConnectionToGame, i);
+		characterButton->setAction(sf::Event::MouseMoved, &MenuElement::defaultFunction);
+		selectionMenu->addItem(characterButton);
+
+		looping_end: {}
+	}
+
+	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::playOnline);
+	playButton->setAction(sf::Event::MouseMoved, &MenuElement::startingFunction);
+
+	playButton->setPosition(sf::Vector2f(playButton->getPosition().x + playButton->getGlobalBounds().width / 2, playButton->getPosition().y + playButton->getGlobalBounds().height / 2));
+	playButton->applyStyle(false);
+	selectionMenu->addItem(playButton);
+	selectionMenu->applyStyle();
+	requestGameEngine.setController< GameMenu >(AGameController::OnlineCharacterSelectionMenu, selectionMenu);
+}
+
 
 void			initMapSelectionMenu()
 {
@@ -204,7 +246,7 @@ void			initMapSelectionMenu()
 	scrollingBubble->setPosition(sf::Vector2f(scrollingBubble->getPosition().x, scrollingBar->getGlobalBounds().top + scrollingBubble->getGlobalBounds().height / 2.0f));
 	playButton->setOrigin(sf::Vector2f(playButton->getGlobalBounds().width / 2, playButton->getGlobalBounds().height / 2));
 	playButton->setPosition(Vf(requestGameEngine.getWindow().getSize().x / 4.0f * 3, 800.0f));
-	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::changeMenu, AGameController::CharacterSelectionMenu);
+	playButton->setAction(sf::Event::MouseButtonPressed, &MenuElement::changeMenu, AGameController::OnlineCharacterSelectionMenu);
 	playButton->setAction(sf::Event::MouseMoved, &MenuElement::startingFunction);
 
 	playButton->applyStyle(false);

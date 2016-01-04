@@ -11,7 +11,7 @@ GameEngine&             GameEngine::instanciate() {
 
 GameEngine::GameEngine()
 	: _isRunning(false), _isPaused(true), _win(nullptr), _collisionChecker(), _clock(), _controlerIndex(AGameController::MainMenu), _player(nullptr),
-	_network()
+	_network(), _mode(GameEngine::offline)
 {
 
 }
@@ -39,7 +39,6 @@ void                    GameEngine::start() {
 	_isRunning = true;
 	_win = make_unique< sf::RenderWindow >(sf::VideoMode(WIN_W, WIN_H), WINDOW_TITLE/*, sf::Style::None*/);
 	_win->setFramerateLimit(WINDOW_FRAME_LIMIT);
-//	_animF.loadAnimation();
 	_ammoF.loadAmmoConfigFromFile();
 	_playF.loadConfigs();
 	_bonusF.loadConfig();
@@ -59,6 +58,7 @@ void							GameEngine::run() {
 		std::cout << "Error opening file" << std::endl;
 	rythmer.getNextActionBlock();
 	_clock.start();
+
 
 
 	while (isRunning() == true) {
@@ -320,6 +320,17 @@ void GameEngine::setPlayer(int const & index)
 		_player->isPlayed(false);
 	_player = _players[index - 1].get();
 	_player->isPlayed(true);
+}
+
+void GameEngine::initPlayed()
+{
+	struct Client::GameInfos		gameInfo = requestNetwork.getCurrentGameInfos();
+
+	for (auto it = gameInfo.playersInGame.begin(); it != gameInfo.playersInGame.end(); it++)
+	{
+		if (*it > 0 && *it < 5)
+			_players[*it]->isPlayed(true);
+	}
 }
 
 void                    GameEngine::setControllerIndex(AGameController::eController const& index) {

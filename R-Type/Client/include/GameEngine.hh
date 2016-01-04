@@ -122,6 +122,7 @@ public:
 
 	//void					setPlayer(Player* player);
 	void					setPlayer(int const& index);
+	void					initPlayed();
 
 public:
 
@@ -208,7 +209,14 @@ public:
 
 	
 	Client														_network;
-	//	AnimationFactory								_animFactory;
+
+	enum eClientMode
+	{
+		online = 0,
+		offline
+	};
+
+	eClientMode											_mode;
 
 };
 

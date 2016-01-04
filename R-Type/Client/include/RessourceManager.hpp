@@ -47,8 +47,8 @@ public:
 
 	void				clear() {
 
-		for (auto it = _ressources.begin(); it != _ressources.end(); it++)
-			it->second.reset();
+		// for (auto it = _ressources.begin(); it != _ressources.end(); it++)
+		// 	it->second.reset();
 	}
 
 public:

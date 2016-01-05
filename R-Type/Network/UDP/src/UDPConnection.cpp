@@ -169,13 +169,13 @@ int		UDPConnection::receivePacket(void *data, size_t size, UDPConnection * &clie
 		{
 			std::memcpy(data, &packet[4], recv_bytes - _header_size);
 			client = *it;
-			return recv_bytes;
+			return recv_bytes - _header_size;
 		}
 	}
 	if (_address == from)
 	{
 		std::memcpy(data, &packet[4], recv_bytes - _header_size);
-		return recv_bytes;
+		return recv_bytes - _header_size;
 	}
 	return 0;
 }

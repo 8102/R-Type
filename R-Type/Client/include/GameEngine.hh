@@ -129,6 +129,7 @@ public:
 	Animation&							getAnimation(std::string const& animationName);
 	AGameElement&					getGameObject(unsigned int index);
 	Player&								getPlayer();
+	Player&								getPlayer(int const& playerID);
 
 public:
 

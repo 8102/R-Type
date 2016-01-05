@@ -32,6 +32,12 @@ public:
 		UDP
 	};
 
+	union						uShort
+	{
+		short					s;
+		unsigned char		c[2];
+	};
+
 public:
 	Client();
 	~Client();
@@ -50,6 +56,7 @@ public:
 	bool																readHeader();
 	bool																readAuthMsg(size_t const& msgSize);
 	bool																readInfoMsg(size_t const& msgSize);
+	bool																readActionMsg(size_t const& msgSize);
 
 public:
 
@@ -63,6 +70,11 @@ public:
 	/* infoRequest functions */
 	int																updateGames(void const* data, size_t const& msgSize);
 	bool																getGameList(void const* data, size_t const& msgSize);
+
+public:
+
+	/* action functions*/
+	bool																movePlayer(void const* data, size_t const& msgSize);
 
 public:
 
@@ -111,6 +123,7 @@ private:
 	std::map<size_t, bool	(Client::*)(void const*data, size_t const&)>			_authentificationFcts;
 	std::map<size_t, bool	(Client::*)(void const *data, size_t const&)>			_informationFcts;
 	std::map<size_t, bool	(Client::*)(void const *data, size_t const&)>			_gameCreationFcts;
+	std::map<size_t, bool (Client::*)(void const* data, size_t const&)>			_gameActionFcts;
 
 private:
 

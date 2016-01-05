@@ -166,7 +166,8 @@ void			Game::readHeader()
   unsigned char		header[5] = {0};
   unsigned int		length = 0;
 
-  _server->receivePacket(header, 5);
+ int toto =  _server->receivePacket(header, 5);
+ std::cout << "received : " << toto << "bytes " << std::endl;
   length = (header[2] << 8) | header[3];
   if (header[0] != 0 || header[1] != 0 || header[2] != 0 || header[3] != 0 || header[4] != 0)
     {

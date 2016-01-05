@@ -13,7 +13,7 @@
 Server::Server(int port) : _running(true), _port(port)
 {
   std::cout << "The server is running on port: " << _port << std::endl;
-  _pool = new ThreadPool(10);
+  _pool = new ThreadPool(1);
   _server = new TCPConnection;
   _actualClient = NULL;
   FD_ZERO(&(_select.readfds));

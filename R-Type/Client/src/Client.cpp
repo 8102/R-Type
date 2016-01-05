@@ -11,12 +11,15 @@ Client::Client() :
 
 	_dispatch[1] = &Client::readAuthMsg;
 	_dispatch[2] = &Client::readInfoMsg;
+	_dispatch[3] = &Client::readActionMsg;
 //	_dispatch[4] = &Client::readGameCreationMsg;
 
 	_authentificationFcts[2] = &Client::getUDPPort;
 	_authentificationFcts[3] = &Client::authError;
 
 	_informationFcts[2] = &Client::getGameList;
+
+	_gameActionFcts[4] = &Client::movePlayer;
 }
 
 Client::~Client()
@@ -97,6 +100,18 @@ bool Client::readInfoMsg(size_t const & msgSize)
 		return false;
 	std::cout << "launching info function" << std::endl;
 	return (this->*_informationFcts[index])(&buffer.get()[1], msgSize - 1);
+}
+
+bool Client::readActionMsg(size_t const & msgSize)
+{
+	std::unique_ptr<char[]> buffer(new char[msgSize]());
+
+	size_t								index = 0;
+	receive(buffer.get(), msgSize);
+	index = static_cast<size_t>(buffer.get()[0]);
+	if (_gameActionFcts.find(index) == _gameActionFcts.end())
+		return false;
+	return (this->*_gameActionFcts[index])(&buffer.get()[1], msgSize - 1);
 }
 
 bool									Client::getUDPPort(void const * rawData, size_t const & msgSize)
@@ -184,6 +199,23 @@ bool Client::getGameList(void const *rawData, size_t const & msgSize)
 	}
 	updateGameList();
 	return offset == 0 ? false : true;
+}
+
+bool Client::movePlayer(void const * rawData, size_t const & msgSize)
+{
+	unsigned char const*	data = static_cast<unsigned char const*>(rawData);
+	int								playerID = 0;
+	int								x = 0, y = 0;
+
+	if (msgSize < 6)
+		return false;
+	playerID = (data[0] << 8) | data[1];
+	x = (data[2] << 8) | data[3];
+	y = (data[4] << 8) | data[5];
+	if (playerID < 1 || playerID > 5 || x == 0 || y == 0)
+		return false;
+	requestGameEngine.getPlayer(playerID).setPosition(sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
+	return true;
 }
 
 void Client::requestGameInfo()
@@ -346,18 +378,22 @@ void Client::setGameID(int const & gameID)
 
 bool Client::sendPlayerPosition()
 {
-	int	x = static_cast<int>(requestGameEngine.getPlayer().getPosition().x),
-			y = static_cast<int>(requestGameEngine.getPlayer().getPosition().y);
+	int x = static_cast<int>(requestGameEngine.getPlayer().getPosition().x),
+		y = static_cast<int>(requestGameEngine.getPlayer().getPosition().y);
 
 	unsigned char msg[11] = { 0x03, 0x00, 0x00, 0x0B, 0x04, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
-	msg[5] = getPlayerID() >> 2;
+	msg[5] = getPlayerID() >> 8;
 	msg[6] = getPlayerID() & 0xff;
-	msg[7] = x >> 2;
-	msg[8] = x & 0xff;
-	msg[9] = y >> 2;
-	msg[10] = y & 0xff;
-	return send(msg, sizeof(msg));
+	msg[7] = (x >> 8);
+	msg[8] = (x & 0xff);
+	msg[9] = (y >> 8);
+	msg[10] = (y & 0xff);
+	std::cout << "Sendign player position : ";
+	for (auto i = 0; i < 11; i++)
+		std::cout << "[" << (int)msg[i] << "]";
+	std::cout << std::endl;
+ 	return send(msg, sizeof(msg));
 }
 
 void Client::initGameInfoStruct(struct Client::GameInfos & gameInfo)

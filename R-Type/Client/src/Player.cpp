@@ -144,9 +144,6 @@ void                         Player::switchWeapon() {
 
 	_weaponIndex = (_weaponIndex + 1) % _weapons.size();
 	_weapon = _weapons[_weaponIndex];
-	//std::cout << " Extern switch : " << getWeapon().getCurrentAnimation().getAnimationName() << std::endl;
-	//std::cout << "{ " << _weapon.getCurrentAnimation().getAnimationName() << " } :  [" << _weapon.getDamage() << "]" << std::endl;
-	//std::cout << "{ " << _weapons[_weaponIndex].getCurrentAnimation().getAnimationName() << " } :  [" << _weapons[_weaponIndex].getDamage() << "]" << std::endl;
 }
 
 void Player::activateShield(bool const & shieldState)

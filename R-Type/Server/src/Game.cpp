@@ -174,6 +174,7 @@ void			Game::readHeader()
     Action();
   else if (header[0] == 3 && header[4] == 4 && length == 11)
     Player();
+  usleep(10000);
 }
 
 //

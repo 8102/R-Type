@@ -369,6 +369,11 @@ Player&                 GameEngine::getPlayer() {
 	return *_player;
 }
 
+Player & GameEngine::getPlayer(int const & playerID)
+{
+	return *_players[playerID].get();
+}
+
 CollisionManager&       GameEngine::getCollisionManager() {
 
 	return _collisionChecker;

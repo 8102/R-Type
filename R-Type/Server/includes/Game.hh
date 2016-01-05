@@ -63,7 +63,7 @@ private:
   void						Player();
   void						Score();
   void						newWave();
-  void						Pause();
+  void						Pause(UDPConnection *);
 private:
   UDPConnection					*_server;
   std::vector<std::shared_ptr<Client> >		_clients;

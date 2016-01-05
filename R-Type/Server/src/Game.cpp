@@ -286,15 +286,9 @@ void				Game::Player()
   if (tmp && tmp->isAlive())
     {
       std::cout << "Enter Send Player UDP broadcast <<Player>>" << std::endl;
-      unsigned char		playerBroad[11] = {3, 0, 0, 11, 4, 0, 0, 0, 0, 0, 0};
 
       tmp->setCoords(coords);
-      playerBroad[6] = playerRead[1 + 5];
-      playerBroad[7] = playerRead[2 + 5];
-      playerBroad[8] = playerRead[3 + 5];
-      playerBroad[9] = playerRead[4 + 5];
-      playerBroad[10] = playerRead[5 + 5];
-      _server->broadcast(playerBroad, 11, clientSock); //broadcast new position
+      _server->broadcast(playerRead, 11, clientSock); //broadcast new position
       std::cout << "Exit Send Player UDP broadcast <<Player>>" << std::endl;
     }
   _mu->unlock();

@@ -42,7 +42,7 @@ void                    GameEngine::start() {
 	_ammoF.loadAmmoConfigFromFile();
 	_playF.loadConfigs();
 	_bonusF.loadConfig();
-	
+
 	for (int i = 1; i < 5; i++)
 	{
 		_players.push_back(make_unique<Player>(_playF.getPlayer(i)));
@@ -131,7 +131,7 @@ void GameEngine::updateBonus()
 		(*it)->move(sf::Vector2f(-0.3f, 0.0f));
 		(*it)->update();
 		for (auto playerIt = _players.begin(); playerIt < _players.end(); playerIt++) {
-			
+
 			if ((*playerIt)->isPlayed() && (*playerIt)->collide(*(*it), false) == true) {
 				(*it)->trigger(*(*playerIt));
 				it = _bonus.erase(it);
@@ -226,7 +226,11 @@ void                    GameEngine::update() {
 	updatePlayers();
 	getGUI().update();
 	requestAudioEngine.update();
+#ifdef _WIN32
 	Sleep(10);
+#else
+	usleep(10000);
+#endif
 	requestNetwork.readHeader();
 }
 

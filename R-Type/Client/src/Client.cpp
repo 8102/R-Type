@@ -68,6 +68,10 @@ bool				Client::readHeader()
 	size_t		index = 0;
 
 	receive(header, 4);
+	std::cout << "Received !";
+	for (int i = 0; i < 4; i++)
+		std::cout << header[i];
+	std::cout << std::endl;
 	index = static_cast<size_t>(header[0]);
 	if (index < 1 || index > 4 || index == 3)
 		return false;

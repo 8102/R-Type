@@ -174,7 +174,11 @@ void			Game::readHeader()
     Action();
   else if (header[0] == 3 && header[4] == 4 && length == 11)
     Player();
+#ifdef _WIN32
+  Sleep(10);
+#else
   usleep(10000);
+#endif
 }
 
 //

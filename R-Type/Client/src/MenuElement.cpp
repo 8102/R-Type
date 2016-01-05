@@ -207,7 +207,6 @@ void MenuElement::chooseGame(_unused sf::Event const & event)
 	requestNetwork.setGameID(_argument);
 	if (_container != nullptr)
 		_container->setFocused(-1);
-
 }
 
 void MenuElement::requestConnectionToGame(_unused sf::Event const & event)

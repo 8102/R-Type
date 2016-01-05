@@ -80,6 +80,7 @@ private:
   bool						_pause;
   float						_elapsedTime;
   bool						_beginGame;
+  unsigned char					_allread[20];
 };
 
 void		*gameReady(Game *);

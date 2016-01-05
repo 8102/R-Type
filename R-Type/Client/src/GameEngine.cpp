@@ -1,3 +1,4 @@
+#include <unistd.h>
 #include                "GameEngine.hh"
 #include                "Player.hpp"
 #include				  			"FX.hh"
@@ -226,7 +227,11 @@ void                    GameEngine::update() {
 	updatePlayers();
 	getGUI().update();
 	requestAudioEngine.update();
+#ifdef _WIN32
 	Sleep(10);
+#else
+	usleep(10000);
+#endif
 	requestNetwork.readHeader();
 }
 

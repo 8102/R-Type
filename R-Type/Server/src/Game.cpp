@@ -22,6 +22,8 @@ Game::Game(size_t id, size_t port, char const *name, char const *mapName) :
   _beginGame = false;
   UDPConnection::initConnection();
   _server = new UDPConnection(PROTOCOL_ID);
+  for (int i = 0 ; i < 20 ; i++)
+    _allread[i] = 0;
 }
 
 Game::~Game()
@@ -163,16 +165,17 @@ void				Game::playing()
 
 void			Game::readHeader()
 {
-  unsigned char		header[5] = {0};
   unsigned int		length = 0;
+  int			len = 0;
 
-  int len = _server->receivePacket(header, 5);
-  length = (header[2] << 8) | header[3];
+  _allread[0] = 0;
+  len = _server->receivePacket(_allread, 20);
+  length = (_allread[2] << 8) | _allread[3];
   if (len == -1)
     return;
-  if (header[0] == 3 && header[4] == 3 && length == 12)
+  if (_allread[0] == 3 && _allread[4] == 3 && length == 12)
     Action();
-  else if (header[0] == 3 && header[4] == 4 && length == 11)
+  else if (_allread[0] == 3 && _allread[4] == 4 && length == 11)
     Player();
 #ifdef _WIN32
   Sleep(10);
@@ -219,43 +222,31 @@ void		Game::addNewEntity(sf::Vector2f const &coords,
 void			Game::Action()
 {
   std::cout << "Entering Action UDP read <<Player>>" << std::endl;
-  unsigned char		actionRead[12] = {0};
   Client		*tmp = NULL;
-  unsigned char		broadact[12] = {3, 0, 0, 12, 3, 0, 0, 0, 0, 0, 0, 0};
   UDPConnection		*clientSock = NULL;
 
-  if (_server->receivePacket(actionRead, 12, clientSock) == -1)
-    return ;
   _mu->lock();
   for (auto it = _clients.begin() ; it != _clients.end() ; it++)
     {
-      if (actionRead[1 + 5] == (*it)->getType())
+      if (_allread[1 + 5] == (*it)->getType())
 	tmp = (*it).get();
     }
-  if (actionRead[2 + 5] == 1 && tmp && tmp->isAlive())
+  if (_allread[2 + 5] == 1 && tmp && tmp->isAlive())
     {
       sf::Vector2f	direction;
 
-      direction.x = (actionRead[3 + 5] << 8) | actionRead[4 + 5];
-      direction.y = (actionRead[5 + 5] << 8) | actionRead[6 + 5];
-      addNewEntity(tmp->getCoords(), direction, 41, tmp->getActiveWeapon()); // adjust fire number type bullet
-      broadact[6] = actionRead[1 + 5];
-      broadact[7] = 1;
-      broadact[8] = actionRead[3 + 5];
-      broadact[9] = actionRead[4 + 5];
-      broadact[10] = actionRead[5 + 5];
-      broadact[11] = actionRead[6 + 5];
-      _server->broadcast(broadact, 12, clientSock); // broadcast new element
+      direction.x = (_allread[3 + 5] << 8) | _allread[4 + 5];
+      direction.y = (_allread[5 + 5] << 8) | _allread[6 + 5];
+      addNewEntity(tmp->getCoords(), direction, 41, tmp->getActiveWeapon());
+      _server->broadcast(_allread, 12, clientSock); // broadcast new element
     }
-  else if (actionRead[2] == 2 && tmp && tmp->isAlive())
+  else if (_allread[2 + 5] == 2 && tmp && tmp->isAlive())
     {
       // switch weapon
       tmp->triggerWeapon();
-      broadact[6] = actionRead[1 + 5];
-      broadact[7] = 2;
-      _server->broadcast(broadact, 12, clientSock); //broadcast update to all
+      _server->broadcast(_allread, 12, clientSock); //broadcast update to all
     }
-  else if (actionRead[2 + 5] == 3 && tmp && tmp->isAlive())
+  else if (_allread[2 + 5] == 3 && tmp && tmp->isAlive())
     Pause(clientSock);
   _mu->unlock();
   std::cout << "Exit Action UDP read <<Player>>" << std::endl;
@@ -263,36 +254,30 @@ void			Game::Action()
 
 void				Game::Player()
 {
-  unsigned char			playerRead[11] = {0};
   Client			*tmp = NULL;
   sf::Vector2f			coords;
   UDPConnection			*clientSock = NULL;
-  int				len = 0;
 
-  len = _server->receivePacket(playerRead, 11, clientSock);
-  coords.x = (playerRead[2 + 5] << 8) | playerRead[3 + 5];
-  coords.y = (playerRead[4 + 5] << 8) | playerRead[5 + 5];
-  if (len == -1 || len == 0)
-    return;
+  coords.x = (_allread[2 + 5] << 8) | _allread[3 + 5];
+  coords.y = (_allread[4 + 5] << 8) | _allread[5 + 5];
   std::cout << "Entering Player UDP read <<Player>>" << std::endl;
   for (int i = 0; i < 11 ; i++)
     {
-      std::cout << "[" << (int)playerRead[i] << "]";
+      std::cout << "[" << (int)_allread[i] << "]";
     }
   std::cout << std::endl;
   _mu->lock();
   std::cout << "Entered locked Player UDP broadcast <<Player>>" << std::endl;
   for (auto it = _clients.begin() ; it != _clients.end() ; it++)
     {
-      if (playerRead[1 + 5] == (*it)->getType())
+      if (_allread[1 + 5] == (*it)->getType())
 	tmp = (*it).get();
     }
   if (tmp && tmp->isAlive())
     {
       std::cout << "Enter Send Player UDP broadcast <<Player>>" << std::endl;
-
       tmp->setCoords(coords);
-      _server->broadcast(playerRead, 11, clientSock); //broadcast new position
+      _server->broadcast(_allread, 11, clientSock); //broadcast new position
       std::cout << "Exit Send Player UDP broadcast <<Player>>" << std::endl;
     }
   _mu->unlock();
@@ -301,21 +286,19 @@ void				Game::Player()
 
 void			Game::Pause(UDPConnection *clientSock)
 {
-  unsigned char		broadPause[12] = {3, 0, 0, 11, 3, 0, 0, 3, 0, 0, 0, 0};
-
   if (_pause)
     {
       std::chrono::duration<double> time_span =
 	std::chrono::duration_cast<std::chrono::duration<double> >(std::chrono::steady_clock::now() - _pausedTime);
       _elapsedTime = time_span.count();
       _pause = false;
-      _server->broadcast(broadPause, 12, clientSock);      // _server->broadcast Unpause : broadPause
+      _server->broadcast(_allread, 12, clientSock);      // _server->broadcast Unpause : _allread
     }
   else
     {
       _pause = true;
       _pausedTime = std::chrono::steady_clock::now();
-      _server->broadcast(broadPause, 12, clientSock);      // _server->broadcast Pause :  : broadPause
+      _server->broadcast(_allread, 12, clientSock);      // _server->broadcast Pause :  : _allread
     }
 }
 

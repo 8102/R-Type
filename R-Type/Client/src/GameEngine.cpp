@@ -59,8 +59,6 @@ void							GameEngine::run() {
 	rythmer.getNextActionBlock();
 	_clock.start();
 
-
-
 	while (isRunning() == true) {
 
 		rythmer.update();
@@ -85,6 +83,8 @@ void							GameEngine::run() {
 
 void GameEngine::launchGame()
 {
+	if (_mode == GameEngine::online)
+		initPlayed();
 	_GUI = make_unique< GUI >(*_player, *_win.get());
 }
 
@@ -329,7 +329,7 @@ void GameEngine::initPlayed()
 	for (auto it = gameInfo.playersInGame.begin(); it != gameInfo.playersInGame.end(); it++)
 	{
 		if (*it > 0 && *it < 5)
-			_players[*it]->isPlayed(true);
+			_players[*it - 1]->isPlayed(true);
 	}
 }
 

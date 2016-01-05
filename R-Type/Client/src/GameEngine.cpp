@@ -226,6 +226,8 @@ void                    GameEngine::update() {
 	updatePlayers();
 	getGUI().update();
 	requestAudioEngine.update();
+	Sleep(10);
+	requestNetwork.readHeader();
 }
 
 void                    GameEngine::draw() {

@@ -68,10 +68,6 @@ bool				Client::readHeader()
 	size_t		index = 0;
 
 	receive(header, 4);
-	std::cout << "Received !";
-	for (int i = 0; i < 4; i++)
-		std::cout << header[i];
-	std::cout << std::endl;
 	index = static_cast<size_t>(header[0]);
 	if (index < 1 || index > 4 || index == 3)
 		return false;
@@ -102,7 +98,6 @@ bool Client::readInfoMsg(size_t const & msgSize)
 	index = static_cast<size_t>(buffer.get()[0]);
 	if (_informationFcts.find(index) == _informationFcts.end())
 		return false;
-	std::cout << "launching info function" << std::endl;
 	return (this->*_informationFcts[index])(&buffer.get()[1], msgSize - 1);
 }
 
@@ -218,7 +213,11 @@ bool Client::movePlayer(void const * rawData, size_t const & msgSize)
 	y = (data[4] << 8) | data[5];
 	if (playerID < 1 || playerID > 5 || x == 0 || y == 0)
 		return false;
-	requestGameEngine.getPlayer(playerID).setPosition(sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
+
+	Player&			player = requestGameEngine.getPlayer(playerID);
+	if (player.isPlayed() == false)
+		player.isPlayed(true);
+	player.setPosition(sf::Vector2f(static_cast<float>(x), static_cast<float>(y)));
 	return true;
 }
 
@@ -393,10 +392,6 @@ bool Client::sendPlayerPosition()
 	msg[8] = (x & 0xff);
 	msg[9] = (y >> 8);
 	msg[10] = (y & 0xff);
-	std::cout << "Sendign player position : ";
-	for (auto i = 0; i < 11; i++)
-		std::cout << "[" << (int)msg[i] << "]";
-	std::cout << std::endl;
  	return send(msg, sizeof(msg));
 }
 

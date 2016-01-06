@@ -653,5 +653,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Makefile" />
+    <None Include="ClassDiagram.cd" />
   </ItemGroup>
 </Project>

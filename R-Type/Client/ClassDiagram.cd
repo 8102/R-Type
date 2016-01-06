@@ -1,0 +1,235 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="Client" Collapsed="true">
+    <Position X="14.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>MAAABAQwIqEAQAQAgioAUqAAwAhREiABMBBgNUAEhQQ=</HashCode>
+      <FileName>include\Client.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FXFactory" Collapsed="true">
+    <Position X="21.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACAAAAAAAAAAAAAAAADAACAAAAAEQAAAAAAAAAEAA=</HashCode>
+      <FileName>include\FXFactory.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetworkModule&lt;T&gt;" Collapsed="true">
+    <Position X="20" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAQAAgAEAAQBAAgAAAwAAAAAAAUIAAAAAAEAAAAAA=</HashCode>
+      <FileName>include\NetworkModule.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Timer" Collapsed="true">
+    <Position X="20" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAAAAAAAgAAAAABAAAAAAgAAAAAAAAEQEIQA=</HashCode>
+      <FileName>include\Timer.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameRythmer" Collapsed="true">
+    <Position X="16.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAgAAQgIACAAAAABwAgRAAIgAAACBAFEBA=</HashCode>
+      <FileName>include\GameRythmer.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GUI" Collapsed="true">
+    <Position X="18.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAEABgAAEAKggAAAAACAAgBJAAAQAIAAACAAAEABA=</HashCode>
+      <FileName>include\GUI.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnimationFactory" Collapsed="true">
+    <Position X="18.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAAQAACAAAAAAAAAAAAAAAAAAIAAAUAAAAAAAAAEAA=</HashCode>
+      <FileName>include\AnimationFactory.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="BonusFactory" Collapsed="true">
+    <Position X="21.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAIAAAAQAAAACQAAAAAAAAAAAAAgAAAAAACAAAAABA=</HashCode>
+      <FileName>include\BonusFactory.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Bonus" Collapsed="true">
+    <Position X="3.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BBAAAAAAEAAAACAAAAACAAAAAgAAAAAACAACABAAAAA=</HashCode>
+      <FileName>include\Bonus.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="ACharacter" Collapsed="true">
+    <Position X="8.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAIACEACUgACCAABAgAAIAAIBQSEBBBwAUBgADAQA=</HashCode>
+      <FileName>include\ACharacter.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AGameController" Collapsed="true">
+    <Position X="1.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAwBAAgAAABAAAAIAAAAAgAACAAAAABAAAAACIAA=</HashCode>
+      <FileName>include\AGameController.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AGameElement" Collapsed="true">
+    <Position X="6.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAIBAAABAAAAQQQEAAAAAAAAVCEAAAAAAAgEAAEAAA=</HashCode>
+      <FileName>include\AGameElement.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AmmoFactory" Collapsed="true">
+    <Position X="14.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAAMAAAAAAAAAAAAAgAEQAAAAADAAAA=</HashCode>
+      <FileName>include\AmmoFactory.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ammunition" Collapsed="true">
+    <Position X="5.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>hIAAC2BAEAAAACRAAAAAAQAEQRAQAAABBgAkAAAEAAA=</HashCode>
+      <FileName>include\Ammunition.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AnimatedSprite" Collapsed="true">
+    <Position X="6.5" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>QAAAAEABQQAAGAQABAggEAADABAIQIAAIBDwAAAEAAA=</HashCode>
+      <FileName>include\AnimatedSprite.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Animation" Collapsed="true">
+    <Position X="16.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IEAAABgFABAQAAEggIIkEQQBAgAiIAAAAAAgACgGABU=</HashCode>
+      <FileName>include\Animation.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="AssetManager" Collapsed="true">
+    <Position X="20" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEwAAAAQCQAAAgAAgAAAAAAAEICAAAAIAAAAAAAAAAA=</HashCode>
+      <FileName>include\AssetManager.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="CollisionManager" Collapsed="true">
+    <Position X="16.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEBAAAAAAAAAQAAAAAAAAAAAAEAAAACAAAAAAACgAQA=</HashCode>
+      <FileName>include\CollisionManager.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Ennemy" Collapsed="true">
+    <Position X="7.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAgAAAAAAECAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>include\Ennemy.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="EnnemyFactory" Collapsed="true">
+    <Position X="18.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAABAAgAAAAAAAAAAAAAAAEQAAAIgAAAAA=</HashCode>
+      <FileName>include\EnnemyFactory.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="FX" Collapsed="true">
+    <Position X="20" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAABEEAAEAAAAIwBgAAAAAACAAAAAAQAgCgAAAA=</HashCode>
+      <FileName>include\FX.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameDecor" Collapsed="true">
+    <Position X="12.25" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AMAAABgAAQAAAgAAARAAAQAIAAAEQAAIgAAAAgAEAAA=</HashCode>
+      <FileName>include\GameDecor.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameEngine" Collapsed="true">
+    <Position X="14.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>SsAAAlJCGBABQQtgEpoACCgjCDJp2BACAAAQASEG4AI=</HashCode>
+      <FileName>include\GameEngine.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameMenu" Collapsed="true">
+    <Position X="0.5" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAhIIQBgAgAhARAAACrAAIAggFAmEAAQAJQEAaACACA=</HashCode>
+      <FileName>include\GameMenu.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IInteractive" Collapsed="true">
+    <Position X="1.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQAAAAAAAAAQAAAAAAAAAAACAAAAQAAAAAACAAA=</HashCode>
+      <FileName>include\IInteractive.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MenuElement" Collapsed="true">
+    <Position X="1" Y="2" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CCQGRCBEAyAEAFBChEAgBCQigWCDBSQJQQJQEQAEAAI=</HashCode>
+      <FileName>include\MenuElement.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Player" Collapsed="true">
+    <Position X="10" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CBAAGAAEAAAABCCBIAEIAAEAAAAMBAAAAEIAASUGABA=</HashCode>
+      <FileName>include\Player.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerController" Collapsed="true">
+    <Position X="2.75" Y="7.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAQBAAgAAAAAAAAIACCAEgAADAAAAABAAAAACAAA=</HashCode>
+      <FileName>include\PlayerController.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerFactory" Collapsed="true">
+    <Position X="21.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAABIQMAAAAAEAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>include\PlayerFactory.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RessourceManager&lt;R&gt;" Collapsed="true">
+    <Position X="14.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IEAgBAAEAAAAAAAIAAAAAARAAEAAAAAAAAAAAAAAIAA=</HashCode>
+      <FileName>include\RessourceManager.hpp</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundSystem" Collapsed="true">
+    <Position X="16.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AARAAAAJCCAQAAABgQAYgAAAAIEAACABEgAAgQAEQAA=</HashCode>
+      <FileName>include\SoundSystem.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SoundTrack" Collapsed="true">
+    <Position X="18.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAQAAAAAAAAAAAAAAAAAAAAAEAAAAAAQAAAAAAA=</HashCode>
+      <FileName>include\SoundTrack.hh</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Struct Name="fxPrams" Collapsed="true">
+    <Position X="14.75" Y="4.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAIAAAAAAAAAAAAAAAAAAAAAAAAAACAAgAAAAAAAAA=</HashCode>
+      <FileName>include\AmmoFactory.hh</FileName>
+    </TypeIdentifier>
+  </Struct>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

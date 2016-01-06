@@ -67,15 +67,11 @@ bool				Client::readHeader()
 	size_t		msgSize = 0;
 	size_t		index = 0;
 
-	if (receive(header, 4) == -1)
-		perror("Receving error : ");
-
+	receive(header, 4);
 	index = static_cast<size_t>(header[0]);
 	if (index < 1 || index > 4 || index == 3)
 		return false;
 	msgSize = static_cast<size_t>(header[2] * 256) + static_cast<size_t>(header[3]) - 4;
-	//std::cout << "[HEADER] : ";
-	//for (auto i = 0; i < 4; i++) { std::cout << "[" << (int)header[i] << "]"; } std::cout << "--- msgSize : " << msgSize << std::endl;
 	return (this->*_dispatch[index])(msgSize);
 }
 

@@ -240,6 +240,7 @@
     <Media Include="assets\audio\music\unity.wav" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram.cd" />
     <None Include="Makefile" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
